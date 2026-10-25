@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ReminderStatus;
+use Carbon\CarbonInterface;
 use Database\Factories\ReminderFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,6 +11,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property string $id
+ * @property int $user_id
+ * @property string|null $job_application_id
+ * @property string|null $interview_id
+ * @property string $reminder_type
+ * @property string $title
+ * @property string|null $body
+ * @property CarbonInterface $scheduled_at
+ * @property ReminderStatus $status
+ * @property CarbonInterface|null $sent_at
+ * @property string $dedupe_key
+ * @property string|null $idempotency_key
+ * @property int $attempt_count
+ * @property string|null $last_error_category
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
+ * @property-read User $user
+ * @property-read JobApplication|null $jobApplication
+ * @property-read Interview|null $interview
+ */
 class Reminder extends Model
 {
     /** @use HasFactory<ReminderFactory> */

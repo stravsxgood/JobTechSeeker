@@ -2,12 +2,28 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Database\Factories\CareerPreferenceFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $id
+ * @property int $user_id
+ * @property array<string>|null $target_roles
+ * @property array<string>|null $preferred_locations
+ * @property string|null $salary_expectation_min
+ * @property string|null $salary_expectation_max
+ * @property string|null $salary_currency
+ * @property int|null $weekly_application_target
+ * @property array<string>|null $work_types
+ * @property array<string, mixed>|null $preferences
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
+ * @property-read User $user
+ */
 class CareerPreference extends Model
 {
     /** @use HasFactory<CareerPreferenceFactory> */

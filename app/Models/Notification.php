@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Database\Factories\NotificationFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -9,6 +10,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $id
+ * @property int $user_id
+ * @property string $type
+ * @property string $title
+ * @property string $body
+ * @property array<string, mixed>|null $payload
+ * @property string|null $job_application_id
+ * @property string|null $interview_id
+ * @property string|null $email_event_id
+ * @property string|null $reminder_id
+ * @property CarbonInterface|null $read_at
+ * @property string $dedupe_key
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
+ * @property-read User $user
+ */
 class Notification extends Model
 {
     /** @use HasFactory<NotificationFactory> */

@@ -2,12 +2,28 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Database\Factories\ApplicationStatusHistoryFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $id
+ * @property string $job_application_id
+ * @property string|null $previous_status
+ * @property string $new_status
+ * @property string $change_source
+ * @property string|null $notes
+ * @property int|null $actor_user_id
+ * @property string|null $source_email_event_id
+ * @property CarbonInterface $changed_at
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
+ * @property-read JobApplication $jobApplication
+ * @property-read User|null $actor
+ */
 class ApplicationStatusHistory extends Model
 {
     /** @use HasFactory<ApplicationStatusHistoryFactory> */

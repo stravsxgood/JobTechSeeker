@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\InterviewStatus;
+use Carbon\CarbonInterface;
 use Database\Factories\InterviewFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +12,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property string $id
+ * @property int $user_id
+ * @property string $job_application_id
+ * @property string $interview_type
+ * @property CarbonInterface $start_at
+ * @property CarbonInterface $end_at
+ * @property string $timezone
+ * @property string|null $meeting_url
+ * @property string|null $location
+ * @property InterviewStatus $status
+ * @property string $confirmation_state
+ * @property string $confirmation_source
+ * @property string|null $source_email_event_id
+ * @property string|null $notes
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
+ * @property CarbonInterface|null $deleted_at
+ * @property-read JobApplication|null $jobApplication
+ * @property-read User $user
+ */
 class Interview extends Model
 {
     /** @use HasFactory<InterviewFactory> */
