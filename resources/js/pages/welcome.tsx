@@ -1,7 +1,13 @@
 import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { AppLayout } from '@/layouts/AppLayout';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+} from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 
@@ -127,16 +133,17 @@ export default function Welcome() {
             <div className="space-y-8">
                 {/* Hero / Overview Header */}
                 <div className="border-b border-[#313131] pb-6">
-                    <p className="font-mono text-[12px] text-[#a7a7a7] uppercase tracking-[0.85px] mb-2">
+                    <p className="mb-2 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                         OVERVIEW DASHBOARD
                     </p>
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div>
-                            <h2 className="text-[28px] sm:text-[34px] font-semibold text-[#ffffff] tracking-[-0.84px]">
+                            <h2 className="text-[28px] font-semibold tracking-[-0.84px] text-[#ffffff] sm:text-[34px]">
                                 Kendali Pencarian Kerja Anda
                             </h2>
-                            <p className="text-[14px] text-[#a7a7a7] mt-1">
-                                Pantau seluruh perkembangan pipeline, jadwal interview, dan rekomendasi AI dari satu tempat.
+                            <p className="mt-1 text-[14px] text-[#a7a7a7]">
+                                Pantau seluruh perkembangan pipeline, jadwal
+                                interview, dan rekomendasi AI dari satu tempat.
                             </p>
                         </div>
                         <div className="flex items-center gap-3">
@@ -155,22 +162,22 @@ export default function Welcome() {
                 </div>
 
                 {/* Stat Cards (3-column layout per DESIGN.md Stat Card specifications) */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     {stats.map((stat, idx) => (
                         <div
                             key={idx}
-                            className="bg-[#1e1e1e] border border-[#313131] rounded-[8px] p-6 transition-colors hover:border-[#454545]"
+                            className="rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6 transition-colors hover:border-[#454545]"
                         >
-                            <div className="flex items-center justify-between mb-3">
-                                <span className="font-mono text-[12px] text-[#a7a7a7] tracking-[0.5px]">
+                            <div className="mb-3 flex items-center justify-between">
+                                <span className="font-mono text-[12px] tracking-[0.5px] text-[#a7a7a7]">
                                     {stat.label}
                                 </span>
                                 {stat.icon}
                             </div>
-                            <div className="text-[36px] font-semibold text-[#ffffff] tracking-[-0.84px] font-sans">
+                            <div className="font-sans text-[36px] font-semibold tracking-[-0.84px] text-[#ffffff]">
                                 {stat.value}
                             </div>
-                            <p className="text-[13px] text-[#a7a7a7] mt-1">
+                            <p className="mt-1 text-[13px] text-[#a7a7a7]">
                                 {stat.sub}
                             </p>
                         </div>
@@ -178,14 +185,15 @@ export default function Welcome() {
                 </div>
 
                 {/* Two Column Grid for Upcoming Interviews & Recent Applications */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Upcoming Interviews Card */}
                     <Card variant="carbon">
                         <CardHeader className="flex flex-row items-center justify-between">
                             <div>
                                 <CardTitle>Jadwal Interview Terdekat</CardTitle>
                                 <CardDescription>
-                                    Pengingat otomatis aktif sebelum jadwal seleksi
+                                    Pengingat otomatis aktif sebelum jadwal
+                                    seleksi
                                 </CardDescription>
                             </div>
                             <Link href="/interviews">
@@ -198,16 +206,16 @@ export default function Welcome() {
                             {upcomingInterviews.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="p-4 rounded-[8px] bg-[#141414] border border-[#313131] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                                    className="flex flex-col gap-3 rounded-[8px] border border-[#313131] bg-[#141414] p-4 sm:flex-row sm:items-center sm:justify-between"
                                 >
                                     <div className="space-y-1">
-                                        <div className="font-medium text-[14px] text-[#ffffff]">
+                                        <div className="text-[14px] font-medium text-[#ffffff]">
                                             {item.company}
                                         </div>
                                         <div className="text-[13px] text-[#a7a7a7]">
                                             {item.role} • {item.type}
                                         </div>
-                                        <div className="text-[12px] font-mono text-[#6798ff] pt-1">
+                                        <div className="pt-1 font-mono text-[12px] text-[#6798ff]">
                                             {item.time}
                                         </div>
                                     </div>
@@ -238,10 +246,10 @@ export default function Welcome() {
                             {recentApplications.map((app) => (
                                 <div
                                     key={app.id}
-                                    className="p-4 rounded-[8px] bg-[#141414] border border-[#313131] flex items-center justify-between gap-4"
+                                    className="flex items-center justify-between gap-4 rounded-[8px] border border-[#313131] bg-[#141414] p-4"
                                 >
                                     <div className="space-y-1">
-                                        <div className="font-medium text-[14px] text-[#ffffff]">
+                                        <div className="text-[14px] font-medium text-[#ffffff]">
                                             {app.company}
                                         </div>
                                         <div className="text-[13px] text-[#a7a7a7]">
@@ -261,26 +269,35 @@ export default function Welcome() {
                 </div>
 
                 {/* AI Assistant Banner / Recommendation Preview (Strictly conforming to Dovetail: no gradient, flat tone) */}
-                <div className="bg-[#141414] border border-[#313131] rounded-[8px] p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div className="space-y-1 max-w-2xl">
+                <div className="flex flex-col items-start justify-between gap-6 rounded-[8px] border border-[#313131] bg-[#141414] p-6 md:flex-row md:items-center">
+                    <div className="max-w-2xl space-y-1">
                         <div className="flex items-center gap-2">
                             <Badge variant="accent" size="sm">
                                 AI COPILOT
                             </Badge>
-                            <span className="text-[12px] text-[#7c7c7c] font-mono">
+                            <span className="font-mono text-[12px] text-[#7c7c7c]">
                                 SARAN TERVALIDASI
                             </span>
                         </div>
-                        <h3 className="text-[16px] font-semibold text-[#ffffff] pt-1">
+                        <h3 className="pt-1 text-[16px] font-semibold text-[#ffffff]">
                             Persiapan Interview Teknis: PT Teknologi Nusantara
                         </h3>
                         <p className="text-[13px] text-[#a7a7a7]">
-                            AI telah menganalisis deskripsi pekerjaan dan menyusun daftar pertanyaan teknis, evaluasi kompetensi, serta checklist persiapan.
+                            AI telah menganalisis deskripsi pekerjaan dan
+                            menyusun daftar pertanyaan teknis, evaluasi
+                            kompetensi, serta checklist persiapan.
                         </p>
                     </div>
-                    <div className="flex items-center gap-3 w-full md:w-auto">
-                        <Link href="/ai/interview-copilot" className="w-full md:w-auto">
-                            <Button variant="primary" size="md" className="w-full md:w-auto">
+                    <div className="flex w-full items-center gap-3 md:w-auto">
+                        <Link
+                            href="/ai/interview-copilot"
+                            className="w-full md:w-auto"
+                        >
+                            <Button
+                                variant="primary"
+                                size="md"
+                                className="w-full md:w-auto"
+                            >
                                 Buka Persiapan Interview
                             </Button>
                         </Link>
