@@ -18,15 +18,19 @@ export function LoginForm({
     const passwordId = useId();
 
     // Check URL parameters for registration redirect status
-    const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-    const urlRegistered = urlParams?.get('registered') === '1' || justRegistered;
+    const urlParams =
+        typeof window !== 'undefined'
+            ? new URLSearchParams(window.location.search)
+            : null;
+    const urlRegistered =
+        urlParams?.get('registered') === '1' || justRegistered;
     const urlEmail = urlParams?.get('email') || initialEmail;
 
     const [email, setEmail] = useState(urlEmail);
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [registrationSuccessBanner, setRegistrationSuccessBanner] = useState(urlRegistered);
+    const [registrationSuccessBanner] = useState(urlRegistered);
 
     // Track touched fields for reactive validation
     const [touched, setTouched] = useState<{
@@ -170,7 +174,11 @@ export function LoginForm({
                         <polyline points="20 6 9 17 4 12" />
                     </svg>
                     <div>
-                        <span className="font-semibold">Pendaftaran akun berhasil!</span> Silakan masukkan kata sandi akun Anda untuk masuk ke sistem.
+                        <span className="font-semibold">
+                            Pendaftaran akun berhasil!
+                        </span>{' '}
+                        Silakan masukkan kata sandi akun Anda untuk masuk ke
+                        sistem.
                     </div>
                 </div>
             )}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { AppLayout } from '@/layouts/AppLayout';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -73,7 +73,10 @@ export default function CareerPlannerPage() {
 
         try {
             const token = localStorage.getItem('careerpilot_token');
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            const csrfToken =
+                document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute('content') || '';
             const headers: Record<string, string> = {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -98,7 +101,10 @@ export default function CareerPlannerPage() {
             const data = await response.json();
 
             if (!response.ok) {
-                setErrorMessage(data.message || 'Gagal menyusun roadmap karier. Silakan coba kembali.');
+                setErrorMessage(
+                    data.message ||
+                        'Gagal menyusun roadmap karier. Silakan coba kembali.',
+                );
                 setIsLoading(false);
                 return;
             }
@@ -106,7 +112,9 @@ export default function CareerPlannerPage() {
             setResult(data.data);
             setActiveMonthTab(1);
         } catch {
-            setErrorMessage('Terjadi gangguan jaringan saat memproses roadmap AI. Pastikan koneksi aktif.');
+            setErrorMessage(
+                'Terjadi gangguan jaringan saat memproses roadmap AI. Pastikan koneksi aktif.',
+            );
         } finally {
             setIsLoading(false);
         }
@@ -114,19 +122,22 @@ export default function CareerPlannerPage() {
 
     const handleCopyRoadmap = () => {
         if (!result) return;
-        const textToCopy = `=== ROADMAP KARIER: ${result.target_role} (${result.duration_months} BULAN) ===\n\n`
-            + `Ringkasan: ${result.summary}\n\n`
-            + `Skill Yang Dimiliki: ${result.skill_gap_analysis.matching_skills.join(', ')}\n`
-            + `Skill Yang Perlu Dipelajari: ${result.skill_gap_analysis.missing_skills.join(', ')}\n\n`
-            + result.milestones
+        const textToCopy =
+            `=== ROADMAP KARIER: ${result.target_role} (${result.duration_months} BULAN) ===\n\n` +
+            `Ringkasan: ${result.summary}\n\n` +
+            `Skill Yang Dimiliki: ${result.skill_gap_analysis.matching_skills.join(', ')}\n` +
+            `Skill Yang Perlu Dipelajari: ${result.skill_gap_analysis.missing_skills.join(', ')}\n\n` +
+            result.milestones
                 .map(
                     (m) =>
-                        `[BULAN ${m.month}] ${m.theme}\n${m.description}\n`
-                        + m.action_items.map((item) => `- [ ] ${item}`).join('\n')
+                        `[BULAN ${m.month}] ${m.theme}\n${m.description}\n` +
+                        m.action_items
+                            .map((item) => `- [ ] ${item}`)
+                            .join('\n'),
                 )
                 .join('\n\n');
 
-        navigator.clipboard.writeText(textToCopy);
+        void navigator.clipboard.writeText(textToCopy);
         setCopySuccess(true);
         setTimeout(() => setCopySuccess(false), 2000);
     };
@@ -134,13 +145,29 @@ export default function CareerPlannerPage() {
     const getMediaBadge = (type: string) => {
         switch (type) {
             case 'youtube':
-                return <Badge variant="accent" size="sm">YouTube</Badge>;
+                return (
+                    <Badge variant="accent" size="sm">
+                        YouTube
+                    </Badge>
+                );
             case 'documentation':
-                return <Badge variant="default" size="sm">Dokumentasi</Badge>;
+                return (
+                    <Badge variant="default" size="sm">
+                        Dokumentasi
+                    </Badge>
+                );
             case 'website':
-                return <Badge variant="default" size="sm">Platform Belajar</Badge>;
+                return (
+                    <Badge variant="default" size="sm">
+                        Platform Belajar
+                    </Badge>
+                );
             default:
-                return <Badge variant="default" size="sm">Kursus</Badge>;
+                return (
+                    <Badge variant="default" size="sm">
+                        Kursus
+                    </Badge>
+                );
         }
     };
 
@@ -154,18 +181,22 @@ export default function CareerPlannerPage() {
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <div className="flex items-center gap-2">
-                                <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
-                                    LARAVEL AI SDK & GEMINI
+                                <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
+                                    LARAVEL AI SDK
                                 </span>
                                 <span className="rounded-[4px] bg-[#6798ff]/15 px-1.5 py-0.5 font-mono text-[10px] text-[#6798ff]">
                                     v1.0
                                 </span>
                             </div>
-                            <h2 className="mt-1 text-[22px] font-semibold text-[#ffffff] tracking-[-0.4px]">
+                            <h2 className="mt-1 text-[22px] font-semibold tracking-[-0.4px] text-[#ffffff]">
                                 Rencana Karier & Analisis Gap Skill
                             </h2>
-                            <p className="mt-1 text-[13px] leading-relaxed text-[#a7a7a7] max-w-2xl">
-                                AI mengevaluasi skill Anda saat ini terhadap target pekerjaan, menyusun roadmap bulanan realistis (3 atau 5 bulan), merekomendasikan media pembelajaran terpercaya (YouTube, docs resmi, roadmap.sh), serta ide portofolio nyata.
+                            <p className="mt-1 max-w-2xl text-[13px] leading-relaxed text-[#a7a7a7]">
+                                AI mengevaluasi skill Anda saat ini terhadap
+                                target pekerjaan, menyusun roadmap bulanan
+                                realistis (3 atau 5 bulan), merekomendasikan
+                                media pembelajaran terpercaya (YouTube, docs
+                                resmi, roadmap.sh), serta ide portofolio nyata.
                             </p>
                         </div>
                     </div>
@@ -173,7 +204,7 @@ export default function CareerPlannerPage() {
 
                 {/* Form Generator Input */}
                 <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
-                    <h3 className="text-[16px] font-semibold text-[#ffffff] tracking-[-0.2px] border-b border-[#313131] pb-3 mb-4">
+                    <h3 className="mb-4 border-b border-[#313131] pb-3 text-[16px] font-semibold tracking-[-0.2px] text-[#ffffff]">
                         Tentukan Posisi Target & Durasi Roadmap
                     </h3>
 
@@ -184,17 +215,20 @@ export default function CareerPlannerPage() {
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="md:col-span-2 space-y-1.5">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                            <div className="space-y-1.5 md:col-span-2">
                                 <label className="block text-[12px] font-medium text-[#a7a7a7]">
-                                    Pekerjaan / Posisi Target <span className="text-[#f87171]">*</span>
+                                    Pekerjaan / Posisi Target{' '}
+                                    <span className="text-[#f87171]">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     required
                                     placeholder="Contoh: Senior Frontend Developer, Data Analyst, Product Manager"
                                     value={targetRole}
-                                    onChange={(e) => setTargetRole(e.target.value)}
+                                    onChange={(e) =>
+                                        setTargetRole(e.target.value)
+                                    }
                                     className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                                 />
                             </div>
@@ -232,18 +266,21 @@ export default function CareerPlannerPage() {
 
                         <div className="space-y-1.5">
                             <label className="block text-[12px] font-medium text-[#a7a7a7]">
-                                Skill Yang Anda Kuasai Saat Ini (Pisahkan dengan koma)
+                                Skill Yang Anda Kuasai Saat Ini (Pisahkan dengan
+                                koma)
                             </label>
                             <input
                                 type="text"
                                 placeholder="Contoh: HTML, CSS, JavaScript dasar, React, Git, REST API"
                                 value={currentSkillsInput}
-                                onChange={(e) => setCurrentSkillsInput(e.target.value)}
+                                onChange={(e) =>
+                                    setCurrentSkillsInput(e.target.value)
+                                }
                                 className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                             />
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div className="space-y-1.5">
                                 <label className="block text-[12px] font-medium text-[#a7a7a7]">
                                     Ringkasan CV / Pengalaman Kerja (Opsional)
@@ -280,15 +317,35 @@ export default function CareerPlannerPage() {
                             >
                                 {isLoading ? (
                                     <>
-                                        <svg className="animate-spin h-4 w-4 text-[#0a0a0a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
+                                        <svg
+                                            className="h-4 w-4 animate-spin text-[#0a0a0a]"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                        >
+                                            <circle
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                strokeOpacity="0.25"
+                                            />
                                             <path d="M12 2a10 10 0 0 1 10 10" />
                                         </svg>
-                                        <span>Menyusun Roadmap dengan AI...</span>
+                                        <span>
+                                            Menyusun Roadmap dengan AI...
+                                        </span>
                                     </>
                                 ) : (
                                     <>
-                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <svg
+                                            width="15"
+                                            height="15"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                        >
                                             <polygon points="12 2 2 7 12 12 22 7 12 2" />
                                             <polyline points="20 17 12 22 2 17" />
                                             <polyline points="2 12 12 17 22 12" />
@@ -303,18 +360,28 @@ export default function CareerPlannerPage() {
 
                 {/* Loading Radar Animation */}
                 {isLoading && (
-                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-12 text-center space-y-3">
-                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-[#6798ff]/40 bg-[#6798ff]/10 text-[#6798ff] animate-pulse">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <div className="space-y-3 rounded-[8px] border border-[#313131] bg-[#141414] p-12 text-center">
+                        <div className="mx-auto flex h-12 w-12 animate-pulse items-center justify-center rounded-full border border-[#6798ff]/40 bg-[#6798ff]/10 text-[#6798ff]">
+                            <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                            >
                                 <circle cx="12" cy="12" r="10" />
                                 <polygon points="12 2 2 7 12 12 22 7 12 2" />
                             </svg>
                         </div>
                         <h4 className="text-[16px] font-semibold text-[#ffffff]">
-                            Gemini 2.5 Sedang Menganalisis Gap Skill & Menyusun Kurikulum...
+                            Ai Sedang Menganalisis Gap Skill & Menyusun
+                            Kurikulum...
                         </h4>
-                        <p className="text-[13px] text-[#a7a7a7] max-w-md mx-auto">
-                            Menghitung tahapan bulanan, rekomendasi media YouTube & website belajar, dan ide portofolio nyata untuk {targetRole}.
+                        <p className="mx-auto max-w-md text-[13px] text-[#a7a7a7]">
+                            Menghitung tahapan bulanan, rekomendasi media
+                            YouTube & website belajar, dan ide portofolio nyata
+                            untuk {targetRole}.
                         </p>
                     </div>
                 )}
@@ -323,41 +390,60 @@ export default function CareerPlannerPage() {
                 {result && !isLoading && (
                     <div className="space-y-6">
                         {/* Summary & Actions Bar */}
-                        <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6 space-y-4">
-                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-[#313131] pb-4">
+                        <div className="space-y-4 rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
+                            <div className="flex flex-col gap-3 border-b border-[#313131] pb-4 sm:flex-row sm:items-center sm:justify-between">
                                 <div>
-                                    <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
+                                    <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                                         HASIL ANALISIS KESIAPAN
                                     </span>
                                     <h3 className="text-[18px] font-semibold text-[#ffffff]">
-                                        Roadmap {result.target_role} ({result.duration_months} Bulan)
+                                        Roadmap {result.target_role} (
+                                        {result.duration_months} Bulan)
                                     </h3>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <button
                                         type="button"
                                         onClick={handleCopyRoadmap}
-                                        className="flex min-h-[38px] items-center gap-1.5 rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-3.5 text-[12px] font-medium text-[#ffffff] hover:border-[#6798ff] transition-colors"
+                                        className="flex min-h-[38px] items-center gap-1.5 rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-3.5 text-[12px] font-medium text-[#ffffff] transition-colors hover:border-[#6798ff]"
                                     >
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                        <svg
+                                            width="14"
+                                            height="14"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                        >
+                                            <rect
+                                                x="9"
+                                                y="9"
+                                                width="13"
+                                                height="13"
+                                                rx="2"
+                                                ry="2"
+                                            />
                                             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                                         </svg>
-                                        <span>{copySuccess ? 'Tersalin!' : 'Salin Seluruh Rencana'}</span>
+                                        <span>
+                                            {copySuccess
+                                                ? 'Tersalin!'
+                                                : 'Salin Seluruh Rencana'}
+                                        </span>
                                     </button>
                                 </div>
                             </div>
 
-                            <p className="text-[14px] leading-relaxed text-[#ffffff] bg-[#0a0a0a] border border-[#313131] rounded-[6px] p-4">
+                            <p className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-4 text-[14px] leading-relaxed text-[#ffffff]">
                                 {result.summary}
                             </p>
 
                             {/* Skill Gap Analysis Box */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                            <div className="grid grid-cols-1 gap-4 pt-2 md:grid-cols-2">
                                 {/* Matching Skills */}
                                 <div className="rounded-[6px] border border-[#34d399]/30 bg-[#34d399]/5 p-4">
-                                    <div className="flex items-center gap-2 mb-2.5">
-                                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#34d399]/20 text-[#34d399] font-mono text-[11px]">
+                                    <div className="mb-2.5 flex items-center gap-2">
+                                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#34d399]/20 font-mono text-[11px] text-[#34d399]">
                                             ✓
                                         </span>
                                         <h4 className="text-[13px] font-semibold text-[#34d399]">
@@ -365,46 +451,51 @@ export default function CareerPlannerPage() {
                                         </h4>
                                     </div>
                                     <div className="flex flex-wrap gap-1.5">
-                                        {result.skill_gap_analysis.matching_skills.map((skill) => (
-                                            <span
-                                                key={skill}
-                                                className="rounded-[4px] border border-[#34d399]/40 bg-[#34d399]/15 px-2 py-0.5 text-[12px] text-[#34d399]"
-                                            >
-                                                {skill}
-                                            </span>
-                                        ))}
+                                        {result.skill_gap_analysis.matching_skills.map(
+                                            (skill) => (
+                                                <span
+                                                    key={skill}
+                                                    className="rounded-[4px] border border-[#34d399]/40 bg-[#34d399]/15 px-2 py-0.5 text-[12px] text-[#34d399]"
+                                                >
+                                                    {skill}
+                                                </span>
+                                            ),
+                                        )}
                                     </div>
                                 </div>
 
                                 {/* Missing Skills */}
                                 <div className="rounded-[6px] border border-[#6798ff]/30 bg-[#6798ff]/5 p-4">
-                                    <div className="flex items-center gap-2 mb-2.5">
-                                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#6798ff]/20 text-[#6798ff] font-mono text-[11px]">
+                                    <div className="mb-2.5 flex items-center gap-2">
+                                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#6798ff]/20 font-mono text-[11px] text-[#6798ff]">
                                             +
                                         </span>
                                         <h4 className="text-[13px] font-semibold text-[#6798ff]">
-                                            Skill Yang Perlu Dipelajari (Missing Gap)
+                                            Skill Yang Perlu Dipelajari (Missing
+                                            Gap)
                                         </h4>
                                     </div>
                                     <div className="flex flex-wrap gap-1.5">
-                                        {result.skill_gap_analysis.missing_skills.map((skill) => (
-                                            <span
-                                                key={skill}
-                                                className="rounded-[4px] border border-[#6798ff]/40 bg-[#6798ff]/15 px-2 py-0.5 text-[12px] text-[#6798ff]"
-                                            >
-                                                {skill}
-                                            </span>
-                                        ))}
+                                        {result.skill_gap_analysis.missing_skills.map(
+                                            (skill) => (
+                                                <span
+                                                    key={skill}
+                                                    className="rounded-[4px] border border-[#6798ff]/40 bg-[#6798ff]/15 px-2 py-0.5 text-[12px] text-[#6798ff]"
+                                                >
+                                                    {skill}
+                                                </span>
+                                            ),
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Month-by-Month Milestones */}
-                        <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6 space-y-4">
+                        <div className="space-y-4 rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
                             <div className="flex items-center justify-between border-b border-[#313131] pb-3">
                                 <div>
-                                    <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
+                                    <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                                         TAHAPAN BELAJAR
                                     </span>
                                     <h3 className="text-[17px] font-semibold text-[#ffffff]">
@@ -422,14 +513,18 @@ export default function CareerPlannerPage() {
                                     <button
                                         key={m.month}
                                         type="button"
-                                        onClick={() => setActiveMonthTab(m.month)}
+                                        onClick={() =>
+                                            setActiveMonthTab(m.month)
+                                        }
                                         className={`flex min-h-[38px] shrink-0 items-center gap-2 rounded-[6px] px-4 text-[13px] font-medium transition-colors ${
                                             activeMonthTab === m.month
                                                 ? 'border border-[#6798ff] bg-[#1e1e1e] text-[#ffffff]'
                                                 : 'border border-[#313131] bg-[#0a0a0a] text-[#7c7c7c] hover:text-[#ffffff]'
                                         }`}
                                     >
-                                        <span className="font-mono text-[11px] text-[#6798ff]">M{m.month}</span>
+                                        <span className="font-mono text-[11px] text-[#6798ff]">
+                                            M{m.month}
+                                        </span>
                                         <span>Bulan {m.month}</span>
                                     </button>
                                 ))}
@@ -437,14 +532,21 @@ export default function CareerPlannerPage() {
 
                             {/* Active Month Detail */}
                             {(() => {
-                                const activeM = result.milestones.find((m) => m.month === activeMonthTab);
+                                const activeM = result.milestones.find(
+                                    (m) => m.month === activeMonthTab,
+                                );
                                 if (!activeM) return null;
 
                                 return (
                                     <div className="space-y-4 pt-2">
                                         <div className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-4">
                                             <div className="flex items-center gap-2">
-                                                <Badge variant="accent" size="sm">Fokus Bulan {activeM.month}</Badge>
+                                                <Badge
+                                                    variant="accent"
+                                                    size="sm"
+                                                >
+                                                    Fokus Bulan {activeM.month}
+                                                </Badge>
                                                 <h4 className="text-[15px] font-semibold text-[#ffffff]">
                                                     {activeM.theme}
                                                 </h4>
@@ -456,51 +558,70 @@ export default function CareerPlannerPage() {
 
                                         {/* Action Items Checklist */}
                                         <div className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-4">
-                                            <h5 className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff] mb-2.5">
+                                            <h5 className="mb-2.5 font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                                                 TUGAS & ACTION ITEMS WAJIB
                                             </h5>
                                             <ul className="space-y-2">
-                                                {activeM.action_items.map((item, idx) => (
-                                                    <li key={idx} className="flex items-start gap-2.5 text-[13px] text-[#ffffff]">
-                                                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[4px] border border-[#313131] bg-[#1e1e1e] font-mono text-[10px] text-[#6798ff]">
-                                                            {idx + 1}
-                                                        </span>
-                                                        <span>{item}</span>
-                                                    </li>
-                                                ))}
+                                                {activeM.action_items.map(
+                                                    (item, idx) => (
+                                                        <li
+                                                            key={idx}
+                                                            className="flex items-start gap-2.5 text-[13px] text-[#ffffff]"
+                                                        >
+                                                            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[4px] border border-[#313131] bg-[#1e1e1e] font-mono text-[10px] text-[#6798ff]">
+                                                                {idx + 1}
+                                                            </span>
+                                                            <span>{item}</span>
+                                                        </li>
+                                                    ),
+                                                )}
                                             </ul>
                                         </div>
 
                                         {/* Recommended Learning Resources */}
                                         <div className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-4">
-                                            <h5 className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#34d399] mb-3">
-                                                REKOMENDASI MEDIA BELAJAR (YOUTUBE / DOKUMENTASI / WEBSITE)
+                                            <h5 className="mb-3 font-mono text-[11px] tracking-[0.85px] text-[#34d399] uppercase">
+                                                REKOMENDASI MEDIA BELAJAR
+                                                (YOUTUBE / DOKUMENTASI /
+                                                WEBSITE)
                                             </h5>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                {activeM.learning_resources.map((res, rIdx) => (
-                                                    <div
-                                                        key={rIdx}
-                                                        className="rounded-[6px] border border-[#313131] bg-[#141414] p-3.5 space-y-1.5"
-                                                    >
-                                                        <div className="flex items-center justify-between gap-2">
-                                                            <span className="font-semibold text-[13px] text-[#ffffff] truncate">
-                                                                {res.title}
-                                                            </span>
-                                                            {getMediaBadge(res.media_type)}
+                                            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                                                {activeM.learning_resources.map(
+                                                    (res, rIdx) => (
+                                                        <div
+                                                            key={rIdx}
+                                                            className="space-y-1.5 rounded-[6px] border border-[#313131] bg-[#141414] p-3.5"
+                                                        >
+                                                            <div className="flex items-center justify-between gap-2">
+                                                                <span className="truncate text-[13px] font-semibold text-[#ffffff]">
+                                                                    {res.title}
+                                                                </span>
+                                                                {getMediaBadge(
+                                                                    res.media_type,
+                                                                )}
+                                                            </div>
+                                                            <p className="font-mono text-[12px] text-[#6798ff]">
+                                                                Platform:{' '}
+                                                                {
+                                                                    res.platform_or_channel
+                                                                }
+                                                            </p>
+                                                            <p className="text-[12px] leading-snug text-[#a7a7a7]">
+                                                                {
+                                                                    res.why_recommended
+                                                                }
+                                                            </p>
+                                                            <div className="pt-1">
+                                                                <span className="block truncate font-mono text-[10px] text-[#7c7c7c]">
+                                                                    Query / URL:{' '}
+                                                                    {
+                                                                        res.search_query_or_url
+                                                                    }
+                                                                </span>
+                                                            </div>
                                                         </div>
-                                                        <p className="text-[12px] font-mono text-[#6798ff]">
-                                                            Platform: {res.platform_or_channel}
-                                                        </p>
-                                                        <p className="text-[12px] text-[#a7a7a7] leading-snug">
-                                                            {res.why_recommended}
-                                                        </p>
-                                                        <div className="pt-1">
-                                                            <span className="font-mono text-[10px] text-[#7c7c7c] block truncate">
-                                                                Query / URL: {res.search_query_or_url}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                ))}
+                                                    ),
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -509,9 +630,9 @@ export default function CareerPlannerPage() {
                         </div>
 
                         {/* Portfolio Projects Recommendation */}
-                        <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6 space-y-4">
+                        <div className="space-y-4 rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
                             <div className="border-b border-[#313131] pb-3">
-                                <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
+                                <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                                     PEMBUKTIAN KOMPETENSI
                                 </span>
                                 <h3 className="text-[17px] font-semibold text-[#ffffff]">
@@ -519,11 +640,11 @@ export default function CareerPlannerPage() {
                                 </h3>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 {result.portfolio_projects.map((proj, pIdx) => (
                                     <div
                                         key={pIdx}
-                                        className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-4 space-y-2"
+                                        className="space-y-2 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-4"
                                     >
                                         <h4 className="text-[15px] font-semibold text-[#ffffff]">
                                             {proj.title}
@@ -531,8 +652,8 @@ export default function CareerPlannerPage() {
                                         <p className="text-[13px] leading-relaxed text-[#a7a7a7]">
                                             {proj.description}
                                         </p>
-                                        <div className="pt-2 border-t border-[#313131]/60">
-                                            <span className="font-mono text-[10px] text-[#7c7c7c] uppercase block mb-1">
+                                        <div className="border-t border-[#313131]/60 pt-2">
+                                            <span className="mb-1 block font-mono text-[10px] text-[#7c7c7c] uppercase">
                                                 Tech Stack:
                                             </span>
                                             <div className="flex flex-wrap gap-1">
@@ -552,17 +673,19 @@ export default function CareerPlannerPage() {
                         </div>
 
                         {/* Tips for Success */}
-                        <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6 space-y-3">
-                            <h4 className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#f59e0b]">
+                        <div className="space-y-3 rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
+                            <h4 className="font-mono text-[11px] tracking-[0.85px] text-[#f59e0b] uppercase">
                                 TIPS KONSISTENSI BELAJAR & PENCARIAN KERJA
                             </h4>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                 {result.tips_for_success.map((tip, tIdx) => (
                                     <div
                                         key={tIdx}
                                         className="flex items-start gap-2.5 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3 text-[13px] text-[#a7a7a7]"
                                     >
-                                        <span className="font-mono text-[#f59e0b] font-bold">#</span>
+                                        <span className="font-mono font-bold text-[#f59e0b]">
+                                            #
+                                        </span>
                                         <span>{tip}</span>
                                     </div>
                                 ))}

@@ -51,8 +51,11 @@ export default function InterviewCopilotPage() {
     const [companyName, setCompanyName] = useState('');
     const [jobUrl, setJobUrl] = useState('');
     const [jobDescription, setJobDescription] = useState('');
-    const [selectedApplicationId, setSelectedApplicationId] = useState<string>('');
-    const [interviewFocus, setInterviewFocus] = useState<'all' | 'technical' | 'behavioral' | 'hr'>('all');
+    const [selectedApplicationId, setSelectedApplicationId] =
+        useState<string>('');
+    const [interviewFocus, setInterviewFocus] = useState<
+        'all' | 'technical' | 'behavioral' | 'hr'
+    >('all');
 
     // Applications dropdown list
     const [applications, setApplications] = useState<ApplicationOption[]>([]);
@@ -65,9 +68,13 @@ export default function InterviewCopilotPage() {
 
     // Filter & UI states
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
-    const [expandedQuestions, setExpandedQuestions] = useState<Record<number, boolean>>({});
+    const [expandedQuestions, setExpandedQuestions] = useState<
+        Record<number, boolean>
+    >({});
     const [userNotes, setUserNotes] = useState<Record<number, string>>({});
-    const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({});
+    const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>(
+        {},
+    );
     const [copySuccess, setCopySuccess] = useState(false);
 
     // Fetch user's tracked applications on mount to allow one-click autofill
@@ -98,7 +105,7 @@ export default function InterviewCopilotPage() {
             }
         };
 
-        fetchUserApplications();
+        void fetchUserApplications();
 
         // Read query parameters if navigated from dashboard/application modal
         if (typeof window !== 'undefined') {
@@ -151,7 +158,7 @@ export default function InterviewCopilotPage() {
         setCompanyName('Tokopedia (GoTo Group)');
         setJobUrl('https://www.linkedin.com/jobs/view/3829102847');
         setJobDescription(
-            'Membangun sistem frontend berskala besar dengan React, Next.js, dan microservices backend Node.js / Go. Berpengalaman dalam database PostgreSQL, Redis caching, dan arsitektur event-driven.'
+            'Membangun sistem frontend berskala besar dengan React, Next.js, dan microservices backend Node.js / Go. Berpengalaman dalam database PostgreSQL, Redis caching, dan arsitektur event-driven.',
         );
         setSelectedApplicationId('');
         setInterviewFocus('all');
@@ -168,7 +175,9 @@ export default function InterviewCopilotPage() {
         }
 
         if (!jobUrl.trim()) {
-            setErrorMessage('Tautan lowongan pekerjaan (URL) wajib diisi untuk mendeteksi portal.');
+            setErrorMessage(
+                'Tautan lowongan pekerjaan (URL) wajib diisi untuk mendeteksi portal.',
+            );
             return;
         }
 
@@ -177,7 +186,9 @@ export default function InterviewCopilotPage() {
         try {
             const token = localStorage.getItem('careerpilot_token');
             const csrfToken =
-                document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute('content') || '';
             const headers: Record<string, string> = {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -205,7 +216,7 @@ export default function InterviewCopilotPage() {
             if (!response.ok) {
                 setErrorMessage(
                     data.message ||
-                        'Layanan AI sedang sibuk. Silakan periksa kembali input atau coba beberapa saat lagi.'
+                        'Layanan AI sedang sibuk. Silakan periksa kembali input atau coba beberapa saat lagi.',
                 );
                 setIsLoading(false);
                 return;
@@ -229,7 +240,7 @@ export default function InterviewCopilotPage() {
             }
         } catch {
             setErrorMessage(
-                'Terjadi gangguan jaringan saat memproses persiapan wawancara. Pastikan koneksi internet aktif.'
+                'Terjadi gangguan jaringan saat memproses persiapan wawancara. Pastikan koneksi internet aktif.',
             );
         } finally {
             setIsLoading(false);
@@ -259,7 +270,7 @@ export default function InterviewCopilotPage() {
         if (result?.interview_overview.job_title) {
             localStorage.setItem(
                 `cp_interview_notes_${result.interview_overview.job_title}`,
-                JSON.stringify(nextNotes)
+                JSON.stringify(nextNotes),
             );
         }
     };
@@ -299,7 +310,7 @@ export default function InterviewCopilotPage() {
             text += `${isDone} ${item}\n`;
         });
 
-        navigator.clipboard.writeText(text);
+        void navigator.clipboard.writeText(text);
         setCopySuccess(true);
         setTimeout(() => setCopySuccess(false), 2500);
     };
@@ -312,7 +323,10 @@ export default function InterviewCopilotPage() {
         return q.category === selectedCategory;
     });
 
-    const categoryBadges: Record<string, { label: string; variant: 'default' | 'accent' | 'warning' | 'success' }> = {
+    const categoryBadges: Record<
+        string,
+        { label: string; variant: 'default' | 'accent' | 'warning' | 'success' }
+    > = {
         introductory: { label: 'Introductory', variant: 'accent' },
         technical: { label: 'Technical', variant: 'warning' },
         behavioral: { label: 'Behavioral (STAR)', variant: 'success' },
@@ -321,8 +335,12 @@ export default function InterviewCopilotPage() {
 
     // Checklist progress calculation
     const totalChecklist = result?.preparation_checklist.length || 0;
-    const completedChecklist = Object.values(checkedItems).filter(Boolean).length;
-    const checklistProgress = totalChecklist > 0 ? Math.round((completedChecklist / totalChecklist) * 100) : 0;
+    const completedChecklist =
+        Object.values(checkedItems).filter(Boolean).length;
+    const checklistProgress =
+        totalChecklist > 0
+            ? Math.round((completedChecklist / totalChecklist) * 100)
+            : 0;
 
     return (
         <AppLayout
@@ -330,9 +348,16 @@ export default function InterviewCopilotPage() {
             action={
                 <Link
                     href="/ai/career-planner"
-                    className="flex min-h-[44px] items-center gap-2 rounded-[8px] border border-[#313131] bg-[#141414] px-3.5 py-2 text-[13px] font-medium text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6798ff]"
+                    className="flex min-h-[44px] items-center gap-2 rounded-[8px] border border-[#313131] bg-[#141414] px-3.5 py-2 text-[13px] font-medium text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
                 >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                    >
                         <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                         <polyline points="2 17 12 22 22 17"></polyline>
                         <polyline points="2 12 12 17 22 12"></polyline>
@@ -349,28 +374,40 @@ export default function InterviewCopilotPage() {
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <div className="flex items-center gap-2">
-                                <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
+                                <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                                     LARAVEL AI SDK & GEMINI
                                 </span>
                                 <span className="rounded-[4px] bg-[#6798ff]/15 px-1.5 py-0.5 font-mono text-[10px] text-[#6798ff]">
                                     v1.0
                                 </span>
                             </div>
-                            <h2 className="mt-1 text-[22px] font-semibold text-[#ffffff] tracking-[-0.4px]">
+                            <h2 className="mt-1 text-[22px] font-semibold tracking-[-0.4px] text-[#ffffff]">
                                 AI Interview Copilot
                             </h2>
-                            <p className="mt-1 text-[13px] leading-relaxed text-[#a7a7a7] max-w-3xl">
-                                Simulasi wawancara kerja profesional berdasarkan tautan lowongan asli (LinkedIn, Glints, JobStreet, Indeed, dll.). Dapatkan prediksi pertanyaan teknis, studi kasus nyata, panduan behavioral dengan metode STAR, serta checklist pra-wawancara.
+                            <p className="mt-1 max-w-3xl text-[13px] leading-relaxed text-[#a7a7a7]">
+                                Simulasi wawancara kerja profesional berdasarkan
+                                tautan lowongan asli (LinkedIn, Glints,
+                                JobStreet, Indeed, dll.). Dapatkan prediksi
+                                pertanyaan teknis, studi kasus nyata, panduan
+                                behavioral dengan metode STAR, serta checklist
+                                pra-wawancara.
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-2 shrink-0">
+                        <div className="flex shrink-0 items-center gap-2">
                             <button
                                 type="button"
                                 onClick={handleFillSample}
-                                className="flex min-h-[44px] items-center gap-2 rounded-[8px] border border-[#313131] bg-[#1e1e1e] px-3.5 py-2 text-[12px] font-medium text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6798ff]"
+                                className="flex min-h-[44px] items-center gap-2 rounded-[8px] border border-[#313131] bg-[#1e1e1e] px-3.5 py-2 text-[12px] font-medium text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
                             >
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                     <polyline points="14 2 14 8 20 8"></polyline>
                                     <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -385,8 +422,8 @@ export default function InterviewCopilotPage() {
 
                 {/* Form Input Panel */}
                 <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
-                    <div className="flex items-center justify-between border-b border-[#313131] pb-3 mb-4">
-                        <h3 className="text-[16px] font-semibold text-[#ffffff] tracking-[-0.2px]">
+                    <div className="mb-4 flex items-center justify-between border-b border-[#313131] pb-3">
+                        <h3 className="text-[16px] font-semibold tracking-[-0.2px] text-[#ffffff]">
                             Parameter Simulasi Wawancara
                         </h3>
                         {applications.length > 0 && (
@@ -407,35 +444,46 @@ export default function InterviewCopilotPage() {
                         {applications.length > 0 && (
                             <div className="space-y-1.5">
                                 <label className="block text-[12px] font-medium text-[#a7a7a7]">
-                                    Pilih Dari Lamaran Anda (Opsional - Auto-fill data)
+                                    Pilih Dari Lamaran Anda (Opsional -
+                                    Auto-fill data)
                                 </label>
                                 <select
                                     value={selectedApplicationId}
-                                    onChange={(e) => handleSelectApplication(e.target.value)}
+                                    onChange={(e) =>
+                                        handleSelectApplication(e.target.value)
+                                    }
                                     disabled={isLoadingApps || isLoading}
                                     className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                                 >
-                                    <option value="">-- Masukkan Manual / Lowongan Baru --</option>
+                                    <option value="">
+                                        -- Masukkan Manual / Lowongan Baru --
+                                    </option>
                                     {applications.map((app) => (
                                         <option key={app.id} value={app.id}>
-                                            {app.job_title} - {app.company?.name || app.company_name || 'Perusahaan'}
+                                            {app.job_title} -{' '}
+                                            {app.company?.name ||
+                                                app.company_name ||
+                                                'Perusahaan'}
                                         </option>
                                     ))}
                                 </select>
                             </div>
                         )}
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div className="space-y-1.5">
                                 <label className="block text-[12px] font-medium text-[#a7a7a7]">
-                                    Posisi / Pekerjaan Yang Dilamar <span className="text-[#f87171]">*</span>
+                                    Posisi / Pekerjaan Yang Dilamar{' '}
+                                    <span className="text-[#f87171]">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     required
                                     placeholder="Contoh: Senior Backend Engineer, Product Manager"
                                     value={jobTitle}
-                                    onChange={(e) => setJobTitle(e.target.value)}
+                                    onChange={(e) =>
+                                        setJobTitle(e.target.value)
+                                    }
                                     disabled={isLoading}
                                     className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                                 />
@@ -449,7 +497,9 @@ export default function InterviewCopilotPage() {
                                     type="text"
                                     placeholder="Contoh: Gojek, Shopee, BCA, Telkom"
                                     value={companyName}
-                                    onChange={(e) => setCompanyName(e.target.value)}
+                                    onChange={(e) =>
+                                        setCompanyName(e.target.value)
+                                    }
                                     disabled={isLoading}
                                     className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                                 />
@@ -459,7 +509,8 @@ export default function InterviewCopilotPage() {
                         <div className="space-y-1.5">
                             <div className="flex items-center justify-between">
                                 <label className="block text-[12px] font-medium text-[#a7a7a7]">
-                                    Tautan Lowongan Pekerjaan (URL Portal) <span className="text-[#f87171]">*</span>
+                                    Tautan Lowongan Pekerjaan (URL Portal){' '}
+                                    <span className="text-[#f87171]">*</span>
                                 </label>
                                 {portalHint && (
                                     <span className="font-mono text-[11px] text-[#6798ff]">
@@ -483,25 +534,47 @@ export default function InterviewCopilotPage() {
                             <label className="block text-[12px] font-medium text-[#a7a7a7]">
                                 Fokus Simulasi Wawancara
                             </label>
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                                 {[
-                                    { id: 'all', label: 'Komprehensif', sub: 'Semua Aspek' },
-                                    { id: 'technical', label: 'Technical', sub: 'Koding & Arsitektur' },
-                                    { id: 'behavioral', label: 'Behavioral', sub: 'Metode STAR' },
-                                    { id: 'hr', label: 'HR & Fit', sub: 'Motivasi & Culture' },
+                                    {
+                                        id: 'all',
+                                        label: 'Komprehensif',
+                                        sub: 'Semua Aspek',
+                                    },
+                                    {
+                                        id: 'technical',
+                                        label: 'Technical',
+                                        sub: 'Koding & Arsitektur',
+                                    },
+                                    {
+                                        id: 'behavioral',
+                                        label: 'Behavioral',
+                                        sub: 'Metode STAR',
+                                    },
+                                    {
+                                        id: 'hr',
+                                        label: 'HR & Fit',
+                                        sub: 'Motivasi & Culture',
+                                    },
                                 ].map((item) => (
                                     <button
                                         key={item.id}
                                         type="button"
-                                        onClick={() => setInterviewFocus(item.id as any)}
-                                        className={`flex min-h-[44px] flex-col items-center justify-center rounded-[6px] p-2 transition-all text-center ${
+                                        onClick={() =>
+                                            setInterviewFocus(item.id as any)
+                                        }
+                                        className={`flex min-h-[44px] flex-col items-center justify-center rounded-[6px] p-2 text-center transition-all ${
                                             interviewFocus === item.id
                                                 ? 'border border-[#6798ff] bg-[#1e1e1e] text-[#ffffff]'
                                                 : 'border border-[#313131] bg-[#0a0a0a] text-[#7c7c7c] hover:text-[#ffffff]'
                                         }`}
                                     >
-                                        <span className="text-[13px] font-medium">{item.label}</span>
-                                        <span className="text-[10px] text-[#7c7c7c]">{item.sub}</span>
+                                        <span className="text-[13px] font-medium">
+                                            {item.label}
+                                        </span>
+                                        <span className="text-[10px] text-[#7c7c7c]">
+                                            {item.sub}
+                                        </span>
                                     </button>
                                 ))}
                             </div>
@@ -510,30 +583,41 @@ export default function InterviewCopilotPage() {
                         {/* Optional Job Description */}
                         <div className="space-y-1.5">
                             <label className="block text-[12px] font-medium text-[#a7a7a7]">
-                                Catatan / Ringkasan Deskripsi Lowongan (Opsional)
+                                Catatan / Ringkasan Deskripsi Lowongan
+                                (Opsional)
                             </label>
                             <textarea
                                 rows={3}
                                 placeholder="Salin poin kualifikasi lowongan atau catatan khusus yang ingin diuji..."
                                 value={jobDescription}
-                                onChange={(e) => setJobDescription(e.target.value)}
+                                onChange={(e) =>
+                                    setJobDescription(e.target.value)
+                                }
                                 disabled={isLoading}
                                 className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                             />
                         </div>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+                        <div className="flex flex-col items-center justify-between gap-3 pt-2 sm:flex-row">
                             <span className="text-[12px] text-[#7c7c7c]">
-                                AI menggunakan Gemini & Laravel AI SDK untuk menghasilkan output terstruktur.
+                                AI menggunakan Gemini & Laravel AI SDK untuk
+                                menghasilkan output terstruktur.
                             </span>
 
                             <Button
                                 type="submit"
                                 variant="primary"
                                 isLoading={isLoading}
-                                className="w-full sm:w-auto min-w-[200px]"
+                                className="w-full min-w-[200px] sm:w-auto"
                             >
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <svg
+                                    width="15"
+                                    height="15"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <polyline points="12 6 12 12 16 14"></polyline>
                                 </svg>
@@ -545,19 +629,36 @@ export default function InterviewCopilotPage() {
 
                 {/* Loading Banner State */}
                 {isLoading && (
-                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-8 text-center space-y-4">
+                    <div className="space-y-4 rounded-[8px] border border-[#313131] bg-[#141414] p-8 text-center">
                         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-[#6798ff]/30 bg-[#6798ff]/10 text-[#6798ff]">
-                            <svg className="animate-spin h-6 w-6" viewBox="0 0 24 24" fill="none">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            <svg
+                                className="h-6 w-6 animate-spin"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                            >
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                ></circle>
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                ></path>
                             </svg>
                         </div>
                         <div className="space-y-1">
                             <h4 className="text-[16px] font-medium text-[#ffffff]">
                                 Menyusun Simulasi Wawancara...
                             </h4>
-                            <p className="text-[13px] text-[#a7a7a7] max-w-md mx-auto">
-                                Membaca persyaratan posisi {jobTitle}, menyusun pertanyaan realistis, menganalisis jebakan rekruter, dan merancang checklist persiapan.
+                            <p className="mx-auto max-w-md text-[13px] text-[#a7a7a7]">
+                                Membaca persyaratan posisi {jobTitle}, menyusun
+                                pertanyaan realistis, menganalisis jebakan
+                                rekruter, dan merancang checklist persiapan.
                             </p>
                         </div>
                     </div>
@@ -572,21 +673,28 @@ export default function InterviewCopilotPage() {
                                 <div className="space-y-2">
                                     <div className="flex flex-wrap items-center gap-2">
                                         <Badge variant="accent" size="sm">
-                                            {result.interview_overview.job_source}
+                                            {
+                                                result.interview_overview
+                                                    .job_source
+                                            }
                                         </Badge>
                                         <span className="font-mono text-[11px] text-[#7c7c7c]">
-                                            Pewawancara: {result.interview_overview.interviewer_persona}
+                                            Pewawancara:{' '}
+                                            {
+                                                result.interview_overview
+                                                    .interviewer_persona
+                                            }
                                         </span>
                                     </div>
-                                    <h3 className="text-[20px] font-semibold text-[#ffffff] tracking-[-0.3px]">
+                                    <h3 className="text-[20px] font-semibold tracking-[-0.3px] text-[#ffffff]">
                                         {result.interview_overview.job_title}
                                     </h3>
-                                    <p className="text-[13px] leading-relaxed text-[#a7a7a7] max-w-3xl">
+                                    <p className="max-w-3xl text-[13px] leading-relaxed text-[#a7a7a7]">
                                         {result.interview_overview.summary}
                                     </p>
                                 </div>
 
-                                <div className="flex items-center gap-2 shrink-0">
+                                <div className="flex shrink-0 items-center gap-2">
                                     <Button
                                         variant="secondary"
                                         size="sm"
@@ -595,15 +703,38 @@ export default function InterviewCopilotPage() {
                                     >
                                         {copySuccess ? (
                                             <>
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5">
+                                                <svg
+                                                    width="14"
+                                                    height="14"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="#34d399"
+                                                    strokeWidth="2.5"
+                                                >
                                                     <polyline points="20 6 9 17 4 12"></polyline>
                                                 </svg>
-                                                <span className="text-[#34d399]">Materi Tersalin!</span>
+                                                <span className="text-[#34d399]">
+                                                    Materi Tersalin!
+                                                </span>
                                             </>
                                         ) : (
                                             <>
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                <svg
+                                                    width="14"
+                                                    height="14"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                >
+                                                    <rect
+                                                        x="9"
+                                                        y="9"
+                                                        width="13"
+                                                        height="13"
+                                                        rx="2"
+                                                        ry="2"
+                                                    ></rect>
                                                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                                                 </svg>
                                                 <span>Salin Semua Materi</span>
@@ -615,21 +746,26 @@ export default function InterviewCopilotPage() {
                         </div>
 
                         {/* Questions Section with Filter Tabs */}
-                        <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6 space-y-5">
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#313131] pb-4">
+                        <div className="space-y-5 rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
+                            <div className="flex flex-col gap-3 border-b border-[#313131] pb-4 sm:flex-row sm:items-center sm:justify-between">
                                 <div>
-                                    <h4 className="text-[16px] font-semibold text-[#ffffff] tracking-[-0.2px]">
+                                    <h4 className="text-[16px] font-semibold tracking-[-0.2px] text-[#ffffff]">
                                         Daftar Pertanyaan & Panduan Menjawab
                                     </h4>
                                     <p className="text-[12px] text-[#7c7c7c]">
-                                        Klik pada setiap pertanyaan untuk membuka detail tujuan rekruter, poin kunci, dan contoh jawaban.
+                                        Klik pada setiap pertanyaan untuk
+                                        membuka detail tujuan rekruter, poin
+                                        kunci, dan contoh jawaban.
                                     </p>
                                 </div>
 
                                 {/* Category Tabs */}
                                 <div className="flex flex-wrap items-center gap-1.5">
                                     {[
-                                        { id: 'all', label: `Semua (${result.questions.length})` },
+                                        {
+                                            id: 'all',
+                                            label: `Semua (${result.questions.length})`,
+                                        },
                                         {
                                             id: 'introductory',
                                             label: `Intro (${result.questions.filter((q) => q.category === 'introductory').length})`,
@@ -650,10 +786,12 @@ export default function InterviewCopilotPage() {
                                         <button
                                             key={tab.id}
                                             type="button"
-                                            onClick={() => setSelectedCategory(tab.id)}
+                                            onClick={() =>
+                                                setSelectedCategory(tab.id)
+                                            }
                                             className={`rounded-[4px] px-2.5 py-1 text-[12px] font-medium transition-colors ${
                                                 selectedCategory === tab.id
-                                                    ? 'bg-[#6798ff] text-[#0a0a0a] font-semibold'
+                                                    ? 'bg-[#6798ff] font-semibold text-[#0a0a0a]'
                                                     : 'bg-[#1e1e1e] text-[#a7a7a7] hover:text-[#ffffff]'
                                             }`}
                                         >
@@ -665,10 +803,14 @@ export default function InterviewCopilotPage() {
 
                             {/* Questions List */}
                             <div className="space-y-4">
-                                {filteredQuestions && filteredQuestions.length > 0 ? (
+                                {filteredQuestions &&
+                                filteredQuestions.length > 0 ? (
                                     filteredQuestions.map((q) => {
-                                        const isOpen = !!expandedQuestions[q.number];
-                                        const badgeInfo = categoryBadges[q.category] || {
+                                        const isOpen =
+                                            !!expandedQuestions[q.number];
+                                        const badgeInfo = categoryBadges[
+                                            q.category
+                                        ] || {
                                             label: q.category,
                                             variant: 'default',
                                         };
@@ -676,13 +818,15 @@ export default function InterviewCopilotPage() {
                                         return (
                                             <div
                                                 key={q.number}
-                                                className="rounded-[8px] border border-[#313131] bg-[#1e1e1e] overflow-hidden transition-colors"
+                                                className="overflow-hidden rounded-[8px] border border-[#313131] bg-[#1e1e1e] transition-colors"
                                             >
                                                 {/* Question Header Accordion Trigger */}
                                                 <button
                                                     type="button"
-                                                    onClick={() => toggleQuestion(q.number)}
-                                                    className="w-full flex items-start justify-between gap-3 p-4 sm:p-5 text-left transition-colors hover:bg-[#252525] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6798ff]"
+                                                    onClick={() =>
+                                                        toggleQuestion(q.number)
+                                                    }
+                                                    className="flex w-full items-start justify-between gap-3 p-4 text-left transition-colors hover:bg-[#252525] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none sm:p-5"
                                                 >
                                                     <div className="flex items-start gap-3">
                                                         <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] border border-[#313131] bg-[#0a0a0a] font-mono text-[11px] font-semibold text-[#6798ff]">
@@ -690,11 +834,18 @@ export default function InterviewCopilotPage() {
                                                         </span>
                                                         <div className="space-y-1">
                                                             <div className="flex items-center gap-2">
-                                                                <Badge variant={badgeInfo.variant} size="sm">
-                                                                    {badgeInfo.label}
+                                                                <Badge
+                                                                    variant={
+                                                                        badgeInfo.variant
+                                                                    }
+                                                                    size="sm"
+                                                                >
+                                                                    {
+                                                                        badgeInfo.label
+                                                                    }
                                                                 </Badge>
                                                             </div>
-                                                            <p className="text-[15px] font-medium text-[#ffffff] leading-snug">
+                                                            <p className="text-[15px] leading-snug font-medium text-[#ffffff]">
                                                                 {q.question}
                                                             </p>
                                                         </div>
@@ -715,83 +866,139 @@ export default function InterviewCopilotPage() {
 
                                                 {/* Expanded Content */}
                                                 {isOpen && (
-                                                    <div className="border-t border-[#313131] bg-[#141414] p-4 sm:p-5 space-y-4">
+                                                    <div className="space-y-4 border-t border-[#313131] bg-[#141414] p-4 sm:p-5">
                                                         {/* Why Asked */}
-                                                        <div className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3.5 space-y-1">
-                                                            <span className="font-mono text-[10px] uppercase tracking-[0.85px] text-[#6798ff]">
-                                                                Tujuan Rekruter (Mengapa Ditanyakan)
+                                                        <div className="space-y-1 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3.5">
+                                                            <span className="font-mono text-[10px] tracking-[0.85px] text-[#6798ff] uppercase">
+                                                                Tujuan Rekruter
+                                                                (Mengapa
+                                                                Ditanyakan)
                                                             </span>
-                                                            <p className="text-[13px] text-[#a7a7a7] leading-relaxed">
+                                                            <p className="text-[13px] leading-relaxed text-[#a7a7a7]">
                                                                 {q.why_asked}
                                                             </p>
                                                         </div>
 
                                                         {/* Key Points To Answer */}
                                                         <div className="space-y-1.5">
-                                                            <span className="font-mono text-[10px] uppercase tracking-[0.85px] text-[#34d399]">
-                                                                Poin Kunci Jawaban Yang Dinilai
+                                                            <span className="font-mono text-[10px] tracking-[0.85px] text-[#34d399] uppercase">
+                                                                Poin Kunci
+                                                                Jawaban Yang
+                                                                Dinilai
                                                             </span>
                                                             <ul className="space-y-1">
-                                                                {q.key_points_to_answer.map((point, pIdx) => (
-                                                                    <li
-                                                                        key={pIdx}
-                                                                        className="flex items-start gap-2 text-[13px] text-[#ffffff]"
-                                                                    >
-                                                                        <svg
-                                                                            className="h-4 w-4 shrink-0 text-[#34d399] mt-0.5"
-                                                                            viewBox="0 0 24 24"
-                                                                            fill="none"
-                                                                            stroke="currentColor"
-                                                                            strokeWidth="2"
+                                                                {q.key_points_to_answer.map(
+                                                                    (
+                                                                        point,
+                                                                        pIdx,
+                                                                    ) => (
+                                                                        <li
+                                                                            key={
+                                                                                pIdx
+                                                                            }
+                                                                            className="flex items-start gap-2 text-[13px] text-[#ffffff]"
                                                                         >
-                                                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                                                        </svg>
-                                                                        <span>{point}</span>
-                                                                    </li>
-                                                                ))}
+                                                                            <svg
+                                                                                className="mt-0.5 h-4 w-4 shrink-0 text-[#34d399]"
+                                                                                viewBox="0 0 24 24"
+                                                                                fill="none"
+                                                                                stroke="currentColor"
+                                                                                strokeWidth="2"
+                                                                            >
+                                                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                                                            </svg>
+                                                                            <span>
+                                                                                {
+                                                                                    point
+                                                                                }
+                                                                            </span>
+                                                                        </li>
+                                                                    ),
+                                                                )}
                                                             </ul>
                                                         </div>
 
                                                         {/* Sample Good Response */}
-                                                        <div className="rounded-[6px] border border-[#313131] bg-[#1e1e1e] p-3.5 space-y-1.5">
+                                                        <div className="space-y-1.5 rounded-[6px] border border-[#313131] bg-[#1e1e1e] p-3.5">
                                                             <div className="flex items-center gap-1.5">
-                                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6798ff" strokeWidth="2">
+                                                                <svg
+                                                                    width="14"
+                                                                    height="14"
+                                                                    viewBox="0 0 24 24"
+                                                                    fill="none"
+                                                                    stroke="#6798ff"
+                                                                    strokeWidth="2"
+                                                                >
                                                                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                                                 </svg>
-                                                                <span className="font-mono text-[10px] uppercase tracking-[0.85px] text-[#6798ff]">
-                                                                    Contoh Jawaban Yang Kuat & Meyakinkan
+                                                                <span className="font-mono text-[10px] tracking-[0.85px] text-[#6798ff] uppercase">
+                                                                    Contoh
+                                                                    Jawaban Yang
+                                                                    Kuat &
+                                                                    Meyakinkan
                                                                 </span>
                                                             </div>
-                                                            <p className="text-[13px] text-[#ffffff] italic leading-relaxed whitespace-pre-line pl-2 border-l-2 border-[#6798ff]">
-                                                                "{q.sample_good_response}"
+                                                            <p className="border-l-2 border-[#6798ff] pl-2 text-[13px] leading-relaxed whitespace-pre-line text-[#ffffff] italic">
+                                                                "
+                                                                {
+                                                                    q.sample_good_response
+                                                                }
+                                                                "
                                                             </p>
                                                         </div>
 
                                                         {/* Pitfall to avoid */}
-                                                        <div className="rounded-[6px] border border-[#f87171]/40 bg-[#f87171]/10 p-3.5 space-y-1">
+                                                        <div className="space-y-1 rounded-[6px] border border-[#f87171]/40 bg-[#f87171]/10 p-3.5">
                                                             <div className="flex items-center gap-1.5 text-[#f87171]">
-                                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                                <svg
+                                                                    width="14"
+                                                                    height="14"
+                                                                    viewBox="0 0 24 24"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth="2"
+                                                                >
                                                                     <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                                                                    <line x1="12" y1="9" x2="12" y2="13"></line>
-                                                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                                                    <line
+                                                                        x1="12"
+                                                                        y1="9"
+                                                                        x2="12"
+                                                                        y2="13"
+                                                                    ></line>
+                                                                    <line
+                                                                        x1="12"
+                                                                        y1="17"
+                                                                        x2="12.01"
+                                                                        y2="17"
+                                                                    ></line>
                                                                 </svg>
-                                                                <span className="font-mono text-[10px] uppercase tracking-[0.85px]">
-                                                                    Jebakan Yang Harus Dihindari
+                                                                <span className="font-mono text-[10px] tracking-[0.85px] uppercase">
+                                                                    Jebakan Yang
+                                                                    Harus
+                                                                    Dihindari
                                                                 </span>
                                                             </div>
-                                                            <p className="text-[13px] text-[#f87171] leading-relaxed">
-                                                                {q.pitfall_to_avoid}
+                                                            <p className="text-[13px] leading-relaxed text-[#f87171]">
+                                                                {
+                                                                    q.pitfall_to_avoid
+                                                                }
                                                             </p>
                                                         </div>
 
                                                         {/* Personal Draft / Mock Note */}
-                                                        <div className="pt-2 border-t border-[#313131] space-y-1.5">
+                                                        <div className="space-y-1.5 border-t border-[#313131] pt-2">
                                                             <div className="flex items-center justify-between">
-                                                                <label className="text-[11px] font-mono text-[#a7a7a7]">
-                                                                    DRAFT JAWABAN ANDA (Tersimpan otomatis di browser)
+                                                                <label className="font-mono text-[11px] text-[#a7a7a7]">
+                                                                    DRAFT
+                                                                    JAWABAN ANDA
+                                                                    (Tersimpan
+                                                                    otomatis di
+                                                                    browser)
                                                                 </label>
-                                                                {userNotes[q.number] && (
-                                                                    <span className="text-[10px] text-[#34d399] font-mono">
+                                                                {userNotes[
+                                                                    q.number
+                                                                ] && (
+                                                                    <span className="font-mono text-[10px] text-[#34d399]">
                                                                         Tersimpan
                                                                     </span>
                                                                 )}
@@ -799,8 +1006,18 @@ export default function InterviewCopilotPage() {
                                                             <textarea
                                                                 rows={2}
                                                                 placeholder="Tuliskan poin atau cerita pengalaman Anda sendiri untuk menjawab pertanyaan ini..."
-                                                                value={userNotes[q.number] || ''}
-                                                                onChange={(e) => handleNoteChange(q.number, e.target.value)}
+                                                                value={
+                                                                    userNotes[
+                                                                        q.number
+                                                                    ] || ''
+                                                                }
+                                                                onChange={(e) =>
+                                                                    handleNoteChange(
+                                                                        q.number,
+                                                                        e.target
+                                                                            .value,
+                                                                    )
+                                                                }
                                                                 className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[12px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                                                             />
                                                         </div>
@@ -818,65 +1035,76 @@ export default function InterviewCopilotPage() {
                         </div>
 
                         {/* Reverse Interview: Questions to Ask the Interviewer */}
-                        <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6 space-y-4">
+                        <div className="space-y-4 rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
                             <div>
-                                <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
+                                <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                                     REVERSE INTERVIEW
                                 </span>
-                                <h4 className="mt-1 text-[16px] font-semibold text-[#ffffff] tracking-[-0.2px]">
-                                    Pertanyaan Strategis Untuk Diajukan Kepada Pewawancara
+                                <h4 className="mt-1 text-[16px] font-semibold tracking-[-0.2px] text-[#ffffff]">
+                                    Pertanyaan Strategis Untuk Diajukan Kepada
+                                    Pewawancara
                                 </h4>
                                 <p className="text-[12px] text-[#7c7c7c]">
-                                    Ajukan pertanyaan ini saat rekruter memberikan kesempatan bertanya di akhir sesi interview untuk menunjukkan kedalaman dan antusiasme Anda.
+                                    Ajukan pertanyaan ini saat rekruter
+                                    memberikan kesempatan bertanya di akhir sesi
+                                    interview untuk menunjukkan kedalaman dan
+                                    antusiasme Anda.
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                                {result.questions_to_ask_interviewer.map((qi, idx) => (
-                                    <div
-                                        key={idx}
-                                        className="rounded-[6px] border border-[#313131] bg-[#1e1e1e] p-4 space-y-2"
-                                    >
-                                        <div className="flex items-start gap-2">
-                                            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#6798ff]/20 font-mono text-[10px] text-[#6798ff]">
-                                                {idx + 1}
-                                            </span>
-                                            <p className="text-[14px] font-medium text-[#ffffff]">
-                                                "{qi.question}"
+                            <div className="grid grid-cols-1 gap-3.5 md:grid-cols-2">
+                                {result.questions_to_ask_interviewer.map(
+                                    (qi, idx) => (
+                                        <div
+                                            key={idx}
+                                            className="space-y-2 rounded-[6px] border border-[#313131] bg-[#1e1e1e] p-4"
+                                        >
+                                            <div className="flex items-start gap-2">
+                                                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#6798ff]/20 font-mono text-[10px] text-[#6798ff]">
+                                                    {idx + 1}
+                                                </span>
+                                                <p className="text-[14px] font-medium text-[#ffffff]">
+                                                    "{qi.question}"
+                                                </p>
+                                            </div>
+                                            <p className="pl-7 text-[12px] leading-relaxed text-[#a7a7a7]">
+                                                <span className="font-medium text-[#6798ff]">
+                                                    Tujuan:
+                                                </span>{' '}
+                                                {qi.purpose}
                                             </p>
                                         </div>
-                                        <p className="text-[12px] text-[#a7a7a7] leading-relaxed pl-7">
-                                            <span className="text-[#6798ff] font-medium">Tujuan:</span> {qi.purpose}
-                                        </p>
-                                    </div>
-                                ))}
+                                    ),
+                                )}
                             </div>
                         </div>
 
                         {/* Pre-Interview Preparation Checklist */}
-                        <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6 space-y-4">
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="space-y-4 rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
+                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                 <div>
-                                    <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#34d399]">
+                                    <span className="font-mono text-[11px] tracking-[0.85px] text-[#34d399] uppercase">
                                         CHECKLIST PRA-INTERVIEW
                                     </span>
-                                    <h4 className="mt-1 text-[16px] font-semibold text-[#ffffff] tracking-[-0.2px]">
+                                    <h4 className="mt-1 text-[16px] font-semibold tracking-[-0.2px] text-[#ffffff]">
                                         Persiapan Sebelum Hari-H Interview
                                     </h4>
                                     <p className="text-[12px] text-[#7c7c7c]">
-                                        Tandai setiap langkah persiapan saat Anda telah menyelesaikannya.
+                                        Tandai setiap langkah persiapan saat
+                                        Anda telah menyelesaikannya.
                                     </p>
                                 </div>
 
                                 <div className="flex items-center gap-2">
                                     <span className="font-mono text-[12px] text-[#a7a7a7]">
-                                        {completedChecklist} / {totalChecklist} Selesai ({checklistProgress}%)
+                                        {completedChecklist} / {totalChecklist}{' '}
+                                        Selesai ({checklistProgress}%)
                                     </span>
                                 </div>
                             </div>
 
                             {/* Progress bar */}
-                            <div className="h-1.5 w-full rounded-full bg-[#1e1e1e] overflow-hidden">
+                            <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#1e1e1e]">
                                 <div
                                     className="h-full bg-[#34d399] transition-all duration-300"
                                     style={{ width: `${checklistProgress}%` }}
@@ -884,38 +1112,51 @@ export default function InterviewCopilotPage() {
                             </div>
 
                             <div className="space-y-2 pt-1">
-                                {result.preparation_checklist.map((item, idx) => {
-                                    const isDone = !!checkedItems[idx];
-                                    return (
-                                        <button
-                                            key={idx}
-                                            type="button"
-                                            onClick={() => toggleCheckItem(idx)}
-                                            className={`w-full flex items-start gap-3 rounded-[6px] border p-3 text-left transition-colors ${
-                                                isDone
-                                                    ? 'border-[#1e3a2f] bg-[#141414] text-[#7c7c7c]'
-                                                    : 'border-[#313131] bg-[#1e1e1e] text-[#ffffff] hover:border-[#6798ff]'
-                                            }`}
-                                        >
-                                            <div
-                                                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-[4px] border mt-0.5 ${
+                                {result.preparation_checklist.map(
+                                    (item, idx) => {
+                                        const isDone = !!checkedItems[idx];
+                                        return (
+                                            <button
+                                                key={idx}
+                                                type="button"
+                                                onClick={() =>
+                                                    toggleCheckItem(idx)
+                                                }
+                                                className={`flex w-full items-start gap-3 rounded-[6px] border p-3 text-left transition-colors ${
                                                     isDone
-                                                        ? 'border-[#34d399] bg-[#34d399] text-[#0a0a0a]'
-                                                        : 'border-[#454545] bg-[#0a0a0a]'
+                                                        ? 'border-[#1e3a2f] bg-[#141414] text-[#7c7c7c]'
+                                                        : 'border-[#313131] bg-[#1e1e1e] text-[#ffffff] hover:border-[#6798ff]'
                                                 }`}
                                             >
-                                                {isDone && (
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                    </svg>
-                                                )}
-                                            </div>
-                                            <span className={`text-[13px] leading-snug ${isDone ? 'line-through text-[#7c7c7c]' : 'text-[#ffffff]'}`}>
-                                                {item}
-                                            </span>
-                                        </button>
-                                    );
-                                })}
+                                                <div
+                                                    className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-[4px] border ${
+                                                        isDone
+                                                            ? 'border-[#34d399] bg-[#34d399] text-[#0a0a0a]'
+                                                            : 'border-[#454545] bg-[#0a0a0a]'
+                                                    }`}
+                                                >
+                                                    {isDone && (
+                                                        <svg
+                                                            width="12"
+                                                            height="12"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="3"
+                                                        >
+                                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                                        </svg>
+                                                    )}
+                                                </div>
+                                                <span
+                                                    className={`text-[13px] leading-snug ${isDone ? 'text-[#7c7c7c] line-through' : 'text-[#ffffff]'}`}
+                                                >
+                                                    {item}
+                                                </span>
+                                            </button>
+                                        );
+                                    },
+                                )}
                             </div>
                         </div>
                     </div>

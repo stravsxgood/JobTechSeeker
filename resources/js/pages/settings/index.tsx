@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Head, router, usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { AppLayout } from '@/layouts/AppLayout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
@@ -26,9 +32,13 @@ interface UserData {
 }
 
 export default function SettingsPage() {
-    const { auth } = usePage<{ auth?: { user?: { name: string; email: string; timezone?: string } } }>().props;
+    const { auth } = usePage<{
+        auth?: { user?: { name: string; email: string; timezone?: string } };
+    }>().props;
 
-    const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'danger'>('profile');
+    const [activeTab, setActiveTab] = useState<
+        'profile' | 'security' | 'danger'
+    >('profile');
     const [isLoading, setIsLoading] = useState(false);
     const [isSavingProfile, setIsSavingProfile] = useState(false);
     const [isSavingSecurity, setIsSavingSecurity] = useState(false);
@@ -37,7 +47,9 @@ export default function SettingsPage() {
     // Profile form state
     const [name, setName] = useState(auth?.user?.name || '');
     const [email, setEmail] = useState(auth?.user?.email || '');
-    const [timezone, setTimezone] = useState(auth?.user?.timezone || 'Asia/Jakarta');
+    const [timezone, setTimezone] = useState(
+        auth?.user?.timezone || 'Asia/Jakarta',
+    );
     const [locale, setLocale] = useState('id-ID');
 
     // Career preferences state
@@ -94,8 +106,16 @@ export default function SettingsPage() {
                     const pref = user.career_preference;
                     setTargetRoles(pref.target_roles || []);
                     setPreferredLocations(pref.preferred_locations || []);
-                    setSalaryMin(pref.salary_expectation_min ? String(pref.salary_expectation_min) : '');
-                    setSalaryMax(pref.salary_expectation_max ? String(pref.salary_expectation_max) : '');
+                    setSalaryMin(
+                        pref.salary_expectation_min
+                            ? String(pref.salary_expectation_min)
+                            : '',
+                    );
+                    setSalaryMax(
+                        pref.salary_expectation_max
+                            ? String(pref.salary_expectation_max)
+                            : '',
+                    );
                     setSalaryCurrency(pref.salary_currency || 'IDR');
                     setWeeklyTarget(pref.weekly_application_target ?? 5);
                 }
@@ -108,13 +128,16 @@ export default function SettingsPage() {
     };
 
     useEffect(() => {
-        fetchUserData();
+        void fetchUserData();
     }, []);
 
     // Helper for CSRF & Auth headers
     const getRequestHeaders = () => {
         const token = localStorage.getItem('careerpilot_token');
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+        const csrfToken =
+            document
+                .querySelector('meta[name="csrf-token"]')
+                ?.getAttribute('content') || '';
         const headers: Record<string, string> = {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -152,7 +175,9 @@ export default function SettingsPage() {
     };
 
     const handleRemoveLocation = (locToRemove: string) => {
-        setPreferredLocations(preferredLocations.filter((l) => l !== locToRemove));
+        setPreferredLocations(
+            preferredLocations.filter((l) => l !== locToRemove),
+        );
     };
 
     // Save Profile & Career Preferences
@@ -173,8 +198,10 @@ export default function SettingsPage() {
                 weekly_application_target: Number(weeklyTarget) || 5,
             };
 
-            if (salaryMin !== '') body.salary_expectation_min = Number(salaryMin);
-            if (salaryMax !== '') body.salary_expectation_max = Number(salaryMax);
+            if (salaryMin !== '')
+                body.salary_expectation_min = Number(salaryMin);
+            if (salaryMax !== '')
+                body.salary_expectation_max = Number(salaryMax);
 
             const res = await fetch('/api/v1/me', {
                 method: 'PATCH',
@@ -186,10 +213,14 @@ export default function SettingsPage() {
             const data = await res.json();
 
             if (res.ok) {
-                setProfileSuccess('Profil dan preferensi karier berhasil diperbarui.');
+                setProfileSuccess(
+                    'Profil dan preferensi karier berhasil diperbarui.',
+                );
                 setTimeout(() => setProfileSuccess(null), 4000);
             } else {
-                const message = data.errors ? Object.values(data.errors).flat().join(', ') : data.message || 'Gagal menyimpan profil.';
+                const message = data.errors
+                    ? Object.values(data.errors).flat().join(', ')
+                    : data.message || 'Gagal menyimpan profil.';
                 setProfileError(message);
             }
         } catch {
@@ -239,11 +270,15 @@ export default function SettingsPage() {
                 setConfirmPassword('');
                 setTimeout(() => setSecuritySuccess(null), 4000);
             } else {
-                const message = data.errors ? Object.values(data.errors).flat().join(', ') : data.message || 'Gagal memperbarui kata sandi.';
+                const message = data.errors
+                    ? Object.values(data.errors).flat().join(', ')
+                    : data.message || 'Gagal memperbarui kata sandi.';
                 setSecurityError(message);
             }
         } catch {
-            setSecurityError('Terjadi kesalahan koneksi saat memperbarui kata sandi.');
+            setSecurityError(
+                'Terjadi kesalahan koneksi saat memperbarui kata sandi.',
+            );
         } finally {
             setIsSavingSecurity(false);
         }
@@ -273,7 +308,9 @@ export default function SettingsPage() {
                 // Redirect user to home / login
                 window.location.href = '/login';
             } else {
-                const message = data.errors ? Object.values(data.errors).flat().join(', ') : data.message || 'Gagal menghapus akun.';
+                const message = data.errors
+                    ? Object.values(data.errors).flat().join(', ')
+                    : data.message || 'Gagal menghapus akun.';
                 setDeleteError(message);
             }
         } catch {
@@ -290,9 +327,18 @@ export default function SettingsPage() {
         { value: 'Asia/Singapore', label: 'SGT (Asia/Singapore) — UTC+08:00' },
         { value: 'Asia/Tokyo', label: 'JST (Asia/Tokyo) — UTC+09:00' },
         { value: 'UTC', label: 'UTC (Coordinated Universal Time) — UTC+00:00' },
-        { value: 'Europe/London', label: 'GMT/BST (Europe/London) — UTC+00:00' },
-        { value: 'America/New_York', label: 'EST/EDT (America/New_York) — UTC-05:00' },
-        { value: 'America/Los_Angeles', label: 'PST/PDT (America/Los_Angeles) — UTC-08:00' },
+        {
+            value: 'Europe/London',
+            label: 'GMT/BST (Europe/London) — UTC+00:00',
+        },
+        {
+            value: 'America/New_York',
+            label: 'EST/EDT (America/New_York) — UTC-05:00',
+        },
+        {
+            value: 'America/Los_Angeles',
+            label: 'PST/PDT (America/Los_Angeles) — UTC-08:00',
+        },
     ];
 
     return (
@@ -315,7 +361,9 @@ export default function SettingsPage() {
                         Pengaturan & Profil Akun
                     </h1>
                     <p className="text-[14px] text-[#a7a7a7]">
-                        Kelola identitas, preferensi target lamaran kerja, zona waktu jadwal, keamanan kata sandi, dan privasi akun Anda.
+                        Kelola identitas, preferensi target lamaran kerja, zona
+                        waktu jadwal, keamanan kata sandi, dan privasi akun
+                        Anda.
                     </p>
                 </div>
 
@@ -326,11 +374,20 @@ export default function SettingsPage() {
                         onClick={() => setActiveTab('profile')}
                         className={`flex min-h-[44px] items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-medium transition-colors ${
                             activeTab === 'profile'
-                                ? 'bg-[#1e1e1e] text-[#6798ff] border border-[#6798ff]'
-                                : 'text-[#a7a7a7] hover:bg-[#141414] hover:text-[#ffffff] border border-transparent'
+                                ? 'border border-[#6798ff] bg-[#1e1e1e] text-[#6798ff]'
+                                : 'border border-transparent text-[#a7a7a7] hover:bg-[#141414] hover:text-[#ffffff]'
                         }`}
                     >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                             <circle cx="12" cy="7" r="4" />
                         </svg>
@@ -342,12 +399,28 @@ export default function SettingsPage() {
                         onClick={() => setActiveTab('security')}
                         className={`flex min-h-[44px] items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-medium transition-colors ${
                             activeTab === 'security'
-                                ? 'bg-[#1e1e1e] text-[#6798ff] border border-[#6798ff]'
-                                : 'text-[#a7a7a7] hover:bg-[#141414] hover:text-[#ffffff] border border-transparent'
+                                ? 'border border-[#6798ff] bg-[#1e1e1e] text-[#6798ff]'
+                                : 'border border-transparent text-[#a7a7a7] hover:bg-[#141414] hover:text-[#ffffff]'
                         }`}
                     >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <rect
+                                x="3"
+                                y="11"
+                                width="18"
+                                height="11"
+                                rx="2"
+                                ry="2"
+                            />
                             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                         </svg>
                         Keamanan & Kata Sandi
@@ -358,11 +431,20 @@ export default function SettingsPage() {
                         onClick={() => setActiveTab('danger')}
                         className={`flex min-h-[44px] items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-medium transition-colors ${
                             activeTab === 'danger'
-                                ? 'bg-[#7f1d1d]/20 text-[#f87171] border border-[#7f1d1d]'
-                                : 'text-[#a7a7a7] hover:bg-[#7f1d1d]/10 hover:text-[#f87171] border border-transparent'
+                                ? 'border border-[#7f1d1d] bg-[#7f1d1d]/20 text-[#f87171]'
+                                : 'border border-transparent text-[#a7a7a7] hover:bg-[#7f1d1d]/10 hover:text-[#f87171]'
                         }`}
                     >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
                             <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
                             <line x1="12" y1="9" x2="12" y2="13" />
                             <line x1="12" y1="17" x2="12.01" y2="17" />
@@ -376,7 +458,16 @@ export default function SettingsPage() {
                     <div className="space-y-6">
                         {profileSuccess && (
                             <div className="flex items-center gap-2.5 rounded-[8px] border border-[#34d399]/40 bg-[#34d399]/10 p-4 text-[13px] text-[#34d399]">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
                                 <span>{profileSuccess}</span>
@@ -385,7 +476,16 @@ export default function SettingsPage() {
 
                         {profileError && (
                             <div className="flex items-center gap-2.5 rounded-[8px] border border-[#f87171]/40 bg-[#f87171]/10 p-4 text-[13px] text-[#f87171]">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
                                     <circle cx="12" cy="12" r="10" />
                                     <line x1="12" y1="8" x2="12" y2="12" />
                                     <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -394,13 +494,17 @@ export default function SettingsPage() {
                             </div>
                         )}
 
-                        <form onSubmit={handleSaveProfile} className="space-y-6">
+                        <form
+                            onSubmit={handleSaveProfile}
+                            className="space-y-6"
+                        >
                             {/* Card: Identitas Akun */}
                             <Card variant="carbon">
                                 <CardHeader>
                                     <CardTitle>Identitas Dasar</CardTitle>
                                     <CardDescription>
-                                        Informasi kontak dan nama yang ditampilkan pada dasbor CareerPilot.
+                                        Informasi kontak dan nama yang
+                                        ditampilkan pada dasbor CareerPilot.
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
@@ -409,7 +513,9 @@ export default function SettingsPage() {
                                             id="name-input"
                                             label="Nama Lengkap"
                                             value={name}
-                                            onChange={(e) => setName(e.target.value)}
+                                            onChange={(e) =>
+                                                setName(e.target.value)
+                                            }
                                             required
                                             placeholder="Nama Anda"
                                         />
@@ -422,51 +528,76 @@ export default function SettingsPage() {
                                                 type="email"
                                                 value={email}
                                                 disabled
-                                                className="w-full min-h-[44px] rounded-[8px] border border-[#313131] bg-[#141414] px-3.5 py-2.5 text-[14px] text-[#7c7c7c] cursor-not-allowed font-mono"
+                                                className="min-h-[44px] w-full cursor-not-allowed rounded-[8px] border border-[#313131] bg-[#141414] px-3.5 py-2.5 font-mono text-[14px] text-[#7c7c7c]"
                                             />
                                             <p className="text-[11px] text-[#7c7c7c]">
-                                                Email digunakan sebagai kredensial login utama dan tidak dapat diubah langsung.
+                                                Email digunakan sebagai
+                                                kredensial login utama dan tidak
+                                                dapat diubah langsung.
                                             </p>
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                         <div className="space-y-1.5">
-                                            <label htmlFor="timezone-select" className="block text-[13px] font-medium text-[#a7a7a7]">
+                                            <label
+                                                htmlFor="timezone-select"
+                                                className="block text-[13px] font-medium text-[#a7a7a7]"
+                                            >
                                                 Zona Waktu IANA
                                             </label>
                                             <select
                                                 id="timezone-select"
                                                 value={timezone}
-                                                onChange={(e) => setTimezone(e.target.value)}
-                                                className="w-full min-h-[44px] rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2.5 text-[14px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none focus:ring-1 focus:ring-[#6798ff]"
+                                                onChange={(e) =>
+                                                    setTimezone(e.target.value)
+                                                }
+                                                className="min-h-[44px] w-full rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2.5 text-[14px] text-[#ffffff] focus:border-[#6798ff] focus:ring-1 focus:ring-[#6798ff] focus:outline-none"
                                             >
                                                 {commonTimezones.map((tz) => (
-                                                    <option key={tz.value} value={tz.value} className="bg-[#1e1e1e] text-[#ffffff]">
+                                                    <option
+                                                        key={tz.value}
+                                                        value={tz.value}
+                                                        className="bg-[#1e1e1e] text-[#ffffff]"
+                                                    >
                                                         {tz.label}
                                                     </option>
                                                 ))}
                                             </select>
                                             <p className="text-[11px] text-[#7c7c7c]">
-                                                Jadwal interview dan notifikasi pengingat akan diselaraskan dengan zona waktu ini.
+                                                Jadwal interview dan notifikasi
+                                                pengingat akan diselaraskan
+                                                dengan zona waktu ini.
                                             </p>
                                         </div>
 
                                         <div className="space-y-1.5">
-                                            <label htmlFor="locale-select" className="block text-[13px] font-medium text-[#a7a7a7]">
+                                            <label
+                                                htmlFor="locale-select"
+                                                className="block text-[13px] font-medium text-[#a7a7a7]"
+                                            >
                                                 Bahasa & Format Tanggal
                                             </label>
                                             <select
                                                 id="locale-select"
                                                 value={locale}
-                                                onChange={(e) => setLocale(e.target.value)}
-                                                className="w-full min-h-[44px] rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2.5 text-[14px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none focus:ring-1 focus:ring-[#6798ff]"
+                                                onChange={(e) =>
+                                                    setLocale(e.target.value)
+                                                }
+                                                className="min-h-[44px] w-full rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2.5 text-[14px] text-[#ffffff] focus:border-[#6798ff] focus:ring-1 focus:ring-[#6798ff] focus:outline-none"
                                             >
-                                                <option value="id-ID" className="bg-[#1e1e1e] text-[#ffffff]">
+                                                <option
+                                                    value="id-ID"
+                                                    className="bg-[#1e1e1e] text-[#ffffff]"
+                                                >
                                                     Bahasa Indonesia (id-ID)
                                                 </option>
-                                                <option value="en-US" className="bg-[#1e1e1e] text-[#ffffff]">
-                                                    English (United States - en-US)
+                                                <option
+                                                    value="en-US"
+                                                    className="bg-[#1e1e1e] text-[#ffffff]"
+                                                >
+                                                    English (United States -
+                                                    en-US)
                                                 </option>
                                             </select>
                                         </div>
@@ -477,16 +608,22 @@ export default function SettingsPage() {
                             {/* Card: Preferensi Sasaran Karier */}
                             <Card variant="carbon">
                                 <CardHeader>
-                                    <CardTitle>Preferensi Sasaran Karier</CardTitle>
+                                    <CardTitle>
+                                        Preferensi Sasaran Karier
+                                    </CardTitle>
                                     <CardDescription>
-                                        Digunakan oleh AI Career Planner untuk memberikan rekomendasi yang dipersonalisasi dan mengukur metrik analitik mingguan Anda.
+                                        Digunakan oleh AI Career Planner untuk
+                                        memberikan rekomendasi yang
+                                        dipersonalisasi dan mengukur metrik
+                                        analitik mingguan Anda.
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-5">
                                     {/* Target Roles Tags */}
                                     <div className="space-y-2">
                                         <label className="block text-[13px] font-medium text-[#a7a7a7]">
-                                            Target Posisi Pekerjaan (Target Roles)
+                                            Target Posisi Pekerjaan (Target
+                                            Roles)
                                         </label>
                                         <div className="flex flex-wrap gap-2">
                                             {targetRoles.map((role) => (
@@ -497,13 +634,34 @@ export default function SettingsPage() {
                                                     <span>{role}</span>
                                                     <button
                                                         type="button"
-                                                        onClick={() => handleRemoveRole(role)}
-                                                        className="text-[#7c7c7c] hover:text-[#f87171] transition-colors"
+                                                        onClick={() =>
+                                                            handleRemoveRole(
+                                                                role,
+                                                            )
+                                                        }
+                                                        className="text-[#7c7c7c] transition-colors hover:text-[#f87171]"
                                                         aria-label={`Hapus ${role}`}
                                                     >
-                                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                                                            <line x1="18" y1="6" x2="6" y2="18" />
-                                                            <line x1="6" y1="6" x2="18" y2="18" />
+                                                        <svg
+                                                            width="13"
+                                                            height="13"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="2.5"
+                                                        >
+                                                            <line
+                                                                x1="18"
+                                                                y1="6"
+                                                                x2="6"
+                                                                y2="18"
+                                                            />
+                                                            <line
+                                                                x1="6"
+                                                                y1="6"
+                                                                x2="18"
+                                                                y2="18"
+                                                            />
                                                         </svg>
                                                     </button>
                                                 </span>
@@ -513,10 +671,12 @@ export default function SettingsPage() {
                                             <input
                                                 type="text"
                                                 value={roleInput}
-                                                onChange={(e) => setRoleInput(e.target.value)}
+                                                onChange={(e) =>
+                                                    setRoleInput(e.target.value)
+                                                }
                                                 onKeyDown={handleAddRole}
                                                 placeholder="Ketik posisi (misal: Frontend Engineer, Tech Lead) lalu tekan Enter"
-                                                className="flex-1 min-h-[44px] rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2 text-[14px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none focus:ring-1 focus:ring-[#6798ff]"
+                                                className="min-h-[44px] flex-1 rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2 text-[14px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:ring-1 focus:ring-[#6798ff] focus:outline-none"
                                             />
                                             <Button
                                                 type="button"
@@ -532,7 +692,8 @@ export default function SettingsPage() {
                                     {/* Preferred Locations Tags */}
                                     <div className="space-y-2">
                                         <label className="block text-[13px] font-medium text-[#a7a7a7]">
-                                            Lokasi Preferensi (Preferred Locations)
+                                            Lokasi Preferensi (Preferred
+                                            Locations)
                                         </label>
                                         <div className="flex flex-wrap gap-2">
                                             {preferredLocations.map((loc) => (
@@ -543,13 +704,34 @@ export default function SettingsPage() {
                                                     <span>{loc}</span>
                                                     <button
                                                         type="button"
-                                                        onClick={() => handleRemoveLocation(loc)}
-                                                        className="text-[#7c7c7c] hover:text-[#f87171] transition-colors"
+                                                        onClick={() =>
+                                                            handleRemoveLocation(
+                                                                loc,
+                                                            )
+                                                        }
+                                                        className="text-[#7c7c7c] transition-colors hover:text-[#f87171]"
                                                         aria-label={`Hapus ${loc}`}
                                                     >
-                                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                                                            <line x1="18" y1="6" x2="6" y2="18" />
-                                                            <line x1="6" y1="6" x2="18" y2="18" />
+                                                        <svg
+                                                            width="13"
+                                                            height="13"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="2.5"
+                                                        >
+                                                            <line
+                                                                x1="18"
+                                                                y1="6"
+                                                                x2="6"
+                                                                y2="18"
+                                                            />
+                                                            <line
+                                                                x1="6"
+                                                                y1="6"
+                                                                x2="18"
+                                                                y2="18"
+                                                            />
                                                         </svg>
                                                     </button>
                                                 </span>
@@ -559,10 +741,14 @@ export default function SettingsPage() {
                                             <input
                                                 type="text"
                                                 value={locationInput}
-                                                onChange={(e) => setLocationInput(e.target.value)}
+                                                onChange={(e) =>
+                                                    setLocationInput(
+                                                        e.target.value,
+                                                    )
+                                                }
                                                 onKeyDown={handleAddLocation}
                                                 placeholder="Ketik lokasi (misal: Jakarta, Remote, Bandung) lalu tekan Enter"
-                                                className="flex-1 min-h-[44px] rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2 text-[14px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none focus:ring-1 focus:ring-[#6798ff]"
+                                                className="min-h-[44px] flex-1 rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2 text-[14px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:ring-1 focus:ring-[#6798ff] focus:outline-none"
                                             />
                                             <Button
                                                 type="button"
@@ -579,31 +765,37 @@ export default function SettingsPage() {
                                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                                         <div className="space-y-1.5">
                                             <label className="block text-[13px] font-medium text-[#a7a7a7]">
-                                                Ekspektasi Gaji Min ({salaryCurrency})
+                                                Ekspektasi Gaji Min (
+                                                {salaryCurrency})
                                             </label>
                                             <input
                                                 type="number"
                                                 min="0"
                                                 step="500000"
                                                 value={salaryMin}
-                                                onChange={(e) => setSalaryMin(e.target.value)}
+                                                onChange={(e) =>
+                                                    setSalaryMin(e.target.value)
+                                                }
                                                 placeholder="Contoh: 12000000"
-                                                className="w-full min-h-[44px] rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2.5 text-[14px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none focus:ring-1 focus:ring-[#6798ff]"
+                                                className="min-h-[44px] w-full rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2.5 text-[14px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:ring-1 focus:ring-[#6798ff] focus:outline-none"
                                             />
                                         </div>
 
                                         <div className="space-y-1.5">
                                             <label className="block text-[13px] font-medium text-[#a7a7a7]">
-                                                Ekspektasi Gaji Max ({salaryCurrency})
+                                                Ekspektasi Gaji Max (
+                                                {salaryCurrency})
                                             </label>
                                             <input
                                                 type="number"
                                                 min="0"
                                                 step="500000"
                                                 value={salaryMax}
-                                                onChange={(e) => setSalaryMax(e.target.value)}
+                                                onChange={(e) =>
+                                                    setSalaryMax(e.target.value)
+                                                }
                                                 placeholder="Contoh: 20000000"
-                                                className="w-full min-h-[44px] rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2.5 text-[14px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none focus:ring-1 focus:ring-[#6798ff]"
+                                                className="min-h-[44px] w-full rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2.5 text-[14px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:ring-1 focus:ring-[#6798ff] focus:outline-none"
                                             />
                                         </div>
 
@@ -616,11 +808,21 @@ export default function SettingsPage() {
                                                 min="1"
                                                 max="100"
                                                 value={weeklyTarget}
-                                                onChange={(e) => setWeeklyTarget(Math.max(1, parseInt(e.target.value) || 1))}
-                                                className="w-full min-h-[44px] rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2.5 text-[14px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none focus:ring-1 focus:ring-[#6798ff]"
+                                                onChange={(e) =>
+                                                    setWeeklyTarget(
+                                                        Math.max(
+                                                            1,
+                                                            parseInt(
+                                                                e.target.value,
+                                                            ) || 1,
+                                                        ),
+                                                    )
+                                                }
+                                                className="min-h-[44px] w-full rounded-[8px] border border-[#454545] bg-[#141414] px-3.5 py-2.5 text-[14px] text-[#ffffff] focus:border-[#6798ff] focus:ring-1 focus:ring-[#6798ff] focus:outline-none"
                                             />
                                             <p className="text-[11px] text-[#7c7c7c]">
-                                                Ditampilkan pada widget progress mingguan di halaman Analitik.
+                                                Ditampilkan pada widget progress
+                                                mingguan di halaman Analitik.
                                             </p>
                                         </div>
                                     </div>
@@ -647,7 +849,16 @@ export default function SettingsPage() {
                     <div className="space-y-6">
                         {securitySuccess && (
                             <div className="flex items-center gap-2.5 rounded-[8px] border border-[#34d399]/40 bg-[#34d399]/10 p-4 text-[13px] text-[#34d399]">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
                                 <span>{securitySuccess}</span>
@@ -656,7 +867,16 @@ export default function SettingsPage() {
 
                         {securityError && (
                             <div className="flex items-center gap-2.5 rounded-[8px] border border-[#f87171]/40 bg-[#f87171]/10 p-4 text-[13px] text-[#f87171]">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
                                     <circle cx="12" cy="12" r="10" />
                                     <line x1="12" y1="8" x2="12" y2="12" />
                                     <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -665,21 +885,29 @@ export default function SettingsPage() {
                             </div>
                         )}
 
-                        <form onSubmit={handleSaveSecurity} className="space-y-6">
+                        <form
+                            onSubmit={handleSaveSecurity}
+                            className="space-y-6"
+                        >
                             <Card variant="carbon">
                                 <CardHeader>
                                     <CardTitle>Perbarui Kata Sandi</CardTitle>
                                     <CardDescription>
-                                        Pastikan akun Anda menggunakan kata sandi yang panjang dan unik untuk menjaga keamanan data lamaran kerja Anda.
+                                        Pastikan akun Anda menggunakan kata
+                                        sandi yang panjang dan unik untuk
+                                        menjaga keamanan data lamaran kerja
+                                        Anda.
                                     </CardDescription>
                                 </CardHeader>
-                                <CardContent className="space-y-4 max-w-xl">
+                                <CardContent className="max-w-xl space-y-4">
                                     <Input
                                         id="current-password"
                                         label="Kata Sandi Saat Ini"
                                         type="password"
                                         value={currentPassword}
-                                        onChange={(e) => setCurrentPassword(e.target.value)}
+                                        onChange={(e) =>
+                                            setCurrentPassword(e.target.value)
+                                        }
                                         required
                                         placeholder="••••••••"
                                     />
@@ -689,7 +917,9 @@ export default function SettingsPage() {
                                         label="Kata Sandi Baru (Minimal 8 karakter)"
                                         type="password"
                                         value={newPassword}
-                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        onChange={(e) =>
+                                            setNewPassword(e.target.value)
+                                        }
                                         required
                                         minLength={8}
                                         placeholder="••••••••"
@@ -700,7 +930,9 @@ export default function SettingsPage() {
                                         label="Konfirmasi Kata Sandi Baru"
                                         type="password"
                                         value={confirmPassword}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        onChange={(e) =>
+                                            setConfirmPassword(e.target.value)
+                                        }
                                         required
                                         minLength={8}
                                         placeholder="••••••••"
@@ -725,40 +957,90 @@ export default function SettingsPage() {
                 {/* TAB 3: Zona Bahaya & Hapus Akun */}
                 {activeTab === 'danger' && (
                     <div className="space-y-6">
-                        <Card variant="coal" className="border-[#7f1d1d]/60 bg-[#1e1414]/40">
+                        <Card
+                            variant="coal"
+                            className="border-[#7f1d1d]/60 bg-[#1e1414]/40"
+                        >
                             <CardHeader>
                                 <div className="flex items-center gap-2 text-[#f87171]">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
                                         <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
                                         <line x1="12" y1="9" x2="12" y2="13" />
-                                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                                        <line
+                                            x1="12"
+                                            y1="17"
+                                            x2="12.01"
+                                            y2="17"
+                                        />
                                     </svg>
-                                    <CardTitle className="text-[#f87171]">Penghapusan Akun Pengguna</CardTitle>
+                                    <CardTitle className="text-[#f87171]">
+                                        Penghapusan Akun Pengguna
+                                    </CardTitle>
                                 </div>
                                 <CardDescription className="text-[#a7a7a7]">
-                                    Tindakan ini bersifat destruktif dan permanen. Harap baca secara saksama sebelum melanjutkan.
+                                    Tindakan ini bersifat destruktif dan
+                                    permanen. Harap baca secara saksama sebelum
+                                    melanjutkan.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <p className="text-[14px] leading-relaxed text-[#ffffff]">
-                                    Sesuai dengan spesifikasi keamanan <span className="font-mono text-[#6798ff]">FR-AUTH-003</span> dan privasi data pengguna, menghapus akun akan mengeksekusi langkah-langkah berikut secara otomatis:
+                                    Sesuai dengan spesifikasi keamanan{' '}
+                                    <span className="font-mono text-[#6798ff]">
+                                        FR-AUTH-003
+                                    </span>{' '}
+                                    dan privasi data pengguna, menghapus akun
+                                    akan mengeksekusi langkah-langkah berikut
+                                    secara otomatis:
                                 </p>
                                 <ul className="space-y-2 text-[13px] text-[#a7a7a7]">
                                     <li className="flex items-start gap-2">
-                                        <span className="text-[#f87171]">•</span>
-                                        <span>Memutuskan dan mencabut akses integrasi akun Gmail (Google OAuth).</span>
+                                        <span className="text-[#f87171]">
+                                            •
+                                        </span>
+                                        <span>
+                                            Memutuskan dan mencabut akses
+                                            integrasi akun Gmail (Google OAuth).
+                                        </span>
                                     </li>
                                     <li className="flex items-start gap-2">
-                                        <span className="text-[#f87171]">•</span>
-                                        <span>Membatalkan seluruh sesi web login aktif dan menghapus personal access token Sanctum.</span>
+                                        <span className="text-[#f87171]">
+                                            •
+                                        </span>
+                                        <span>
+                                            Membatalkan seluruh sesi web login
+                                            aktif dan menghapus personal access
+                                            token Sanctum.
+                                        </span>
                                     </li>
                                     <li className="flex items-start gap-2">
-                                        <span className="text-[#f87171]">•</span>
-                                        <span>Menghapus data lamaran kerja, riwayat status, jadwal interview, dan preferensi karier Anda.</span>
+                                        <span className="text-[#f87171]">
+                                            •
+                                        </span>
+                                        <span>
+                                            Menghapus data lamaran kerja,
+                                            riwayat status, jadwal interview,
+                                            dan preferensi karier Anda.
+                                        </span>
                                     </li>
                                     <li className="flex items-start gap-2">
-                                        <span className="text-[#f87171]">•</span>
-                                        <span>Menonaktifkan pengiriman email peringatan berkala dan rekomendasi follow-up.</span>
+                                        <span className="text-[#f87171]">
+                                            •
+                                        </span>
+                                        <span>
+                                            Menonaktifkan pengiriman email
+                                            peringatan berkala dan rekomendasi
+                                            follow-up.
+                                        </span>
                                     </li>
                                 </ul>
 
@@ -792,25 +1074,40 @@ export default function SettingsPage() {
                 >
                     <div className="relative w-full max-w-md rounded-[8px] border border-[#7f1d1d] bg-[#141414] p-6 text-[#ffffff] shadow-2xl">
                         <div className="flex items-center justify-between border-b border-[#313131] pb-4">
-                            <h2 id="delete-dialog-title" className="text-[17px] font-semibold text-[#f87171]">
+                            <h2
+                                id="delete-dialog-title"
+                                className="text-[17px] font-semibold text-[#f87171]"
+                            >
                                 Konfirmasi Penghapusan Akun
                             </h2>
                             <button
                                 type="button"
                                 onClick={() => setShowDeleteModal(false)}
-                                className="flex h-8 w-8 items-center justify-center rounded-[6px] text-[#7c7c7c] hover:bg-[#1e1e1e] hover:text-[#ffffff] transition-colors"
+                                className="flex h-8 w-8 items-center justify-center rounded-[6px] text-[#7c7c7c] transition-colors hover:bg-[#1e1e1e] hover:text-[#ffffff]"
                                 aria-label="Tutup dialog"
                             >
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
                                     <line x1="18" y1="6" x2="6" y2="18" />
                                     <line x1="6" y1="6" x2="18" y2="18" />
                                 </svg>
                             </button>
                         </div>
 
-                        <form onSubmit={handleDeleteAccount} className="mt-4 space-y-4">
-                            <p className="text-[13px] text-[#a7a7a7] leading-relaxed">
-                                Untuk mengonfirmasi bahwa Anda adalah pemilik sah akun ini, silakan masukkan kata sandi akun Anda.
+                        <form
+                            onSubmit={handleDeleteAccount}
+                            className="mt-4 space-y-4"
+                        >
+                            <p className="text-[13px] leading-relaxed text-[#a7a7a7]">
+                                Untuk mengonfirmasi bahwa Anda adalah pemilik
+                                sah akun ini, silakan masukkan kata sandi akun
+                                Anda.
                             </p>
 
                             {deleteError && (
@@ -824,13 +1121,15 @@ export default function SettingsPage() {
                                 label="Kata Sandi Akun"
                                 type="password"
                                 value={deletePassword}
-                                onChange={(e) => setDeletePassword(e.target.value)}
+                                onChange={(e) =>
+                                    setDeletePassword(e.target.value)
+                                }
                                 required
                                 placeholder="Masukkan kata sandi Anda"
                                 autoFocus
                             />
 
-                            <div className="flex justify-end gap-3 pt-3 border-t border-[#313131]">
+                            <div className="flex justify-end gap-3 border-t border-[#313131] pt-3">
                                 <Button
                                     type="button"
                                     variant="ghost"

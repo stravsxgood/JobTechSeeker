@@ -32,27 +32,35 @@ export function MonthlyTrendChart({
     const usableHeight = svgHeight - paddingY * 2;
 
     const points = monthlyTrend.map((item, idx) => {
-        const x = paddingX + (usableWidth / Math.max(monthlyTrend.length - 1, 1)) * idx;
-        const y = paddingY + usableHeight - (item.count / maxCount) * usableHeight;
+        const x =
+            paddingX +
+            (usableWidth / Math.max(monthlyTrend.length - 1, 1)) * idx;
+        const y =
+            paddingY + usableHeight - (item.count / maxCount) * usableHeight;
         return { x, y, ...item };
     });
 
-    const pathD = points.length > 0
-        ? points.reduce((acc, p, i) => `${acc} ${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`, '')
-        : '';
+    const pathD =
+        points.length > 0
+            ? points.reduce(
+                  (acc, p, i) => `${acc} ${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`,
+                  '',
+              )
+            : '';
 
-    const areaD = points.length > 0
-        ? `${pathD} L ${points[points.length - 1].x} ${svgHeight - paddingY} L ${points[0].x} ${svgHeight - paddingY} Z`
-        : '';
+    const areaD =
+        points.length > 0
+            ? `${pathD} L ${points[points.length - 1].x} ${svgHeight - paddingY} L ${points[0].x} ${svgHeight - paddingY} Z`
+            : '';
 
     return (
         <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-5">
             <div className="flex items-center justify-between">
                 <div>
-                    <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#a7a7a7]">
+                    <span className="font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                         AKTIVITAS & TREN
                     </span>
-                    <h3 className="text-[16px] font-semibold text-[#ffffff] tracking-[-0.2px]">
+                    <h3 className="text-[16px] font-semibold tracking-[-0.2px] text-[#ffffff]">
                         Tren Lamaran 6 Bulan Terakhir
                     </h3>
                 </div>
@@ -66,7 +74,7 @@ export function MonthlyTrendChart({
                             onClick={onRefresh}
                             disabled={isRefreshing}
                             aria-label="Segarkan data grafik"
-                            className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] hover:border-[#6798ff] hover:text-[#ffffff] transition-colors disabled:opacity-50 focus-visible:ring-1 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                            className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:ring-1 focus-visible:ring-[#6798ff] focus-visible:outline-none disabled:opacity-50"
                         >
                             <svg
                                 className={`h-3.5 w-3.5 ${isRefreshing ? 'animate-spin text-[#6798ff]' : ''}`}
@@ -90,13 +98,27 @@ export function MonthlyTrendChart({
             <div className="mt-4 w-full overflow-hidden">
                 <svg
                     viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-                    className="w-full h-44 overflow-visible"
+                    className="h-44 w-full overflow-visible"
                     preserveAspectRatio="none"
                 >
                     <defs>
-                        <linearGradient id="trendGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#6798ff" stopOpacity="0.28" />
-                            <stop offset="100%" stopColor="#6798ff" stopOpacity="0.0" />
+                        <linearGradient
+                            id="trendGradient"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                        >
+                            <stop
+                                offset="0%"
+                                stopColor="#6798ff"
+                                stopOpacity="0.28"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="#6798ff"
+                                stopOpacity="0.0"
+                            />
                         </linearGradient>
                     </defs>
 
@@ -118,9 +140,7 @@ export function MonthlyTrendChart({
                     })}
 
                     {/* Area under curve */}
-                    {areaD && (
-                        <path d={areaD} fill="url(#trendGradient)" />
-                    )}
+                    {areaD && <path d={areaD} fill="url(#trendGradient)" />}
 
                     {/* Line path */}
                     {pathD && (
@@ -146,7 +166,7 @@ export function MonthlyTrendChart({
                                     fill="#0a0a0a"
                                     stroke="#6798ff"
                                     strokeWidth={isHovered ? 2.5 : 1.75}
-                                    className="transition-all cursor-pointer"
+                                    className="cursor-pointer transition-all"
                                     onMouseEnter={() => setHoveredIndex(idx)}
                                     onMouseLeave={() => setHoveredIndex(null)}
                                 />
@@ -169,7 +189,7 @@ export function MonthlyTrendChart({
                 </svg>
 
                 {/* X-Axis Month Labels */}
-                <div className="flex justify-between border-t border-[#313131] pt-2 px-4 font-mono text-[11px] text-[#a7a7a7]">
+                <div className="flex justify-between border-t border-[#313131] px-4 pt-2 font-mono text-[11px] text-[#a7a7a7]">
                     {monthlyTrend.map((m) => (
                         <span key={m.month}>{m.label}</span>
                     ))}

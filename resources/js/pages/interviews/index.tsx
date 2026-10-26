@@ -50,12 +50,14 @@ export default function InterviewsPage() {
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const [interviews, setInterviews] = useState<InterviewItem[]>([]);
     const [applications, setApplications] = useState<JobApplication[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [selectedStatusFilter, setSelectedStatusFilter] = useState<string>('all');
+    const [_isLoading, setIsLoading] = useState(false);
+    const [selectedStatusFilter, setSelectedStatusFilter] =
+        useState<string>('all');
 
     // Modals
     const [isCreateOpen, setIsCreateOpen] = useState(false);
-    const [selectedDetailInterview, setSelectedDetailInterview] = useState<InterviewItem | null>(null);
+    const [selectedDetailInterview, setSelectedDetailInterview] =
+        useState<InterviewItem | null>(null);
     const [isRescheduling, setIsRescheduling] = useState(false);
 
     // Form state for creating an interview
@@ -70,7 +72,7 @@ export default function InterviewsPage() {
     const [formNotes, setFormNotes] = useState('');
     const [formError, setFormError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [conflictWarning, setConflictWarning] = useState<boolean>(false);
+    const [_conflictWarning, setConflictWarning] = useState<boolean>(false);
 
     // Reschedule form state
     const [rescheduleDate, setRescheduleDate] = useState('');
@@ -104,7 +106,7 @@ export default function InterviewsPage() {
             }
         };
 
-        fetchApplications();
+        void fetchApplications();
     }, []);
 
     // Fetch interviews whenever currentDate or selectedStatusFilter changes
@@ -149,16 +151,20 @@ export default function InterviewsPage() {
     };
 
     useEffect(() => {
-        fetchInterviews();
+        void fetchInterviews();
     }, [currentDate, selectedStatusFilter]);
 
     // Handle Month Navigation
     const handlePrevMonth = () => {
-        setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+        setCurrentDate(
+            new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1),
+        );
     };
 
     const handleNextMonth = () => {
-        setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+        setCurrentDate(
+            new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1),
+        );
     };
 
     const handleToday = () => {
@@ -249,7 +255,8 @@ export default function InterviewsPage() {
         const endA = new Date(item.end_at).getTime();
 
         return interviews.some((other) => {
-            if (other.id === item.id || other.status !== 'scheduled') return false;
+            if (other.id === item.id || other.status !== 'scheduled')
+                return false;
             const startB = new Date(other.start_at).getTime();
             const endB = new Date(other.end_at).getTime();
 
@@ -292,12 +299,16 @@ export default function InterviewsPage() {
         setIsSubmitting(true);
 
         const startDateTime = new Date(`${formStartDate}T${formStartTime}:00`);
-        const endDateTime = new Date(startDateTime.getTime() + formDurationMinutes * 60 * 1000);
+        const endDateTime = new Date(
+            startDateTime.getTime() + formDurationMinutes * 60 * 1000,
+        );
 
         try {
             const token = localStorage.getItem('careerpilot_token');
             const csrfToken =
-                document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute('content') || '';
             const headers: Record<string, string> = {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -315,8 +326,10 @@ export default function InterviewsPage() {
                     interview_type: formType,
                     start_at: startDateTime.toISOString(),
                     end_at: endDateTime.toISOString(),
-                    meeting_url: formMode === 'online' ? formMeetingUrl || null : null,
-                    location: formMode === 'offline' ? formLocation || null : null,
+                    meeting_url:
+                        formMode === 'online' ? formMeetingUrl || null : null,
+                    location:
+                        formMode === 'offline' ? formLocation || null : null,
                     notes: formNotes.trim() || null,
                 }),
             });
@@ -324,7 +337,9 @@ export default function InterviewsPage() {
             const data = await response.json();
 
             if (!response.ok) {
-                setFormError(data.message || 'Gagal menyimpan jadwal interview.');
+                setFormError(
+                    data.message || 'Gagal menyimpan jadwal interview.',
+                );
                 setIsSubmitting(false);
                 return;
             }
@@ -339,7 +354,7 @@ export default function InterviewsPage() {
             setFormMeetingUrl('');
             setFormLocation('');
             setFormNotes('');
-            fetchInterviews();
+            void fetchInterviews();
         } catch {
             setFormError('Terjadi kesalahan jaringan saat menyimpan jadwal.');
         } finally {
@@ -348,11 +363,16 @@ export default function InterviewsPage() {
     };
 
     // Handle Status Change (Completed, Cancelled)
-    const handleUpdateStatus = async (interviewId: string, newStatus: 'completed' | 'cancelled') => {
+    const handleUpdateStatus = async (
+        interviewId: string,
+        newStatus: 'completed' | 'cancelled',
+    ) => {
         try {
             const token = localStorage.getItem('careerpilot_token');
             const csrfToken =
-                document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute('content') || '';
             const headers: Record<string, string> = {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -369,7 +389,7 @@ export default function InterviewsPage() {
             });
 
             if (res.ok) {
-                fetchInterviews();
+                void fetchInterviews();
                 if (selectedDetailInterview?.id === interviewId) {
                     setSelectedDetailInterview((prev) =>
                         prev
@@ -377,9 +397,11 @@ export default function InterviewsPage() {
                                   ...prev,
                                   status: newStatus,
                                   status_label:
-                                      newStatus === 'completed' ? 'Selesai' : 'Dibatalkan',
+                                      newStatus === 'completed'
+                                          ? 'Selesai'
+                                          : 'Dibatalkan',
                               }
-                            : null
+                            : null,
                     );
                 }
             }
@@ -401,13 +423,19 @@ export default function InterviewsPage() {
 
         setIsRescheduleSubmitting(true);
 
-        const startDateTime = new Date(`${rescheduleDate}T${rescheduleTime}:00`);
-        const endDateTime = new Date(startDateTime.getTime() + rescheduleDuration * 60 * 1000);
+        const startDateTime = new Date(
+            `${rescheduleDate}T${rescheduleTime}:00`,
+        );
+        const endDateTime = new Date(
+            startDateTime.getTime() + rescheduleDuration * 60 * 1000,
+        );
 
         try {
             const token = localStorage.getItem('careerpilot_token');
             const csrfToken =
-                document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute('content') || '';
             const headers: Record<string, string> = {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -416,31 +444,36 @@ export default function InterviewsPage() {
             };
             if (token) headers.Authorization = `Bearer ${token}`;
 
-            const res = await fetch(`/api/v1/interviews/${selectedDetailInterview.id}`, {
-                method: 'PATCH',
-                headers,
-                credentials: 'same-origin',
-                body: JSON.stringify({
-                    start_at: startDateTime.toISOString(),
-                    end_at: endDateTime.toISOString(),
-                    status: 'scheduled',
-                    notes: rescheduleNotes.trim()
-                        ? `${selectedDetailInterview.notes || ''}\n[Reschedule]: ${rescheduleNotes.trim()}`.trim()
-                        : selectedDetailInterview.notes,
-                }),
-            });
+            const res = await fetch(
+                `/api/v1/interviews/${selectedDetailInterview.id}`,
+                {
+                    method: 'PATCH',
+                    headers,
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        start_at: startDateTime.toISOString(),
+                        end_at: endDateTime.toISOString(),
+                        status: 'scheduled',
+                        notes: rescheduleNotes.trim()
+                            ? `${selectedDetailInterview.notes || ''}\n[Reschedule]: ${rescheduleNotes.trim()}`.trim()
+                            : selectedDetailInterview.notes,
+                    }),
+                },
+            );
 
             const data = await res.json();
 
             if (!res.ok) {
-                setRescheduleError(data.message || 'Gagal mengubah jadwal interview.');
+                setRescheduleError(
+                    data.message || 'Gagal mengubah jadwal interview.',
+                );
                 setIsRescheduleSubmitting(false);
                 return;
             }
 
             setIsRescheduling(false);
             setSelectedDetailInterview(data.data);
-            fetchInterviews();
+            void fetchInterviews();
         } catch {
             setRescheduleError('Terjadi gangguan jaringan saat reschedule.');
         } finally {
@@ -450,14 +483,20 @@ export default function InterviewsPage() {
 
     // Handle Delete Interview
     const handleDeleteInterview = async (interviewId: string) => {
-        if (!confirm('Apakah Anda yakin ingin menghapus jadwal interview ini dari kalender?')) {
+        if (
+            !confirm(
+                'Apakah Anda yakin ingin menghapus jadwal interview ini dari kalender?',
+            )
+        ) {
             return;
         }
 
         try {
             const token = localStorage.getItem('careerpilot_token');
             const csrfToken =
-                document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute('content') || '';
             const headers: Record<string, string> = {
                 Accept: 'application/json',
                 'X-CSRF-TOKEN': csrfToken,
@@ -473,7 +512,7 @@ export default function InterviewsPage() {
 
             if (res.ok) {
                 setSelectedDetailInterview(null);
-                fetchInterviews();
+                void fetchInterviews();
             }
         } catch {
             // Silently ignore
@@ -514,7 +553,8 @@ export default function InterviewsPage() {
     // Sort agenda interviews chronologically
     const sortedAgendaInterviews = useMemo(() => {
         return [...interviews].sort(
-            (a, b) => new Date(a.start_at).getTime() - new Date(b.start_at).getTime()
+            (a, b) =>
+                new Date(a.start_at).getTime() - new Date(b.start_at).getTime(),
         );
     }, [interviews]);
 
@@ -528,7 +568,10 @@ export default function InterviewsPage() {
                         onClick={() => {
                             const now = new Date();
                             const y = now.getFullYear();
-                            const m = String(now.getMonth() + 1).padStart(2, '0');
+                            const m = String(now.getMonth() + 1).padStart(
+                                2,
+                                '0',
+                            );
                             const d = String(now.getDate()).padStart(2, '0');
                             setFormStartDate(`${y}-${m}-${d}`);
                             setFormStartTime('10:00');
@@ -537,7 +580,14 @@ export default function InterviewsPage() {
                             setIsCreateOpen(true);
                         }}
                     >
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <svg
+                            width="15"
+                            height="15"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                        >
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
@@ -554,27 +604,33 @@ export default function InterviewsPage() {
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <div className="flex items-center gap-2">
-                                <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
+                                <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                                     AGENDA & INTERVIEW TRACKER
                                 </span>
                                 <span className="rounded-[4px] bg-[#6798ff]/15 px-1.5 py-0.5 font-mono text-[10px] text-[#6798ff]">
                                     TIMEZONE AWARE
                                 </span>
                             </div>
-                            <h2 className="mt-1 text-[22px] font-semibold text-[#ffffff] tracking-[-0.4px]">
+                            <h2 className="mt-1 text-[22px] font-semibold tracking-[-0.4px] text-[#ffffff]">
                                 Kalender Wawancara Kerja
                             </h2>
-                            <p className="mt-1 text-[13px] leading-relaxed text-[#a7a7a7] max-w-2xl">
-                                Pantau seluruh jadwal wawancara, link meeting online (Google Meet, Zoom), venue interview fisik, deteksi jadwal bertabrakan (conflict detection), dan integrasi langsung ke AI Interview Copilot.
+                            <p className="mt-1 max-w-2xl text-[13px] leading-relaxed text-[#a7a7a7]">
+                                Pantau seluruh jadwal wawancara, link meeting
+                                online (Google Meet, Zoom), venue interview
+                                fisik, deteksi jadwal bertabrakan (conflict
+                                detection), dan integrasi langsung ke AI
+                                Interview Copilot.
                             </p>
                         </div>
 
                         {/* View Switcher & Filter */}
-                        <div className="flex items-center gap-2 shrink-0">
+                        <div className="flex shrink-0 items-center gap-2">
                             {/* Status Filter */}
                             <select
                                 value={selectedStatusFilter}
-                                onChange={(e) => setSelectedStatusFilter(e.target.value)}
+                                onChange={(e) =>
+                                    setSelectedStatusFilter(e.target.value)
+                                }
                                 className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[12px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                             >
                                 <option value="all">Semua Status</option>
@@ -590,15 +646,44 @@ export default function InterviewsPage() {
                                     onClick={() => setViewMode('calendar')}
                                     className={`flex items-center gap-1.5 rounded-[4px] px-3 py-1.5 text-[12px] font-medium transition-colors ${
                                         viewMode === 'calendar'
-                                            ? 'bg-[#1e1e1e] text-[#ffffff] border border-[#454545]'
+                                            ? 'border border-[#454545] bg-[#1e1e1e] text-[#ffffff]'
                                             : 'text-[#7c7c7c] hover:text-[#ffffff]'
                                     }`}
                                 >
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                    >
+                                        <rect
+                                            x="3"
+                                            y="4"
+                                            width="18"
+                                            height="18"
+                                            rx="2"
+                                            ry="2"
+                                        ></rect>
+                                        <line
+                                            x1="16"
+                                            y1="2"
+                                            x2="16"
+                                            y2="6"
+                                        ></line>
+                                        <line
+                                            x1="8"
+                                            y1="2"
+                                            x2="8"
+                                            y2="6"
+                                        ></line>
+                                        <line
+                                            x1="3"
+                                            y1="10"
+                                            x2="21"
+                                            y2="10"
+                                        ></line>
                                     </svg>
                                     <span>Bulan</span>
                                 </button>
@@ -607,17 +692,54 @@ export default function InterviewsPage() {
                                     onClick={() => setViewMode('agenda')}
                                     className={`flex items-center gap-1.5 rounded-[4px] px-3 py-1.5 text-[12px] font-medium transition-colors ${
                                         viewMode === 'agenda'
-                                            ? 'bg-[#1e1e1e] text-[#ffffff] border border-[#454545]'
+                                            ? 'border border-[#454545] bg-[#1e1e1e] text-[#ffffff]'
                                             : 'text-[#7c7c7c] hover:text-[#ffffff]'
                                     }`}
                                 >
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <line x1="8" y1="6" x2="21" y2="6"></line>
-                                        <line x1="8" y1="12" x2="21" y2="12"></line>
-                                        <line x1="8" y1="18" x2="21" y2="18"></line>
-                                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                    <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                    >
+                                        <line
+                                            x1="8"
+                                            y1="6"
+                                            x2="21"
+                                            y2="6"
+                                        ></line>
+                                        <line
+                                            x1="8"
+                                            y1="12"
+                                            x2="21"
+                                            y2="12"
+                                        ></line>
+                                        <line
+                                            x1="8"
+                                            y1="18"
+                                            x2="21"
+                                            y2="18"
+                                        ></line>
+                                        <line
+                                            x1="3"
+                                            y1="6"
+                                            x2="3.01"
+                                            y2="6"
+                                        ></line>
+                                        <line
+                                            x1="3"
+                                            y1="12"
+                                            x2="3.01"
+                                            y2="12"
+                                        ></line>
+                                        <line
+                                            x1="3"
+                                            y1="18"
+                                            x2="3.01"
+                                            y2="18"
+                                        ></line>
                                     </svg>
                                     <span>Agenda</span>
                                 </button>
@@ -627,10 +749,11 @@ export default function InterviewsPage() {
                 </div>
 
                 {/* Calendar Navigation Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-3">
-                        <h3 className="text-[18px] font-semibold text-[#ffffff] tracking-[-0.2px]">
-                            {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+                        <h3 className="text-[18px] font-semibold tracking-[-0.2px] text-[#ffffff]">
+                            {monthNames[currentDate.getMonth()]}{' '}
+                            {currentDate.getFullYear()}
                         </h3>
                         <span className="font-mono text-[11px] text-[#7c7c7c]">
                             {interviews.length} sesi terdaftar
@@ -650,9 +773,16 @@ export default function InterviewsPage() {
                                 type="button"
                                 onClick={handlePrevMonth}
                                 aria-label="Bulan sebelumnya"
-                                className="flex h-9 w-9 items-center justify-center text-[#a7a7a7] hover:text-[#ffffff] transition-colors"
+                                className="flex h-9 w-9 items-center justify-center text-[#a7a7a7] transition-colors hover:text-[#ffffff]"
                             >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
                                     <polyline points="15 18 9 12 15 6"></polyline>
                                 </svg>
                             </button>
@@ -660,9 +790,16 @@ export default function InterviewsPage() {
                                 type="button"
                                 onClick={handleNextMonth}
                                 aria-label="Bulan berikutnya"
-                                className="flex h-9 w-9 items-center justify-center border-l border-[#313131] text-[#a7a7a7] hover:text-[#ffffff] transition-colors"
+                                className="flex h-9 w-9 items-center justify-center border-l border-[#313131] text-[#a7a7a7] transition-colors hover:text-[#ffffff]"
                             >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
                                     <polyline points="9 18 15 12 9 6"></polyline>
                                 </svg>
                             </button>
@@ -674,17 +811,27 @@ export default function InterviewsPage() {
                 {interviews.some(hasConflictWithOtherInterviews) && (
                     <div className="rounded-[8px] border border-[#fbbf24]/40 bg-[#fbbf24]/10 p-4">
                         <div className="flex items-start gap-3">
-                            <svg className="h-5 w-5 shrink-0 text-[#fbbf24] mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <svg
+                                className="mt-0.5 h-5 w-5 shrink-0 text-[#fbbf24]"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                            >
                                 <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
                                 <line x1="12" y1="9" x2="12" y2="13"></line>
                                 <line x1="12" y1="17" x2="12.01" y2="17"></line>
                             </svg>
                             <div>
                                 <h4 className="text-[13px] font-semibold text-[#fbbf24]">
-                                    Peringatan Konflik Waktu (Overlapping Schedules)
+                                    Peringatan Konflik Waktu (Overlapping
+                                    Schedules)
                                 </h4>
-                                <p className="mt-0.5 text-[12px] text-[#ffffff] leading-relaxed">
-                                    Terdapat jadwal wawancara yang bertabrakan pada rentang jam yang sama. Silakan tinjau dan lakukan *Reschedule* agar sesi tidak bentrok.
+                                <p className="mt-0.5 text-[12px] leading-relaxed text-[#ffffff]">
+                                    Terdapat jadwal wawancara yang bertabrakan
+                                    pada rentang jam yang sama. Silakan tinjau
+                                    dan lakukan *Reschedule* agar sesi tidak
+                                    bentrok.
                                 </p>
                             </div>
                         </div>
@@ -693,7 +840,7 @@ export default function InterviewsPage() {
 
                 {/* MONTHLY CALENDAR GRID VIEW */}
                 {viewMode === 'calendar' && (
-                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] overflow-hidden">
+                    <div className="overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414]">
                         {/* Days of week header */}
                         <div className="grid grid-cols-7 border-b border-[#313131] bg-[#1e1e1e] text-center font-mono text-[11px] font-semibold text-[#a7a7a7]">
                             <div className="py-2.5">SEN</div>
@@ -706,14 +853,16 @@ export default function InterviewsPage() {
                         </div>
 
                         {/* Calendar Day Cells */}
-                        <div className="grid grid-cols-7 auto-rows-fr divide-x divide-y divide-[#313131]">
+                        <div className="grid auto-rows-fr grid-cols-7 divide-x divide-y divide-[#313131]">
                             {calendarDays.map((cell, idx) => {
-                                const dayInterviews = getInterviewsForDate(cell.date);
+                                const dayInterviews = getInterviewsForDate(
+                                    cell.date,
+                                );
 
                                 return (
                                     <div
                                         key={idx}
-                                        className={`group relative min-h-[105px] sm:min-h-[120px] p-2 transition-colors ${
+                                        className={`group relative min-h-[105px] p-2 transition-colors sm:min-h-[120px] ${
                                             cell.isCurrentMonth
                                                 ? 'bg-[#141414] hover:bg-[#1a1a1a]'
                                                 : 'bg-[#0e0e0e] text-[#555555]'
@@ -725,8 +874,8 @@ export default function InterviewsPage() {
                                                     cell.isToday
                                                         ? 'bg-[#6798ff] font-semibold text-[#0a0a0a]'
                                                         : cell.isCurrentMonth
-                                                        ? 'text-[#ffffff]'
-                                                        : 'text-[#555555]'
+                                                          ? 'text-[#ffffff]'
+                                                          : 'text-[#555555]'
                                                 }`}
                                             >
                                                 {cell.dayNumber}
@@ -736,13 +885,34 @@ export default function InterviewsPage() {
                                             {cell.isCurrentMonth && (
                                                 <button
                                                     type="button"
-                                                    onClick={() => handleOpenCreateForDate(cell.date)}
+                                                    onClick={() =>
+                                                        handleOpenCreateForDate(
+                                                            cell.date,
+                                                        )
+                                                    }
                                                     title="Tambah wawancara pada tanggal ini"
-                                                    className="opacity-0 group-hover:opacity-100 flex h-5 w-5 items-center justify-center rounded-[4px] bg-[#1e1e1e] text-[#a7a7a7] hover:bg-[#6798ff] hover:text-[#0a0a0a] transition-all"
+                                                    className="flex h-5 w-5 items-center justify-center rounded-[4px] bg-[#1e1e1e] text-[#a7a7a7] opacity-0 transition-all group-hover:opacity-100 hover:bg-[#6798ff] hover:text-[#0a0a0a]"
                                                 >
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                                                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    <svg
+                                                        width="12"
+                                                        height="12"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2.5"
+                                                    >
+                                                        <line
+                                                            x1="12"
+                                                            y1="5"
+                                                            x2="12"
+                                                            y2="19"
+                                                        ></line>
+                                                        <line
+                                                            x1="5"
+                                                            y1="12"
+                                                            x2="19"
+                                                            y2="12"
+                                                        ></line>
                                                     </svg>
                                                 </button>
                                             )}
@@ -751,29 +921,46 @@ export default function InterviewsPage() {
                                         {/* Interview Badges inside cell */}
                                         <div className="mt-1.5 space-y-1">
                                             {dayInterviews.map((item) => {
-                                                const isConflict = hasConflictWithOtherInterviews(item);
+                                                const isConflict =
+                                                    hasConflictWithOtherInterviews(
+                                                        item,
+                                                    );
 
                                                 return (
                                                     <button
                                                         key={item.id}
                                                         type="button"
-                                                        onClick={() => setSelectedDetailInterview(item)}
-                                                        className={`w-full text-left rounded-[4px] px-1.5 py-1 text-[11px] truncate flex items-center justify-between gap-1 transition-all ${
-                                                            item.status === 'completed'
-                                                                ? 'bg-[#141414] border border-[#1e3a2f] text-[#34d399]'
-                                                                : item.status === 'cancelled'
-                                                                ? 'bg-[#141414] border border-[#3b1c1c] text-[#7c7c7c] line-through'
-                                                                : isConflict
-                                                                ? 'bg-[#3d2f14] border border-[#fbbf24] text-[#fbbf24]'
-                                                                : 'bg-[#1e1e1e] border border-[#313131] hover:border-[#6798ff] text-[#ffffff]'
+                                                        onClick={() =>
+                                                            setSelectedDetailInterview(
+                                                                item,
+                                                            )
+                                                        }
+                                                        className={`flex w-full items-center justify-between gap-1 truncate rounded-[4px] px-1.5 py-1 text-left text-[11px] transition-all ${
+                                                            item.status ===
+                                                            'completed'
+                                                                ? 'border border-[#1e3a2f] bg-[#141414] text-[#34d399]'
+                                                                : item.status ===
+                                                                    'cancelled'
+                                                                  ? 'border border-[#3b1c1c] bg-[#141414] text-[#7c7c7c] line-through'
+                                                                  : isConflict
+                                                                    ? 'border border-[#fbbf24] bg-[#3d2f14] text-[#fbbf24]'
+                                                                    : 'border border-[#313131] bg-[#1e1e1e] text-[#ffffff] hover:border-[#6798ff]'
                                                         }`}
                                                     >
                                                         <span className="truncate">
-                                                            <strong className="font-mono">{formatTimeOnly(item.start_at)}</strong>{' '}
-                                                            {item.job_title || item.interview_type}
+                                                            <strong className="font-mono">
+                                                                {formatTimeOnly(
+                                                                    item.start_at,
+                                                                )}
+                                                            </strong>{' '}
+                                                            {item.job_title ||
+                                                                item.interview_type}
                                                         </span>
                                                         {isConflict && (
-                                                            <span title="Konflik jadwal!" className="text-[#fbbf24] shrink-0 font-bold">
+                                                            <span
+                                                                title="Konflik jadwal!"
+                                                                className="shrink-0 font-bold text-[#fbbf24]"
+                                                            >
                                                                 !
                                                             </span>
                                                         )}
@@ -790,9 +977,9 @@ export default function InterviewsPage() {
 
                 {/* AGENDA / LIST VIEW */}
                 {viewMode === 'agenda' && (
-                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6 space-y-4">
-                        <div className="border-b border-[#313131] pb-3 flex items-center justify-between">
-                            <h4 className="text-[16px] font-semibold text-[#ffffff] tracking-[-0.2px]">
+                    <div className="space-y-4 rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
+                        <div className="flex items-center justify-between border-b border-[#313131] pb-3">
+                            <h4 className="text-[16px] font-semibold tracking-[-0.2px] text-[#ffffff]">
                                 Daftar Agenda Wawancara
                             </h4>
                             <span className="font-mono text-[12px] text-[#7c7c7c]">
@@ -803,34 +990,39 @@ export default function InterviewsPage() {
                         {sortedAgendaInterviews.length > 0 ? (
                             <div className="space-y-3">
                                 {sortedAgendaInterviews.map((item) => {
-                                    const isConflict = hasConflictWithOtherInterviews(item);
+                                    const isConflict =
+                                        hasConflictWithOtherInterviews(item);
 
                                     return (
                                         <div
                                             key={item.id}
-                                            className={`rounded-[8px] border p-4 sm:p-5 transition-colors ${
+                                            className={`rounded-[8px] border p-4 transition-colors sm:p-5 ${
                                                 isConflict
                                                     ? 'border-[#fbbf24] bg-[#1e1e1e]'
                                                     : 'border-[#313131] bg-[#1e1e1e] hover:border-[#454545]'
                                             }`}
                                         >
-                                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                                            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                                 <div className="space-y-1.5">
                                                     <div className="flex flex-wrap items-center gap-2">
                                                         <Badge
                                                             variant={
-                                                                item.status === 'completed'
+                                                                item.status ===
+                                                                'completed'
                                                                     ? 'success'
-                                                                    : item.status === 'cancelled'
-                                                                    ? 'danger'
-                                                                    : 'accent'
+                                                                    : item.status ===
+                                                                        'cancelled'
+                                                                      ? 'danger'
+                                                                      : 'accent'
                                                             }
                                                             size="sm"
                                                         >
                                                             {item.status_label}
                                                         </Badge>
                                                         <span className="rounded-[4px] border border-[#313131] bg-[#0a0a0a] px-2 py-0.5 font-mono text-[11px] text-[#a7a7a7]">
-                                                            {item.interview_type}
+                                                            {
+                                                                item.interview_type
+                                                            }
                                                         </span>
                                                         {isConflict && (
                                                             <span className="rounded-[4px] border border-[#fbbf24] bg-[#fbbf24]/10 px-2 py-0.5 font-mono text-[10px] text-[#fbbf24]">
@@ -840,48 +1032,122 @@ export default function InterviewsPage() {
                                                     </div>
 
                                                     <h4 className="text-[16px] font-semibold text-[#ffffff]">
-                                                        {item.job_title || 'Posisi Pekerjaan'}
+                                                        {item.job_title ||
+                                                            'Posisi Pekerjaan'}
                                                     </h4>
                                                     <p className="text-[13px] text-[#a7a7a7]">
-                                                        Perusahaan: <span className="text-[#ffffff] font-medium">{item.company_name || 'Perusahaan'}</span>
+                                                        Perusahaan:{' '}
+                                                        <span className="font-medium text-[#ffffff]">
+                                                            {item.company_name ||
+                                                                'Perusahaan'}
+                                                        </span>
                                                     </p>
 
-                                                    <div className="flex flex-wrap items-center gap-4 text-[12px] text-[#a7a7a7] pt-1">
+                                                    <div className="flex flex-wrap items-center gap-4 pt-1 text-[12px] text-[#a7a7a7]">
                                                         <div className="flex items-center gap-1.5">
-                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                                                            <svg
+                                                                width="14"
+                                                                height="14"
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                strokeWidth="2"
+                                                            >
+                                                                <rect
+                                                                    x="3"
+                                                                    y="4"
+                                                                    width="18"
+                                                                    height="18"
+                                                                    rx="2"
+                                                                    ry="2"
+                                                                ></rect>
+                                                                <line
+                                                                    x1="16"
+                                                                    y1="2"
+                                                                    x2="16"
+                                                                    y2="6"
+                                                                ></line>
+                                                                <line
+                                                                    x1="8"
+                                                                    y1="2"
+                                                                    x2="8"
+                                                                    y2="6"
+                                                                ></line>
+                                                                <line
+                                                                    x1="3"
+                                                                    y1="10"
+                                                                    x2="21"
+                                                                    y2="10"
+                                                                ></line>
                                                             </svg>
-                                                            <span>{formatDateFull(item.start_at)}</span>
+                                                            <span>
+                                                                {formatDateFull(
+                                                                    item.start_at,
+                                                                )}
+                                                            </span>
                                                         </div>
 
                                                         <div className="flex items-center gap-1.5 font-mono text-[#6798ff]">
-                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                                <circle cx="12" cy="12" r="10"></circle>
+                                                            <svg
+                                                                width="14"
+                                                                height="14"
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                strokeWidth="2"
+                                                            >
+                                                                <circle
+                                                                    cx="12"
+                                                                    cy="12"
+                                                                    r="10"
+                                                                ></circle>
                                                                 <polyline points="12 6 12 12 16 14"></polyline>
                                                             </svg>
                                                             <span>
-                                                                {formatTimeOnly(item.start_at)} - {formatTimeOnly(item.end_at)} {item.timezone}
+                                                                {formatTimeOnly(
+                                                                    item.start_at,
+                                                                )}{' '}
+                                                                -{' '}
+                                                                {formatTimeOnly(
+                                                                    item.end_at,
+                                                                )}{' '}
+                                                                {item.timezone}
                                                             </span>
                                                         </div>
                                                     </div>
 
                                                     {/* Location / Meeting link */}
-                                                    <div className="pt-2 flex flex-wrap items-center gap-2">
+                                                    <div className="flex flex-wrap items-center gap-2 pt-2">
                                                         {item.meeting_url && (
                                                             <a
-                                                                href={item.meeting_url}
+                                                                href={
+                                                                    item.meeting_url
+                                                                }
                                                                 target="_blank"
                                                                 rel="noreferrer"
-                                                                className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#34d399]/40 bg-[#34d399]/10 px-2.5 py-1 text-[12px] font-medium text-[#34d399] hover:bg-[#34d399]/20 transition-colors"
+                                                                className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#34d399]/40 bg-[#34d399]/10 px-2.5 py-1 text-[12px] font-medium text-[#34d399] transition-colors hover:bg-[#34d399]/20"
                                                             >
-                                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                                <svg
+                                                                    width="13"
+                                                                    height="13"
+                                                                    viewBox="0 0 24 24"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth="2"
+                                                                >
                                                                     <path d="M15 10l5-5v14l-5-5" />
-                                                                    <rect x="2" y="6" width="13" height="12" rx="2" />
+                                                                    <rect
+                                                                        x="2"
+                                                                        y="6"
+                                                                        width="13"
+                                                                        height="12"
+                                                                        rx="2"
+                                                                    />
                                                                 </svg>
-                                                                <span>Buka Link Meeting</span>
+                                                                <span>
+                                                                    Buka Link
+                                                                    Meeting
+                                                                </span>
                                                             </a>
                                                         )}
                                                         {item.location && (
@@ -889,37 +1155,71 @@ export default function InterviewsPage() {
                                                                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.location)}`}
                                                                 target="_blank"
                                                                 rel="noreferrer"
-                                                                className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#313131] bg-[#0a0a0a] px-2.5 py-1 text-[12px] text-[#a7a7a7] hover:text-[#ffffff] transition-colors"
+                                                                className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#313131] bg-[#0a0a0a] px-2.5 py-1 text-[12px] text-[#a7a7a7] transition-colors hover:text-[#ffffff]"
                                                             >
-                                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                                <svg
+                                                                    width="13"
+                                                                    height="13"
+                                                                    viewBox="0 0 24 24"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth="2"
+                                                                >
                                                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                                                    <circle cx="12" cy="10" r="3" />
+                                                                    <circle
+                                                                        cx="12"
+                                                                        cy="10"
+                                                                        r="3"
+                                                                    />
                                                                 </svg>
-                                                                <span>{item.location} (Maps)</span>
+                                                                <span>
+                                                                    {
+                                                                        item.location
+                                                                    }{' '}
+                                                                    (Maps)
+                                                                </span>
                                                             </a>
                                                         )}
                                                     </div>
                                                 </div>
 
                                                 {/* Action Buttons */}
-                                                <div className="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 pt-2 sm:pt-0">
+                                                <div className="flex shrink-0 items-center gap-2 pt-2 sm:flex-col sm:items-end sm:pt-0">
                                                     <Link
                                                         href={`/ai/interview-copilot?application_id=${item.job_application_id}&job_title=${encodeURIComponent(
-                                                            item.job_title || ''
+                                                            item.job_title ||
+                                                                '',
                                                         )}&company=${encodeURIComponent(item.company_name || '')}`}
-                                                        className="flex min-h-[36px] items-center gap-1.5 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-3 text-[12px] font-medium text-[#6798ff] hover:bg-[#6798ff]/20 transition-colors"
+                                                        className="flex min-h-[36px] items-center gap-1.5 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-3 text-[12px] font-medium text-[#6798ff] transition-colors hover:bg-[#6798ff]/20"
                                                     >
-                                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                            <circle cx="12" cy="12" r="10"></circle>
+                                                        <svg
+                                                            width="13"
+                                                            height="13"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="2"
+                                                        >
+                                                            <circle
+                                                                cx="12"
+                                                                cy="12"
+                                                                r="10"
+                                                            ></circle>
                                                             <polyline points="12 6 12 12 16 14"></polyline>
                                                         </svg>
-                                                        <span>Latihan Copilot</span>
+                                                        <span>
+                                                            Latihan Copilot
+                                                        </span>
                                                     </Link>
 
                                                     <button
                                                         type="button"
-                                                        onClick={() => setSelectedDetailInterview(item)}
-                                                        className="flex min-h-[36px] items-center gap-1.5 rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 text-[12px] font-medium text-[#a7a7a7] hover:text-[#ffffff] transition-colors"
+                                                        onClick={() =>
+                                                            setSelectedDetailInterview(
+                                                                item,
+                                                            )
+                                                        }
+                                                        className="flex min-h-[36px] items-center gap-1.5 rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 text-[12px] font-medium text-[#a7a7a7] transition-colors hover:text-[#ffffff]"
                                                     >
                                                         Kelola & Detail
                                                     </button>
@@ -930,12 +1230,17 @@ export default function InterviewsPage() {
                                 })}
                             </div>
                         ) : (
-                            <div className="py-12 text-center text-[#7c7c7c] space-y-2">
-                                <p className="text-[14px]">Belum ada jadwal wawancara untuk periode ini.</p>
+                            <div className="space-y-2 py-12 text-center text-[#7c7c7c]">
+                                <p className="text-[14px]">
+                                    Belum ada jadwal wawancara untuk periode
+                                    ini.
+                                </p>
                                 <Button
                                     variant="secondary"
                                     size="sm"
-                                    onClick={() => handleOpenCreateForDate(new Date())}
+                                    onClick={() =>
+                                        handleOpenCreateForDate(new Date())
+                                    }
                                 >
                                     Tambah Jadwal Sekarang
                                 </Button>
@@ -948,17 +1253,17 @@ export default function InterviewsPage() {
             {/* MODAL 1: JADWALKAN WAWANCARA BARU */}
             {isCreateOpen && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0a0a0a]/80 backdrop-blur-sm"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-[#0a0a0a]/80 p-4 backdrop-blur-sm"
                     role="dialog"
                     aria-modal="true"
                 >
-                    <div className="relative z-10 w-full max-w-lg rounded-[8px] border border-[#313131] bg-[#141414] p-6 text-[#ffffff] shadow-2xl max-h-[90vh] overflow-y-auto">
-                        <div className="flex items-center justify-between border-b border-[#313131] pb-3 mb-4">
+                    <div className="relative z-10 max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[8px] border border-[#313131] bg-[#141414] p-6 text-[#ffffff] shadow-2xl">
+                        <div className="mb-4 flex items-center justify-between border-b border-[#313131] pb-3">
                             <div>
-                                <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
+                                <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                                     JADWAL BARU
                                 </span>
-                                <h3 className="text-[18px] font-semibold text-[#ffffff] tracking-[-0.3px]">
+                                <h3 className="text-[18px] font-semibold tracking-[-0.3px] text-[#ffffff]">
                                     Jadwalkan Wawancara Kerja
                                 </h3>
                             </div>
@@ -966,9 +1271,16 @@ export default function InterviewsPage() {
                                 type="button"
                                 onClick={() => setIsCreateOpen(false)}
                                 aria-label="Tutup form"
-                                className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] hover:text-[#ffffff] transition-colors"
+                                className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] transition-colors hover:text-[#ffffff]"
                             >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
                                     <line x1="18" y1="6" x2="6" y2="18"></line>
                                     <line x1="6" y1="6" x2="18" y2="18"></line>
                                 </svg>
@@ -981,22 +1293,33 @@ export default function InterviewsPage() {
                             </div>
                         )}
 
-                        <form onSubmit={handleCreateSubmit} className="space-y-4">
+                        <form
+                            onSubmit={handleCreateSubmit}
+                            className="space-y-4"
+                        >
                             {/* Lamaran Referensi */}
                             <div className="space-y-1.5">
                                 <label className="block text-[12px] font-medium text-[#a7a7a7]">
-                                    Lamaran Kerja <span className="text-[#f87171]">*</span>
+                                    Lamaran Kerja{' '}
+                                    <span className="text-[#f87171]">*</span>
                                 </label>
                                 <select
                                     required
                                     value={formAppId}
-                                    onChange={(e) => setFormAppId(e.target.value)}
+                                    onChange={(e) =>
+                                        setFormAppId(e.target.value)
+                                    }
                                     className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                                 >
-                                    <option value="">-- Pilih Lamaran Kerja --</option>
+                                    <option value="">
+                                        -- Pilih Lamaran Kerja --
+                                    </option>
                                     {applications.map((app) => (
                                         <option key={app.id} value={app.id}>
-                                            {app.job_title} - {app.company?.name || app.company_name || 'Perusahaan'}
+                                            {app.job_title} -{' '}
+                                            {app.company?.name ||
+                                                app.company_name ||
+                                                'Perusahaan'}
                                         </option>
                                     ))}
                                 </select>
@@ -1005,17 +1328,18 @@ export default function InterviewsPage() {
                             {/* Tipe Interview */}
                             <div className="space-y-1.5">
                                 <label className="block text-[12px] font-medium text-[#a7a7a7]">
-                                    Tahapan / Tipe Wawancara <span className="text-[#f87171]">*</span>
+                                    Tahapan / Tipe Wawancara{' '}
+                                    <span className="text-[#f87171]">*</span>
                                 </label>
-                                <div className="flex flex-wrap gap-1.5 mb-2">
+                                <div className="mb-2 flex flex-wrap gap-1.5">
                                     {INTERVIEW_TYPE_PRESETS.map((preset) => (
                                         <button
                                             key={preset}
                                             type="button"
                                             onClick={() => setFormType(preset)}
-                                            className={`rounded-[4px] px-2 py-0.5 text-[11px] font-mono transition-colors ${
+                                            className={`rounded-[4px] px-2 py-0.5 font-mono text-[11px] transition-colors ${
                                                 formType === preset
-                                                    ? 'bg-[#6798ff] text-[#0a0a0a] font-semibold'
+                                                    ? 'bg-[#6798ff] font-semibold text-[#0a0a0a]'
                                                     : 'bg-[#1e1e1e] text-[#a7a7a7] hover:text-[#ffffff]'
                                             }`}
                                         >
@@ -1028,35 +1352,47 @@ export default function InterviewsPage() {
                                     required
                                     placeholder="Contoh: HR Screening, Technical Round"
                                     value={formType}
-                                    onChange={(e) => setFormType(e.target.value)}
+                                    onChange={(e) =>
+                                        setFormType(e.target.value)
+                                    }
                                     className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                                 />
                             </div>
 
                             {/* Waktu & Tanggal */}
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                                 <div className="space-y-1.5 sm:col-span-1">
                                     <label className="block text-[12px] font-medium text-[#a7a7a7]">
-                                        Tanggal <span className="text-[#f87171]">*</span>
+                                        Tanggal{' '}
+                                        <span className="text-[#f87171]">
+                                            *
+                                        </span>
                                     </label>
                                     <input
                                         type="date"
                                         required
                                         value={formStartDate}
-                                        onChange={(e) => setFormStartDate(e.target.value)}
+                                        onChange={(e) =>
+                                            setFormStartDate(e.target.value)
+                                        }
                                         className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                                     />
                                 </div>
 
                                 <div className="space-y-1.5 sm:col-span-1">
                                     <label className="block text-[12px] font-medium text-[#a7a7a7]">
-                                        Jam Mulai <span className="text-[#f87171]">*</span>
+                                        Jam Mulai{' '}
+                                        <span className="text-[#f87171]">
+                                            *
+                                        </span>
                                     </label>
                                     <input
                                         type="time"
                                         required
                                         value={formStartTime}
-                                        onChange={(e) => setFormStartTime(e.target.value)}
+                                        onChange={(e) =>
+                                            setFormStartTime(e.target.value)
+                                        }
                                         className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                                     />
                                 </div>
@@ -1067,14 +1403,24 @@ export default function InterviewsPage() {
                                     </label>
                                     <select
                                         value={formDurationMinutes}
-                                        onChange={(e) => setFormDurationMinutes(Number(e.target.value))}
+                                        onChange={(e) =>
+                                            setFormDurationMinutes(
+                                                Number(e.target.value),
+                                            )
+                                        }
                                         className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                                     >
                                         <option value={30}>30 Menit</option>
                                         <option value={45}>45 Menit</option>
-                                        <option value={60}>60 Menit (1 Jam)</option>
-                                        <option value={90}>90 Menit (1.5 Jam)</option>
-                                        <option value={120}>120 Menit (2 Jam)</option>
+                                        <option value={60}>
+                                            60 Menit (1 Jam)
+                                        </option>
+                                        <option value={90}>
+                                            90 Menit (1.5 Jam)
+                                        </option>
+                                        <option value={120}>
+                                            120 Menit (2 Jam)
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -1094,9 +1440,22 @@ export default function InterviewsPage() {
                                                 : 'border border-[#313131] bg-[#0a0a0a] text-[#7c7c7c]'
                                         }`}
                                     >
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <svg
+                                            width="14"
+                                            height="14"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                        >
                                             <path d="M15 10l5-5v14l-5-5" />
-                                            <rect x="2" y="6" width="13" height="12" rx="2" />
+                                            <rect
+                                                x="2"
+                                                y="6"
+                                                width="13"
+                                                height="12"
+                                                rx="2"
+                                            />
                                         </svg>
                                         <span>Online (Meet / Zoom)</span>
                                     </button>
@@ -1110,7 +1469,14 @@ export default function InterviewsPage() {
                                                 : 'border border-[#313131] bg-[#0a0a0a] text-[#7c7c7c]'
                                         }`}
                                     >
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <svg
+                                            width="14"
+                                            height="14"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                        >
                                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                                             <circle cx="12" cy="10" r="3" />
                                         </svg>
@@ -1128,7 +1494,9 @@ export default function InterviewsPage() {
                                         type="url"
                                         placeholder="https://meet.google.com/... atau tautan Zoom / Teams"
                                         value={formMeetingUrl}
-                                        onChange={(e) => setFormMeetingUrl(e.target.value)}
+                                        onChange={(e) =>
+                                            setFormMeetingUrl(e.target.value)
+                                        }
                                         className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                                     />
                                 </div>
@@ -1141,7 +1509,9 @@ export default function InterviewsPage() {
                                         type="text"
                                         placeholder="Contoh: Gedung Bursa Efek Indonesia Tower 2 Lt. 14, SCBD Jakarta"
                                         value={formLocation}
-                                        onChange={(e) => setFormLocation(e.target.value)}
+                                        onChange={(e) =>
+                                            setFormLocation(e.target.value)
+                                        }
                                         className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                                     />
                                 </div>
@@ -1156,12 +1526,14 @@ export default function InterviewsPage() {
                                     rows={2}
                                     placeholder="Contoh: Pewawancara Pak Budi (VP Engineering). Siapkan laptop dan portofolio React."
                                     value={formNotes}
-                                    onChange={(e) => setFormNotes(e.target.value)}
+                                    onChange={(e) =>
+                                        setFormNotes(e.target.value)
+                                    }
                                     className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                                 />
                             </div>
 
-                            <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#313131]">
+                            <div className="flex items-center justify-end gap-2 border-t border-[#313131] pt-3">
                                 <Button
                                     variant="secondary"
                                     type="button"
@@ -1185,21 +1557,23 @@ export default function InterviewsPage() {
             {/* MODAL 2: DETAIL, RESCHEDULE & MANAGE INTERVIEW */}
             {selectedDetailInterview && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0a0a0a]/80 backdrop-blur-sm"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-[#0a0a0a]/80 p-4 backdrop-blur-sm"
                     role="dialog"
                     aria-modal="true"
                 >
-                    <div className="relative z-10 w-full max-w-lg rounded-[8px] border border-[#313131] bg-[#141414] p-6 text-[#ffffff] shadow-2xl max-h-[90vh] overflow-y-auto">
-                        <div className="flex items-start justify-between border-b border-[#313131] pb-3 mb-4">
+                    <div className="relative z-10 max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[8px] border border-[#313131] bg-[#141414] p-6 text-[#ffffff] shadow-2xl">
+                        <div className="mb-4 flex items-start justify-between border-b border-[#313131] pb-3">
                             <div>
                                 <div className="flex items-center gap-2">
                                     <Badge
                                         variant={
-                                            selectedDetailInterview.status === 'completed'
+                                            selectedDetailInterview.status ===
+                                            'completed'
                                                 ? 'success'
-                                                : selectedDetailInterview.status === 'cancelled'
-                                                ? 'danger'
-                                                : 'accent'
+                                                : selectedDetailInterview.status ===
+                                                    'cancelled'
+                                                  ? 'danger'
+                                                  : 'accent'
                                         }
                                         size="sm"
                                     >
@@ -1209,7 +1583,7 @@ export default function InterviewsPage() {
                                         {selectedDetailInterview.interview_type}
                                     </span>
                                 </div>
-                                <h3 className="mt-1 text-[18px] font-semibold text-[#ffffff] tracking-[-0.3px]">
+                                <h3 className="mt-1 text-[18px] font-semibold tracking-[-0.3px] text-[#ffffff]">
                                     {selectedDetailInterview.job_title}
                                 </h3>
                                 <p className="text-[13px] text-[#a7a7a7]">
@@ -1224,9 +1598,16 @@ export default function InterviewsPage() {
                                     setIsRescheduling(false);
                                 }}
                                 aria-label="Tutup detail modal"
-                                className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] hover:text-[#ffffff] transition-colors"
+                                className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] transition-colors hover:text-[#ffffff]"
                             >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
                                     <line x1="18" y1="6" x2="6" y2="18"></line>
                                     <line x1="6" y1="6" x2="18" y2="18"></line>
                                 </svg>
@@ -1236,17 +1617,30 @@ export default function InterviewsPage() {
                         {!isRescheduling ? (
                             <div className="space-y-4">
                                 {/* Waktu Info */}
-                                <div className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3.5 space-y-2">
+                                <div className="space-y-2 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3.5">
                                     <div className="flex items-center justify-between text-[13px]">
-                                        <span className="text-[#a7a7a7]">Hari & Tanggal:</span>
+                                        <span className="text-[#a7a7a7]">
+                                            Hari & Tanggal:
+                                        </span>
                                         <span className="font-medium text-[#ffffff]">
-                                            {formatDateFull(selectedDetailInterview.start_at)}
+                                            {formatDateFull(
+                                                selectedDetailInterview.start_at,
+                                            )}
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between text-[13px]">
-                                        <span className="text-[#a7a7a7]">Waktu Sesi:</span>
+                                        <span className="text-[#a7a7a7]">
+                                            Waktu Sesi:
+                                        </span>
                                         <span className="font-mono font-medium text-[#6798ff]">
-                                            {formatTimeOnly(selectedDetailInterview.start_at)} - {formatTimeOnly(selectedDetailInterview.end_at)} {selectedDetailInterview.timezone}
+                                            {formatTimeOnly(
+                                                selectedDetailInterview.start_at,
+                                            )}{' '}
+                                            -{' '}
+                                            {formatTimeOnly(
+                                                selectedDetailInterview.end_at,
+                                            )}{' '}
+                                            {selectedDetailInterview.timezone}
                                         </span>
                                     </div>
                                 </div>
@@ -1254,21 +1648,39 @@ export default function InterviewsPage() {
                                 {/* Link / Location */}
                                 {selectedDetailInterview.meeting_url && (
                                     <div className="space-y-1">
-                                        <span className="font-mono text-[10px] uppercase tracking-[0.85px] text-[#34d399]">
+                                        <span className="font-mono text-[10px] tracking-[0.85px] text-[#34d399] uppercase">
                                             MEETING ONLINE
                                         </span>
                                         <div>
                                             <a
-                                                href={selectedDetailInterview.meeting_url}
+                                                href={
+                                                    selectedDetailInterview.meeting_url
+                                                }
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="inline-flex items-center gap-2 rounded-[6px] border border-[#34d399]/40 bg-[#34d399]/10 px-3.5 py-2 text-[13px] font-medium text-[#34d399] hover:bg-[#34d399]/20 transition-colors w-full justify-center"
+                                                className="inline-flex w-full items-center justify-center gap-2 rounded-[6px] border border-[#34d399]/40 bg-[#34d399]/10 px-3.5 py-2 text-[13px] font-medium text-[#34d399] transition-colors hover:bg-[#34d399]/20"
                                             >
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <svg
+                                                    width="16"
+                                                    height="16"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                >
                                                     <path d="M15 10l5-5v14l-5-5" />
-                                                    <rect x="2" y="6" width="13" height="12" rx="2" />
+                                                    <rect
+                                                        x="2"
+                                                        y="6"
+                                                        width="13"
+                                                        height="12"
+                                                        rx="2"
+                                                    />
                                                 </svg>
-                                                <span>Buka Tautan Google Meet / Zoom</span>
+                                                <span>
+                                                    Buka Tautan Google Meet /
+                                                    Zoom
+                                                </span>
                                             </a>
                                         </div>
                                     </div>
@@ -1276,16 +1688,20 @@ export default function InterviewsPage() {
 
                                 {selectedDetailInterview.location && (
                                     <div className="space-y-1">
-                                        <span className="font-mono text-[10px] uppercase tracking-[0.85px] text-[#a7a7a7]">
+                                        <span className="font-mono text-[10px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                                             LOKASI TATAP MUKA (OFFLINE)
                                         </span>
-                                        <div className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3 text-[13px] text-[#ffffff] flex items-center justify-between gap-2">
-                                            <span>{selectedDetailInterview.location}</span>
+                                        <div className="flex items-center justify-between gap-2 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3 text-[13px] text-[#ffffff]">
+                                            <span>
+                                                {
+                                                    selectedDetailInterview.location
+                                                }
+                                            </span>
                                             <a
                                                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedDetailInterview.location)}`}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="shrink-0 text-[#6798ff] hover:underline font-mono text-[11px]"
+                                                className="shrink-0 font-mono text-[11px] text-[#6798ff] hover:underline"
                                             >
                                                 Google Maps ↗
                                             </a>
@@ -1296,62 +1712,89 @@ export default function InterviewsPage() {
                                 {/* Notes */}
                                 {selectedDetailInterview.notes && (
                                     <div className="space-y-1">
-                                        <span className="font-mono text-[10px] uppercase tracking-[0.85px] text-[#7c7c7c]">
+                                        <span className="font-mono text-[10px] tracking-[0.85px] text-[#7c7c7c] uppercase">
                                             CATATAN INTERVIEW
                                         </span>
-                                        <p className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3 text-[12px] text-[#ffffff] whitespace-pre-wrap leading-relaxed">
+                                        <p className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3 text-[12px] leading-relaxed whitespace-pre-wrap text-[#ffffff]">
                                             {selectedDetailInterview.notes}
                                         </p>
                                     </div>
                                 )}
 
                                 {/* Copilot Link Shortcut */}
-                                <div className="rounded-[6px] border border-[#6798ff]/30 bg-[#6798ff]/10 p-3.5 flex items-center justify-between gap-3">
+                                <div className="flex items-center justify-between gap-3 rounded-[6px] border border-[#6798ff]/30 bg-[#6798ff]/10 p-3.5">
                                     <div>
                                         <h5 className="text-[13px] font-semibold text-[#ffffff]">
                                             Latihan Jawaban Wawancara
                                         </h5>
                                         <p className="text-[11px] text-[#a7a7a7]">
-                                            Simulasikan pertanyaan teknis & metode STAR dengan AI Copilot.
+                                            Simulasikan pertanyaan teknis &
+                                            metode STAR dengan AI Copilot.
                                         </p>
                                     </div>
                                     <Link
                                         href={`/ai/interview-copilot?application_id=${selectedDetailInterview.job_application_id}&job_title=${encodeURIComponent(
-                                            selectedDetailInterview.job_title || ''
+                                            selectedDetailInterview.job_title ||
+                                                '',
                                         )}&company=${encodeURIComponent(selectedDetailInterview.company_name || '')}`}
-                                        className="shrink-0 rounded-[6px] border border-[#6798ff] bg-[#6798ff] px-3 py-1.5 text-[12px] font-medium text-[#0a0a0a] hover:bg-[#ffffff] transition-colors"
+                                        className="shrink-0 rounded-[6px] border border-[#6798ff] bg-[#6798ff] px-3 py-1.5 text-[12px] font-medium text-[#0a0a0a] transition-colors hover:bg-[#ffffff]"
                                     >
                                         Mulai Latihan
                                     </Link>
                                 </div>
 
                                 {/* Status & Manage Actions */}
-                                <div className="pt-2 border-t border-[#313131] flex flex-wrap items-center justify-between gap-2">
+                                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[#313131] pt-2">
                                     <div className="flex items-center gap-1.5">
-                                        {selectedDetailInterview.status === 'scheduled' && (
+                                        {selectedDetailInterview.status ===
+                                            'scheduled' && (
                                             <>
                                                 <button
                                                     type="button"
-                                                    onClick={() => handleUpdateStatus(selectedDetailInterview.id, 'completed')}
-                                                    className="rounded-[6px] border border-[#1e3a2f] bg-[#141414] px-3 py-1.5 text-[12px] font-medium text-[#34d399] hover:bg-[#1e3a2f]/20 transition-colors"
+                                                    onClick={() =>
+                                                        handleUpdateStatus(
+                                                            selectedDetailInterview.id,
+                                                            'completed',
+                                                        )
+                                                    }
+                                                    className="rounded-[6px] border border-[#1e3a2f] bg-[#141414] px-3 py-1.5 text-[12px] font-medium text-[#34d399] transition-colors hover:bg-[#1e3a2f]/20"
                                                 >
                                                     Tandai Selesai
                                                 </button>
                                                 <button
                                                     type="button"
                                                     onClick={() => {
-                                                        const dateObj = new Date(selectedDetailInterview.start_at);
-                                                        const y = dateObj.getFullYear();
-                                                        const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-                                                        const d = String(dateObj.getDate()).padStart(2, '0');
-                                                        setRescheduleDate(`${y}-${m}-${d}`);
-                                                        setRescheduleTime(formatTimeOnly(selectedDetailInterview.start_at));
-                                                        setRescheduleDuration(60);
+                                                        const dateObj =
+                                                            new Date(
+                                                                selectedDetailInterview.start_at,
+                                                            );
+                                                        const y =
+                                                            dateObj.getFullYear();
+                                                        const m = String(
+                                                            dateObj.getMonth() +
+                                                                1,
+                                                        ).padStart(2, '0');
+                                                        const d = String(
+                                                            dateObj.getDate(),
+                                                        ).padStart(2, '0');
+                                                        setRescheduleDate(
+                                                            `${y}-${m}-${d}`,
+                                                        );
+                                                        setRescheduleTime(
+                                                            formatTimeOnly(
+                                                                selectedDetailInterview.start_at,
+                                                            ),
+                                                        );
+                                                        setRescheduleDuration(
+                                                            60,
+                                                        );
                                                         setRescheduleNotes('');
-                                                        setRescheduleError(null);
+                                                        setRescheduleError(
+                                                            null,
+                                                        );
                                                         setIsRescheduling(true);
                                                     }}
-                                                    className="rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-3 py-1.5 text-[12px] font-medium text-[#ffffff] hover:border-[#6798ff] transition-colors"
+                                                    className="rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-3 py-1.5 text-[12px] font-medium text-[#ffffff] transition-colors hover:border-[#6798ff]"
                                                 >
                                                     Jadwalkan Ulang
                                                 </button>
@@ -1360,19 +1803,29 @@ export default function InterviewsPage() {
                                     </div>
 
                                     <div className="flex items-center gap-1.5">
-                                        {selectedDetailInterview.status === 'scheduled' && (
+                                        {selectedDetailInterview.status ===
+                                            'scheduled' && (
                                             <button
                                                 type="button"
-                                                onClick={() => handleUpdateStatus(selectedDetailInterview.id, 'cancelled')}
-                                                className="rounded-[6px] border border-transparent px-2.5 py-1.5 text-[12px] text-[#f87171] hover:bg-[#f87171]/10 transition-colors"
+                                                onClick={() =>
+                                                    handleUpdateStatus(
+                                                        selectedDetailInterview.id,
+                                                        'cancelled',
+                                                    )
+                                                }
+                                                className="rounded-[6px] border border-transparent px-2.5 py-1.5 text-[12px] text-[#f87171] transition-colors hover:bg-[#f87171]/10"
                                             >
                                                 Batalkan
                                             </button>
                                         )}
                                         <button
                                             type="button"
-                                            onClick={() => handleDeleteInterview(selectedDetailInterview.id)}
-                                            className="rounded-[6px] border border-transparent px-2.5 py-1.5 text-[12px] text-[#7c7c7c] hover:text-[#f87171] transition-colors"
+                                            onClick={() =>
+                                                handleDeleteInterview(
+                                                    selectedDetailInterview.id,
+                                                )
+                                            }
+                                            className="rounded-[6px] border border-transparent px-2.5 py-1.5 text-[12px] text-[#7c7c7c] transition-colors hover:text-[#f87171]"
                                             title="Hapus dari database"
                                         >
                                             Hapus
@@ -1382,13 +1835,18 @@ export default function InterviewsPage() {
                             </div>
                         ) : (
                             /* RESCHEDULE FORM */
-                            <form onSubmit={handleRescheduleSubmit} className="space-y-4">
+                            <form
+                                onSubmit={handleRescheduleSubmit}
+                                className="space-y-4"
+                            >
                                 <div className="rounded-[6px] border border-[#6798ff]/30 bg-[#6798ff]/10 p-3">
                                     <h4 className="text-[13px] font-medium text-[#ffffff]">
                                         Tentukan Waktu Baru Wawancara
                                     </h4>
                                     <p className="text-[11px] text-[#a7a7a7]">
-                                        Pengingat otomatis akan dijadwalkan ulang sesuai dengan waktu baru yang Anda tentukan.
+                                        Pengingat otomatis akan dijadwalkan
+                                        ulang sesuai dengan waktu baru yang Anda
+                                        tentukan.
                                     </p>
                                 </div>
 
@@ -1398,7 +1856,7 @@ export default function InterviewsPage() {
                                     </div>
                                 )}
 
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                                     <div className="space-y-1.5 sm:col-span-1">
                                         <label className="block text-[12px] font-medium text-[#a7a7a7]">
                                             Tanggal Baru
@@ -1407,7 +1865,11 @@ export default function InterviewsPage() {
                                             type="date"
                                             required
                                             value={rescheduleDate}
-                                            onChange={(e) => setRescheduleDate(e.target.value)}
+                                            onChange={(e) =>
+                                                setRescheduleDate(
+                                                    e.target.value,
+                                                )
+                                            }
                                             className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                                         />
                                     </div>
@@ -1420,7 +1882,11 @@ export default function InterviewsPage() {
                                             type="time"
                                             required
                                             value={rescheduleTime}
-                                            onChange={(e) => setRescheduleTime(e.target.value)}
+                                            onChange={(e) =>
+                                                setRescheduleTime(
+                                                    e.target.value,
+                                                )
+                                            }
                                             className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                                         />
                                     </div>
@@ -1431,14 +1897,20 @@ export default function InterviewsPage() {
                                         </label>
                                         <select
                                             value={rescheduleDuration}
-                                            onChange={(e) => setRescheduleDuration(Number(e.target.value))}
+                                            onChange={(e) =>
+                                                setRescheduleDuration(
+                                                    Number(e.target.value),
+                                                )
+                                            }
                                             className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                                         >
                                             <option value={30}>30 Menit</option>
                                             <option value={45}>45 Menit</option>
                                             <option value={60}>60 Menit</option>
                                             <option value={90}>90 Menit</option>
-                                            <option value={120}>120 Menit</option>
+                                            <option value={120}>
+                                                120 Menit
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -1451,12 +1923,14 @@ export default function InterviewsPage() {
                                         type="text"
                                         placeholder="Contoh: Pewawancara berhalangan, dialihkan ke hari Kamis"
                                         value={rescheduleNotes}
-                                        onChange={(e) => setRescheduleNotes(e.target.value)}
+                                        onChange={(e) =>
+                                            setRescheduleNotes(e.target.value)
+                                        }
                                         className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3.5 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                                     />
                                 </div>
 
-                                <div className="pt-2 border-t border-[#313131] flex items-center justify-end gap-2">
+                                <div className="flex items-center justify-end gap-2 border-t border-[#313131] pt-2">
                                     <Button
                                         variant="secondary"
                                         type="button"

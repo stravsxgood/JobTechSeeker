@@ -152,6 +152,7 @@ function StarRating({ rating, label }: { rating: number; label: string }) {
         <div className="flex items-center gap-2">
             <div
                 className="flex items-center gap-0.5"
+                role="img"
                 aria-label={`Rating ${rating} dari 5`}
             >
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -161,7 +162,7 @@ function StarRating({ rating, label }: { rating: number; label: string }) {
             <span className="font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7]">
                 {rating}/5
             </span>
-            <span className="text-[12px] text-[#7c7c7c]">{label}</span>
+            <span className="text-[12px] text-[#8a8a8a]">{label}</span>
         </div>
     );
 }
@@ -372,7 +373,9 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
 
     return (
         <>
-            <Head title="CareerPilot AI - Platform Manajemen Pencarian Kerja Personal" />
+            <Head title="CareerPilot AI - Platform Manajemen Pencarian Kerja Personal">
+                <meta name="description" content="Catat lamaran kerja, jadwalkan interview, terima triase email rekrutmen, dan persiapkan diri dengan AI. Platform manajemen pencarian kerja personal." />
+            </Head>
             <div className="min-h-screen bg-[#0a0a0a] font-sans text-[#ffffff] selection:bg-[#1e1e1e] selection:text-[#6798ff]">
                 {/* ===== TOP NAVIGATION BAR (DOVETAIL DESIGN) ===== */}
                 <header className="sticky top-0 z-50 w-full border-b border-[#313131] bg-[#0a0a0a]/95 backdrop-blur-md">
@@ -561,6 +564,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                     )}
                 </header>
 
+                <main id="main-content">
                 {/* ===== HERO SECTION ===== */}
                 <section className="relative overflow-hidden border-b border-[#1e1e1e]">
                     {/* Blueprint grid motif (DESIGN.md) */}
@@ -576,7 +580,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
 
                     <div className="relative mx-auto max-w-[1200px] px-4 pt-16 pb-16 sm:px-6 sm:pt-20 sm:pb-20 lg:px-8">
                         {/* Hero Header & Value Proposition */}
-                        <FadeInWhenVisible className="mx-auto max-w-3xl text-center">
+                        <div className="mx-auto max-w-3xl text-center">
                             <p className="mb-4 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                                 PERSONAL JOB-SEARCH MANAGEMENT
                             </p>
@@ -603,7 +607,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                     </Button>
                                 </a>
                             </div>
-                        </FadeInWhenVisible>
+                        </div>
 
                         {/* Product Preview Card (Dovetail Command Center Instrument) */}
                         <FadeInWhenVisible
@@ -618,7 +622,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                             <div className="h-2.5 w-2.5 rounded-full bg-[#313131]" />
                                             <div className="h-2.5 w-2.5 rounded-full bg-[#313131]" />
                                             <div className="h-2.5 w-2.5 rounded-full bg-[#313131]" />
-                                            <span className="ml-2 font-mono text-[11px] tracking-[0.85px] text-[#7c7c7c] uppercase">
+                                            <span className="ml-2 font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
                                                 DASHBOARD PIPELINE
                                             </span>
                                         </div>
@@ -626,7 +630,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                             <Badge variant="accent" size="sm">
                                                 LIVE SYNC
                                             </Badge>
-                                            <span className="font-mono text-[11px] text-[#7c7c7c]">
+                                            <span className="font-mono text-[11px] text-[#8a8a8a]">
                                                 WIB
                                             </span>
                                         </div>
@@ -641,7 +645,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                             <p className="mt-1 text-[28px] font-semibold tracking-[-0.5px] text-[#ffffff]">
                                                 12
                                             </p>
-                                            <p className="text-[12px] text-[#7c7c7c]">
+                                            <p className="text-[12px] text-[#8a8a8a]">
                                                 3 dalam tahap seleksi
                                             </p>
                                         </div>
@@ -652,7 +656,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                             <p className="mt-1 text-[28px] font-semibold tracking-[-0.5px] text-[#ffffff]">
                                                 2
                                             </p>
-                                            <p className="text-[12px] text-[#7c7c7c]">
+                                            <p className="text-[12px] text-[#8a8a8a]">
                                                 Technical interview minggu ini
                                             </p>
                                         </div>
@@ -663,7 +667,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                             <p className="mt-1 text-[28px] font-semibold tracking-[-0.5px] text-[#ffffff]">
                                                 4/5
                                             </p>
-                                            <p className="text-[12px] text-[#7c7c7c]">
+                                            <p className="text-[12px] text-[#8a8a8a]">
                                                 80% target tercapai
                                             </p>
                                         </div>
@@ -1007,13 +1011,13 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                             <Badge variant="accent" size="sm">
                                                 AI CAREER PLANNER
                                             </Badge>
-                                            <span className="font-mono text-[11px] text-[#7c7c7c]">
+                                            <span className="font-mono text-[11px] text-[#8a8a8a]">
                                                 STRUCTURED OUTPUT
                                             </span>
                                         </div>
                                         <div className="space-y-4">
                                             <div>
-                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#7c7c7c] uppercase">
+                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
                                                     TARGET POSISI
                                                 </p>
                                                 <p className="mt-1 text-[15px] font-medium text-[#ffffff]">
@@ -1022,7 +1026,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                                 </p>
                                             </div>
                                             <div>
-                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#7c7c7c] uppercase">
+                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
                                                     GAP SKILL TERDETEKSI
                                                 </p>
                                                 <div className="mt-2 flex flex-wrap gap-2">
@@ -1041,7 +1045,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                                 </div>
                                             </div>
                                             <div>
-                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#7c7c7c] uppercase">
+                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
                                                     MILESTONE BULAN 1
                                                 </p>
                                                 <p className="mt-1 text-[13px] text-[#a7a7a7]">
@@ -1052,7 +1056,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                                 </p>
                                             </div>
                                             <div className="flex items-center justify-between border-t border-[#313131] pt-3">
-                                                <span className="font-mono text-[11px] tracking-[0.85px] text-[#7c7c7c] uppercase">
+                                                <span className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
                                                     DURASI ROADMAP
                                                 </span>
                                                 <span className="text-[14px] font-semibold text-[#6798ff]">
@@ -1081,7 +1085,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                             <h2 className="mx-auto max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
                                 Apa kata mereka yang sudah mencoba
                             </h2>
-                            <p className="mx-auto mt-3 max-w-lg text-[14px] text-[#7c7c7c]">
+                            <p className="mx-auto mt-3 max-w-lg text-[14px] text-[#8a8a8a]">
                                 [REAL DATA] Metrik dan ulasan berikut disiapkan
                                 untuk memuat data pengguna nyata
                             </p>
@@ -1099,13 +1103,13 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                     </p>
                                     <div className="mt-2 flex items-center justify-center gap-1">
                                         {[1, 2, 3, 4, 5].map((star) => (
-                                            <StarIcon
+                                             <StarIcon
                                                 key={star}
                                                 filled={star <= 4}
                                             />
                                         ))}
                                     </div>
-                                    <p className="mt-1 font-mono text-[11px] tracking-[0.85px] text-[#7c7c7c]">
+                                    <p className="mt-1 font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a]">
                                         [REAL DATA] RATING
                                     </p>
                                 </div>
@@ -1117,7 +1121,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                     <p className="mt-1 text-[13px] text-[#a7a7a7]">
                                         Pengguna Terdaftar
                                     </p>
-                                    <p className="font-mono text-[11px] tracking-[0.85px] text-[#7c7c7c]">
+                                    <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a]">
                                         [REAL DATA] JUMLAH
                                     </p>
                                 </div>
@@ -1155,7 +1159,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                             rating={item.rating}
                                             label="[REAL DATA]"
                                         />
-                                        <p className="mt-3 text-[13px] leading-[1.5] text-[#7c7c7c]">
+                                        <p className="mt-3 text-[13px] leading-[1.5] text-[#8a8a8a]">
                                             [REAL DATA] {item.label}
                                         </p>
                                     </div>
@@ -1251,19 +1255,20 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                         </FadeInWhenVisible>
                     </div>
                 </section>
+                </main>
 
                 {/* ===== FOOTER ===== */}
                 <footer className="py-8">
                     <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-                            <div className="flex items-center gap-2.5 text-[13px] text-[#7c7c7c]">
+                            <div className="flex items-center gap-2.5 text-[13px] text-[#8a8a8a]">
                                 <span className="font-medium text-[#a7a7a7]">
                                     CareerPilot AI
                                 </span>
                                 <span>•</span>
                                 <span>Personal Job-Search Management</span>
                             </div>
-                            <p className="text-[13px] text-[#7c7c7c]">
+                            <p className="text-[13px] text-[#8a8a8a]">
                                 AI-assisted, user-controlled
                             </p>
                         </div>

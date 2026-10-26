@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="CareerPilot AI - Platform manajemen pencarian kerja personal. Catat lamaran kerja, jadwalkan interview, terima triase email rekrutmen, dan persiapkan diri dengan AI.">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link rel="icon" href="/favicon.ico" sizes="any">

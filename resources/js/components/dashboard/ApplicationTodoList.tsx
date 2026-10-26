@@ -47,8 +47,12 @@ export function ApplicationTodoList({
     onStatusChangeClick,
     onRefresh,
 }: ApplicationTodoListProps) {
-    const [filter, setFilter] = useState<'all' | 'followup' | 'interview' | 'stagnant' | 'custom'>('all');
-    const [completedTasks, setCompletedTasks] = useState<Record<string, boolean>>({});
+    const [filter, setFilter] = useState<
+        'all' | 'followup' | 'interview' | 'stagnant' | 'custom'
+    >('all');
+    const [completedTasks, setCompletedTasks] = useState<
+        Record<string, boolean>
+    >({});
     const [customTodos, setCustomTodos] = useState<CustomTodo[]>([
         {
             id: 'custom-1',
@@ -90,7 +94,8 @@ export function ApplicationTodoList({
     // Calculate stagnant applications (>= 14 days without status update)
     const stagnantItems = followUpsDue.filter((app) => {
         const updatedDate = new Date(app.updated_at);
-        const diffDays = (Date.now() - updatedDate.getTime()) / (1000 * 60 * 60 * 24);
+        const diffDays =
+            (Date.now() - updatedDate.getTime()) / (1000 * 60 * 60 * 24);
         return diffDays >= 14;
     });
 
@@ -105,14 +110,14 @@ export function ApplicationTodoList({
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <div className="flex items-center gap-2">
-                        <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
+                        <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                             TINDAKAN & AGENDA
                         </span>
-                        <span className="rounded-[4px] bg-[#1e1e1e] border border-[#313131] px-1.5 py-0.5 font-mono text-[10px] text-[#ffffff]">
+                        <span className="rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-1.5 py-0.5 font-mono text-[10px] text-[#ffffff]">
                             {totalActiveTodos} tugas aktif
                         </span>
                     </div>
-                    <h3 className="text-[17px] font-semibold text-[#ffffff] tracking-[-0.2px]">
+                    <h3 className="text-[17px] font-semibold tracking-[-0.2px] text-[#ffffff]">
                         To-Do List Lamaran Yang Sudah Dilamar
                     </h3>
                 </div>
@@ -121,9 +126,16 @@ export function ApplicationTodoList({
                     <button
                         type="button"
                         onClick={() => setIsAddingTodo(!isAddingTodo)}
-                        className="flex min-h-[36px] items-center gap-1.5 rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-3 text-[12px] font-medium text-[#ffffff] hover:border-[#6798ff] transition-colors focus-visible:ring-1 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                        className="flex min-h-[36px] items-center gap-1.5 rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-3 text-[12px] font-medium text-[#ffffff] transition-colors hover:border-[#6798ff] focus-visible:ring-1 focus-visible:ring-[#6798ff] focus-visible:outline-none"
                     >
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <svg
+                            width="13"
+                            height="13"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                        >
                             <line x1="12" y1="5" x2="12" y2="19" />
                             <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
@@ -134,9 +146,16 @@ export function ApplicationTodoList({
                             type="button"
                             onClick={onRefresh}
                             aria-label="Segarkan to-do"
-                            className="flex min-h-[36px] min-w-[36px] items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] hover:text-[#ffffff] transition-colors"
+                            className="flex min-h-[36px] min-w-[36px] items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] transition-colors hover:text-[#ffffff]"
                         >
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                            >
                                 <path d="M23 4v6h-6" />
                                 <path d="M1 20v-6h6" />
                                 <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
@@ -150,31 +169,36 @@ export function ApplicationTodoList({
             {isAddingTodo && (
                 <form
                     onSubmit={handleAddCustomTodo}
-                    className="mt-4 rounded-[6px] border border-[#6798ff]/40 bg-[#0a0a0a] p-3.5 space-y-3"
+                    className="mt-4 space-y-3 rounded-[6px] border border-[#6798ff]/40 bg-[#0a0a0a] p-3.5"
                 >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                         <div>
-                            <label className="block text-[11px] font-mono text-[#a7a7a7] uppercase mb-1">
+                            <label className="mb-1 block font-mono text-[11px] text-[#a7a7a7] uppercase">
                                 Perusahaan / Topik
                             </label>
                             <input
                                 type="text"
                                 placeholder="Contoh: Shopee / Take-Home Test"
                                 value={newTodoCompany}
-                                onChange={(e) => setNewTodoCompany(e.target.value)}
+                                onChange={(e) =>
+                                    setNewTodoCompany(e.target.value)
+                                }
                                 className="w-full rounded-[6px] border border-[#313131] bg-[#141414] px-3 py-1.5 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                             />
                         </div>
                         <div>
-                            <label className="block text-[11px] font-mono text-[#a7a7a7] uppercase mb-1">
-                                Aktivitas / Tindakan <span className="text-[#f87171]">*</span>
+                            <label className="mb-1 block font-mono text-[11px] text-[#a7a7a7] uppercase">
+                                Aktivitas / Tindakan{' '}
+                                <span className="text-[#f87171]">*</span>
                             </label>
                             <input
                                 type="text"
                                 required
                                 placeholder="Contoh: Kirim email follow-up berkas portofolio"
                                 value={newTodoTitle}
-                                onChange={(e) => setNewTodoTitle(e.target.value)}
+                                onChange={(e) =>
+                                    setNewTodoTitle(e.target.value)
+                                }
                                 className="w-full rounded-[6px] border border-[#313131] bg-[#141414] px-3 py-1.5 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                             />
                         </div>
@@ -189,7 +213,7 @@ export function ApplicationTodoList({
                         </button>
                         <button
                             type="submit"
-                            className="rounded-[6px] bg-[#ffffff] px-3 py-1 text-[12px] font-medium text-[#0a0a0a] hover:bg-[#a7a7a7] transition-colors"
+                            className="rounded-[6px] bg-[#ffffff] px-3 py-1 text-[12px] font-medium text-[#0a0a0a] transition-colors hover:bg-[#a7a7a7]"
                         >
                             Simpan Tugas
                         </button>
@@ -200,11 +224,31 @@ export function ApplicationTodoList({
             {/* Category Filter Pills */}
             <div className="mt-4 flex flex-wrap items-center gap-1.5 border-b border-[#313131] pb-3">
                 {[
-                    { key: 'all', label: 'Semua Tindakan', count: totalActiveTodos },
-                    { key: 'followup', label: 'Follow-Up', count: followUpsDue.length },
-                    { key: 'interview', label: 'Interview', count: upcomingInterviews.length },
-                    { key: 'stagnant', label: 'Stagnan (2 Minggu)', count: stagnantItems.length },
-                    { key: 'custom', label: 'Checklist Mandiri', count: customTodos.length },
+                    {
+                        key: 'all',
+                        label: 'Semua Tindakan',
+                        count: totalActiveTodos,
+                    },
+                    {
+                        key: 'followup',
+                        label: 'Follow-Up',
+                        count: followUpsDue.length,
+                    },
+                    {
+                        key: 'interview',
+                        label: 'Interview',
+                        count: upcomingInterviews.length,
+                    },
+                    {
+                        key: 'stagnant',
+                        label: 'Stagnan (2 Minggu)',
+                        count: stagnantItems.length,
+                    },
+                    {
+                        key: 'custom',
+                        label: 'Checklist Mandiri',
+                        count: customTodos.length,
+                    },
                 ].map((item) => (
                     <button
                         key={item.key}
@@ -212,24 +256,28 @@ export function ApplicationTodoList({
                         onClick={() => setFilter(item.key as typeof filter)}
                         className={`inline-flex items-center gap-1.5 rounded-[6px] px-2.5 py-1 text-[12px] font-medium transition-colors ${
                             filter === item.key
-                                ? 'bg-[#1e1e1e] border border-[#6798ff] text-[#ffffff]'
+                                ? 'border border-[#6798ff] bg-[#1e1e1e] text-[#ffffff]'
                                 : 'text-[#7c7c7c] hover:bg-[#1e1e1e]/60 hover:text-[#ffffff]'
                         }`}
                     >
                         <span>{item.label}</span>
-                        <span className="font-mono text-[10px] text-[#a7a7a7]">({item.count})</span>
+                        <span className="font-mono text-[10px] text-[#a7a7a7]">
+                            ({item.count})
+                        </span>
                     </button>
                 ))}
             </div>
 
             {/* To-Do Items List */}
-            <div className="mt-3 divide-y divide-[#1e1e1e] max-h-96 overflow-y-auto">
+            <div className="mt-3 max-h-96 divide-y divide-[#1e1e1e] overflow-y-auto">
                 {/* 1. Upcoming Interview Action Items */}
                 {(filter === 'all' || filter === 'interview') &&
                     upcomingInterviews.map((interview) => {
                         const taskId = `int-${interview.id}`;
                         const isDone = completedTasks[taskId];
-                        const dateFormatted = new Date(interview.start_at).toLocaleDateString('id-ID', {
+                        const dateFormatted = new Date(
+                            interview.start_at,
+                        ).toLocaleDateString('id-ID', {
                             weekday: 'short',
                             day: 'numeric',
                             month: 'short',
@@ -249,12 +297,13 @@ export function ApplicationTodoList({
                                     checked={isDone || false}
                                     onChange={() => toggleTask(taskId)}
                                     aria-label={`Tandai persiapan wawancara ${interview.job_title} selesai`}
-                                    className="mt-1 h-4 w-4 rounded-[4px] border border-[#454545] bg-[#0a0a0a] text-[#6798ff] focus:ring-1 focus:ring-[#6798ff] cursor-pointer"
+                                    className="mt-1 h-4 w-4 cursor-pointer rounded-[4px] border border-[#454545] bg-[#0a0a0a] text-[#6798ff] focus:ring-1 focus:ring-[#6798ff]"
                                 />
                                 <div className="min-w-0 flex-1">
                                     <div className="flex flex-wrap items-center gap-2">
                                         <span className="text-[13px] font-medium text-[#ffffff]">
-                                            Persiapan Sesi Interview: {interview.job_title || 'Posisi'}
+                                            Persiapan Sesi Interview:{' '}
+                                            {interview.job_title || 'Posisi'}
                                         </span>
                                         <Badge variant="accent" size="sm">
                                             {interview.interview_type}
@@ -264,16 +313,26 @@ export function ApplicationTodoList({
                                         </span>
                                     </div>
                                     <p className="mt-0.5 text-[12px] text-[#a7a7a7]">
-                                        Perusahaan: <span className="text-[#ffffff]">{interview.company_name}</span>
+                                        Perusahaan:{' '}
+                                        <span className="text-[#ffffff]">
+                                            {interview.company_name}
+                                        </span>
                                     </p>
                                     <div className="mt-2 flex flex-wrap items-center gap-2">
                                         <Link
                                             href={`/ai/interview-copilot?job_title=${encodeURIComponent(
-                                                interview.job_title || ''
+                                                interview.job_title || '',
                                             )}`}
-                                            className="inline-flex items-center gap-1 rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-2 py-1 text-[11px] text-[#6798ff] hover:border-[#6798ff] transition-colors"
+                                            className="inline-flex items-center gap-1 rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-2 py-1 text-[11px] text-[#6798ff] transition-colors hover:border-[#6798ff]"
                                         >
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <svg
+                                                width="12"
+                                                height="12"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            >
                                                 <polygon points="12 2 2 7 12 12 22 7 12 2" />
                                                 <polyline points="20 17 12 22 2 17" />
                                             </svg>
@@ -284,11 +343,24 @@ export function ApplicationTodoList({
                                                 href={interview.meeting_url}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="inline-flex items-center gap-1 rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-2 py-1 text-[11px] text-[#34d399] hover:border-[#34d399] transition-colors"
+                                                className="inline-flex items-center gap-1 rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-2 py-1 text-[11px] text-[#34d399] transition-colors hover:border-[#34d399]"
                                             >
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <svg
+                                                    width="12"
+                                                    height="12"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                >
                                                     <path d="M15 10l5-5v14l-5-5" />
-                                                    <rect x="2" y="6" width="13" height="12" rx="2" />
+                                                    <rect
+                                                        x="2"
+                                                        y="6"
+                                                        width="13"
+                                                        height="12"
+                                                        rx="2"
+                                                    />
                                                 </svg>
                                                 <span>Buka Meeting</span>
                                             </a>
@@ -305,10 +377,13 @@ export function ApplicationTodoList({
                         const taskId = `fu-${app.id}`;
                         const isDone = completedTasks[taskId];
                         const followUpDate = app.follow_up_at
-                            ? new Date(app.follow_up_at).toLocaleDateString('id-ID', {
-                                  day: 'numeric',
-                                  month: 'short',
-                              })
+                            ? new Date(app.follow_up_at).toLocaleDateString(
+                                  'id-ID',
+                                  {
+                                      day: 'numeric',
+                                      month: 'short',
+                                  },
+                              )
                             : 'Segera';
 
                         return (
@@ -323,33 +398,38 @@ export function ApplicationTodoList({
                                     checked={isDone || false}
                                     onChange={() => toggleTask(taskId)}
                                     aria-label={`Tandai follow-up ${app.job_title} selesai`}
-                                    className="mt-1 h-4 w-4 rounded-[4px] border border-[#454545] bg-[#0a0a0a] text-[#6798ff] focus:ring-1 focus:ring-[#6798ff] cursor-pointer"
+                                    className="mt-1 h-4 w-4 cursor-pointer rounded-[4px] border border-[#454545] bg-[#0a0a0a] text-[#6798ff] focus:ring-1 focus:ring-[#6798ff]"
                                 />
                                 <div className="min-w-0 flex-1">
                                     <div className="flex flex-wrap items-center gap-2">
                                         <span className="text-[13px] font-medium text-[#ffffff]">
                                             Follow-Up Lamaran: {app.job_title}
                                         </span>
-                                        <span className="rounded-[4px] bg-[#6798ff]/15 border border-[#6798ff]/30 px-1.5 py-0.2 font-mono text-[10px] text-[#6798ff]">
+                                        <span className="py-0.2 rounded-[4px] border border-[#6798ff]/30 bg-[#6798ff]/15 px-1.5 font-mono text-[10px] text-[#6798ff]">
                                             Tenggat: {followUpDate}
                                         </span>
                                     </div>
                                     <p className="mt-0.5 text-[12px] text-[#a7a7a7]">
-                                        Perusahaan: <span className="text-[#ffffff]">{app.company?.name}</span>
+                                        Perusahaan:{' '}
+                                        <span className="text-[#ffffff]">
+                                            {app.company?.name}
+                                        </span>
                                     </p>
                                     <div className="mt-2 flex items-center gap-2">
                                         {onStatusChangeClick && (
                                             <button
                                                 type="button"
-                                                onClick={() => onStatusChangeClick(app.id)}
-                                                className="rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-2 py-1 text-[11px] text-[#ffffff] hover:border-[#6798ff] transition-colors"
+                                                onClick={() =>
+                                                    onStatusChangeClick(app.id)
+                                                }
+                                                className="rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-2 py-1 text-[11px] text-[#ffffff] transition-colors hover:border-[#6798ff]"
                                             >
                                                 Perbarui Status
                                             </button>
                                         )}
                                         <Link
                                             href={`/applications?search=${encodeURIComponent(app.company?.name || '')}`}
-                                            className="text-[11px] text-[#7c7c7c] hover:text-[#ffffff] transition-colors"
+                                            className="text-[11px] text-[#7c7c7c] transition-colors hover:text-[#ffffff]"
                                         >
                                             Lihat Riwayat →
                                         </Link>
@@ -377,26 +457,32 @@ export function ApplicationTodoList({
                                     checked={isDone || false}
                                     onChange={() => toggleTask(taskId)}
                                     aria-label={`Tandai evaluasi stagnan ${app.job_title} selesai`}
-                                    className="mt-1 h-4 w-4 rounded-[4px] border border-[#f59e0b] bg-[#0a0a0a] text-[#f59e0b] focus:ring-1 focus:ring-[#f59e0b] cursor-pointer"
+                                    className="mt-1 h-4 w-4 cursor-pointer rounded-[4px] border border-[#f59e0b] bg-[#0a0a0a] text-[#f59e0b] focus:ring-1 focus:ring-[#f59e0b]"
                                 />
                                 <div className="min-w-0 flex-1">
                                     <div className="flex flex-wrap items-center gap-2">
                                         <span className="text-[13px] font-medium text-[#f59e0b]">
-                                            Perhatian: Lamaran Belum Ada Kabar $\ge 14$ Hari
+                                            Perhatian: Lamaran Belum Ada Kabar
+                                            $\ge 14$ Hari
                                         </span>
-                                        <span className="rounded-[4px] bg-[#f59e0b]/15 border border-[#f59e0b]/30 px-1.5 py-0.2 font-mono text-[10px] text-[#f59e0b]">
+                                        <span className="py-0.2 rounded-[4px] border border-[#f59e0b]/30 bg-[#f59e0b]/15 px-1.5 font-mono text-[10px] text-[#f59e0b]">
                                             Stagnan
                                         </span>
                                     </div>
                                     <p className="mt-0.5 text-[12px] text-[#a7a7a7]">
-                                        <span className="text-[#ffffff]">{app.job_title}</span> di {app.company?.name}
+                                        <span className="text-[#ffffff]">
+                                            {app.job_title}
+                                        </span>{' '}
+                                        di {app.company?.name}
                                     </p>
                                     <div className="mt-2 flex items-center gap-2">
                                         <Link
                                             href={`/ai/career-planner`}
-                                            className="inline-flex items-center gap-1 rounded-[4px] border border-[#f59e0b]/40 bg-[#f59e0b]/10 px-2 py-1 text-[11px] text-[#f59e0b] hover:bg-[#f59e0b]/20 transition-colors"
+                                            className="inline-flex items-center gap-1 rounded-[4px] border border-[#f59e0b]/40 bg-[#f59e0b]/10 px-2 py-1 text-[11px] text-[#f59e0b] transition-colors hover:bg-[#f59e0b]/20"
                                         >
-                                            <span>Minta Alternatif Lowongan AI</span>
+                                            <span>
+                                                Minta Alternatif Lowongan AI
+                                            </span>
                                         </Link>
                                     </div>
                                 </div>
@@ -407,7 +493,8 @@ export function ApplicationTodoList({
                 {/* 4. Custom User Tasks */}
                 {(filter === 'all' || filter === 'custom') &&
                     customTodos.map((todo) => {
-                        const isDone = completedTasks[todo.id] || todo.is_completed;
+                        const isDone =
+                            completedTasks[todo.id] || todo.is_completed;
 
                         return (
                             <div
@@ -421,10 +508,12 @@ export function ApplicationTodoList({
                                     checked={isDone}
                                     onChange={() => toggleTask(todo.id)}
                                     aria-label={`Tandai to-do ${todo.title} selesai`}
-                                    className="mt-1 h-4 w-4 rounded-[4px] border border-[#454545] bg-[#0a0a0a] text-[#6798ff] focus:ring-1 focus:ring-[#6798ff] cursor-pointer"
+                                    className="mt-1 h-4 w-4 cursor-pointer rounded-[4px] border border-[#454545] bg-[#0a0a0a] text-[#6798ff] focus:ring-1 focus:ring-[#6798ff]"
                                 />
                                 <div className="min-w-0 flex-1">
-                                    <p className={`text-[13px] font-medium text-[#ffffff] ${isDone ? 'line-through text-[#7c7c7c]' : ''}`}>
+                                    <p
+                                        className={`text-[13px] font-medium text-[#ffffff] ${isDone ? 'text-[#7c7c7c] line-through' : ''}`}
+                                    >
                                         {todo.title}
                                     </p>
                                     <span className="font-mono text-[11px] text-[#7c7c7c]">
@@ -451,7 +540,8 @@ export function ApplicationTodoList({
                             Semua To-Do Lamaran Selesai!
                         </p>
                         <p className="mt-1 text-[12px] text-[#7c7c7c]">
-                            Tidak ada follow-up jatuh tempo atau agenda tertunda hari ini.
+                            Tidak ada follow-up jatuh tempo atau agenda tertunda
+                            hari ini.
                         </p>
                     </div>
                 )}

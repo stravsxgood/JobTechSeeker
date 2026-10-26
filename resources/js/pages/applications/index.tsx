@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Head, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { AppLayout } from '@/layouts/AppLayout';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -51,10 +51,16 @@ const STATUS_LABELS: Record<string, string> = {
     withdrawn: 'Ditarik',
 };
 
-export default function ApplicationsIndex({ initialView = 'list' }: ApplicationsPageProps) {
+export default function ApplicationsIndex({
+    initialView = 'list',
+}: ApplicationsPageProps) {
     // Check URL param or initialView
-    const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-    const initialMode = urlParams?.get('view') === 'kanban' ? 'kanban' : initialView;
+    const urlParams =
+        typeof window !== 'undefined'
+            ? new URLSearchParams(window.location.search)
+            : null;
+    const initialMode =
+        urlParams?.get('view') === 'kanban' ? 'kanban' : initialView;
 
     const [viewMode, setViewMode] = useState<'list' | 'kanban'>(initialMode);
     const [applications, setApplications] = useState<ApplicationItem[]>([]);
@@ -65,15 +71,23 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
         per_page: 20,
     });
 
-    const [searchQuery, setSearchQuery] = useState(urlParams?.get('search') || '');
-    const [selectedStatus, setSelectedStatus] = useState<string>(urlParams?.get('status') || 'all');
+    const [searchQuery, setSearchQuery] = useState(
+        urlParams?.get('search') || '',
+    );
+    const [selectedStatus, setSelectedStatus] = useState<string>(
+        urlParams?.get('status') || 'all',
+    );
     const [selectedSource, setSelectedSource] = useState<string>('all');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [isLoading, setIsLoading] = useState(true);
 
     // Modal states
-    const [isCreateOpen, setIsCreateOpen] = useState(urlParams?.get('create') === 'true');
-    const [selectedDetailId, setSelectedDetailId] = useState<string | null>(null);
+    const [isCreateOpen, setIsCreateOpen] = useState(
+        urlParams?.get('create') === 'true',
+    );
+    const [selectedDetailId, setSelectedDetailId] = useState<string | null>(
+        null,
+    );
 
     const fetchApplications = async () => {
         setIsLoading(true);
@@ -87,15 +101,20 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
 
             const params = new URLSearchParams();
             if (searchQuery.trim()) params.append('q', searchQuery.trim());
-            if (selectedStatus !== 'all') params.append('status', selectedStatus);
-            if (selectedSource !== 'all') params.append('source', selectedSource);
+            if (selectedStatus !== 'all')
+                params.append('status', selectedStatus);
+            if (selectedSource !== 'all')
+                params.append('source', selectedSource);
             params.append('page', String(currentPage));
             params.append('per_page', viewMode === 'kanban' ? '100' : '15');
 
-            const res = await fetch(`/api/v1/applications?${params.toString()}`, {
-                headers,
-                credentials: 'same-origin',
-            });
+            const res = await fetch(
+                `/api/v1/applications?${params.toString()}`,
+                {
+                    headers,
+                    credentials: 'same-origin',
+                },
+            );
 
             if (res.ok) {
                 const json = await res.json();
@@ -119,19 +138,26 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
     // Debounced search & filter
     useEffect(() => {
         const timer = setTimeout(() => {
-            fetchApplications();
+            void fetchApplications();
         }, 300);
         return () => clearTimeout(timer);
     }, [searchQuery, selectedStatus, selectedSource, currentPage, viewMode]);
 
     const handleDelete = async (id: string, jobTitle: string) => {
-        if (!confirm(`Apakah Anda yakin ingin menghapus lamaran "${jobTitle}"? Seluruh pengingat terkait akan dibatalkan.`)) {
+        if (
+            !confirm(
+                `Apakah Anda yakin ingin menghapus lamaran "${jobTitle}"? Seluruh pengingat terkait akan dibatalkan.`,
+            )
+        ) {
             return;
         }
 
         try {
             const token = localStorage.getItem('careerpilot_token');
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            const csrfToken =
+                document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute('content') || '';
             const headers: Record<string, string> = {
                 Accept: 'application/json',
                 'X-CSRF-TOKEN': csrfToken,
@@ -146,7 +172,7 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
             });
 
             if (res.ok) {
-                fetchApplications();
+                void fetchApplications();
             }
         } catch {
             alert('Gagal menghapus lamaran.');
@@ -227,7 +253,14 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
                                         : 'text-[#7c7c7c] hover:text-[#ffffff]'
                                 }`}
                             >
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
                                     <line x1="8" y1="6" x2="21" y2="6" />
                                     <line x1="8" y1="12" x2="21" y2="12" />
                                     <line x1="8" y1="18" x2="21" y2="18" />
@@ -246,14 +279,33 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
                                         : 'text-[#7c7c7c] hover:text-[#ffffff]'
                                 }`}
                             >
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <rect x="3" y="3" width="7" height="18" rx="1" />
-                                    <rect x="14" y="3" width="7" height="18" rx="1" />
+                                <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
+                                    <rect
+                                        x="3"
+                                        y="3"
+                                        width="7"
+                                        height="18"
+                                        rx="1"
+                                    />
+                                    <rect
+                                        x="14"
+                                        y="3"
+                                        width="7"
+                                        height="18"
+                                        rx="1"
+                                    />
                                 </svg>
                                 <span>Kanban Board</span>
                             </button>
                         </div>
-                        <span className="font-mono text-[12px] text-[#7c7c7c] hidden sm:inline">
+                        <span className="hidden font-mono text-[12px] text-[#7c7c7c] sm:inline">
                             {meta.total} Total Lamaran
                         </span>
                     </div>
@@ -270,10 +322,10 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
                                     setSearchQuery(e.target.value);
                                     setCurrentPage(1);
                                 }}
-                                className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] pl-8 pr-3 py-1.5 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
+                                className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] py-1.5 pr-3 pl-8 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                             />
                             <svg
-                                className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-[#7c7c7c]"
+                                className="absolute top-2.5 left-2.5 h-3.5 w-3.5 text-[#7c7c7c]"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
@@ -317,7 +369,9 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
                             <option value="LinkedIn">LinkedIn</option>
                             <option value="JobStreet">JobStreet</option>
                             <option value="Glints">Glints</option>
-                            <option value="Website Perusahaan">Website Perusahaan</option>
+                            <option value="Website Perusahaan">
+                                Website Perusahaan
+                            </option>
                             <option value="Lainnya">Lainnya</option>
                         </select>
                     </div>
@@ -325,69 +379,125 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
 
                 {/* VIEW 1: TABLE / LIST VIEW */}
                 {viewMode === 'list' && (
-                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] overflow-hidden">
+                    <div className="overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414]">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left text-[13px]">
                                 <thead className="border-b border-[#313131] bg-[#0a0a0a] font-mono text-[11px] text-[#7c7c7c] uppercase">
                                     <tr>
-                                        <th scope="col" className="px-4 py-3">Perusahaan & Lokasi</th>
-                                        <th scope="col" className="px-4 py-3">Posisi</th>
-                                        <th scope="col" className="px-4 py-3">Status</th>
-                                        <th scope="col" className="px-4 py-3">Sumber</th>
-                                        <th scope="col" className="px-4 py-3">Tanggal Dilamar</th>
-                                        <th scope="col" className="px-4 py-3">Follow-Up</th>
-                                        <th scope="col" className="px-4 py-3 text-right">Aksi</th>
+                                        <th scope="col" className="px-4 py-3">
+                                            Perusahaan & Lokasi
+                                        </th>
+                                        <th scope="col" className="px-4 py-3">
+                                            Posisi
+                                        </th>
+                                        <th scope="col" className="px-4 py-3">
+                                            Status
+                                        </th>
+                                        <th scope="col" className="px-4 py-3">
+                                            Sumber
+                                        </th>
+                                        <th scope="col" className="px-4 py-3">
+                                            Tanggal Dilamar
+                                        </th>
+                                        <th scope="col" className="px-4 py-3">
+                                            Follow-Up
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-4 py-3 text-right"
+                                        >
+                                            Aksi
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#1e1e1e]">
                                     {isLoading ? (
                                         <tr>
-                                            <td colSpan={7} className="py-12 text-center text-[#7c7c7c]">
+                                            <td
+                                                colSpan={7}
+                                                className="py-12 text-center text-[#7c7c7c]"
+                                            >
                                                 Memuat data lamaran...
                                             </td>
                                         </tr>
                                     ) : applications.length === 0 ? (
                                         <tr>
-                                            <td colSpan={7} className="py-12 text-center">
-                                                <p className="text-[14px] font-medium text-[#ffffff]">Tidak ada lamaran ditemukan</p>
+                                            <td
+                                                colSpan={7}
+                                                className="py-12 text-center"
+                                            >
+                                                <p className="text-[14px] font-medium text-[#ffffff]">
+                                                    Tidak ada lamaran ditemukan
+                                                </p>
                                                 <p className="mt-1 text-[12px] text-[#7c7c7c]">
-                                                    Ubah kata kunci pencarian atau tambah catatan lamaran baru.
+                                                    Ubah kata kunci pencarian
+                                                    atau tambah catatan lamaran
+                                                    baru.
                                                 </p>
                                             </td>
                                         </tr>
                                     ) : (
                                         applications.map((app) => {
-                                            const isStagnant = (Date.now() - new Date(app.updated_at).getTime()) / (1000 * 60 * 60 * 24) >= 14;
+                                            const isStagnant =
+                                                (Date.now() -
+                                                    new Date(
+                                                        app.updated_at,
+                                                    ).getTime()) /
+                                                    (1000 * 60 * 60 * 24) >=
+                                                14;
 
                                             return (
-                                                <tr key={app.id} className="transition-colors hover:bg-[#1e1e1e]/60">
+                                                <tr
+                                                    key={app.id}
+                                                    className="transition-colors hover:bg-[#1e1e1e]/60"
+                                                >
                                                     <td className="px-4 py-3.5">
                                                         <div className="flex items-center gap-2">
                                                             <span className="font-semibold text-[#ffffff]">
-                                                                {app.company_name || app.company?.name || 'Perusahaan'}
+                                                                {app.company_name ||
+                                                                    app.company
+                                                                        ?.name ||
+                                                                    'Perusahaan'}
                                                             </span>
                                                             {isStagnant && (
                                                                 <span
                                                                     title="Lamaran belum ada pembaruan status >= 14 hari"
-                                                                    className="rounded-[4px] bg-[#f59e0b]/15 border border-[#f59e0b]/40 px-1 py-0.2 font-mono text-[9px] text-[#f59e0b]"
+                                                                    className="py-0.2 rounded-[4px] border border-[#f59e0b]/40 bg-[#f59e0b]/15 px-1 font-mono text-[9px] text-[#f59e0b]"
                                                                 >
                                                                     Stagnan
                                                                 </span>
                                                             )}
                                                         </div>
-                                                        <span className="text-[11px] text-[#7c7c7c] block">
-                                                            {app.location || 'Lokasi tidak ditentukan'}
+                                                        <span className="block text-[11px] text-[#7c7c7c]">
+                                                            {app.location ||
+                                                                'Lokasi tidak ditentukan'}
                                                         </span>
                                                     </td>
                                                     <td className="px-4 py-3.5">
-                                                        <span className="font-medium text-[#ffffff]">{app.job_title}</span>
-                                                        <span className="text-[11px] text-[#a7a7a7] block capitalize">
-                                                            {app.employment_type?.replace('_', ' ')}
+                                                        <span className="font-medium text-[#ffffff]">
+                                                            {app.job_title}
+                                                        </span>
+                                                        <span className="block text-[11px] text-[#a7a7a7] capitalize">
+                                                            {app.employment_type?.replace(
+                                                                '_',
+                                                                ' ',
+                                                            )}
                                                         </span>
                                                     </td>
                                                     <td className="px-4 py-3.5">
-                                                        <Badge variant={app.is_active ? 'accent' : 'default'} size="sm">
-                                                            {STATUS_LABELS[app.status] || app.status_label || app.status}
+                                                        <Badge
+                                                            variant={
+                                                                app.is_active
+                                                                    ? 'accent'
+                                                                    : 'default'
+                                                            }
+                                                            size="sm"
+                                                        >
+                                                            {STATUS_LABELS[
+                                                                app.status
+                                                            ] ||
+                                                                app.status_label ||
+                                                                app.status}
                                                         </Badge>
                                                     </td>
                                                     <td className="px-4 py-3.5">
@@ -400,28 +510,49 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
                                                     </td>
                                                     <td className="px-4 py-3.5 font-mono text-[12px] text-[#6798ff]">
                                                         {app.follow_up_at
-                                                            ? new Date(app.follow_up_at).toLocaleDateString('id-ID', {
-                                                                  day: 'numeric',
-                                                                  month: 'short',
-                                                              })
+                                                            ? new Date(
+                                                                  app.follow_up_at,
+                                                              ).toLocaleDateString(
+                                                                  'id-ID',
+                                                                  {
+                                                                      day: 'numeric',
+                                                                      month: 'short',
+                                                                  },
+                                                              )
                                                             : '-'}
                                                     </td>
                                                     <td className="px-4 py-3.5 text-right">
                                                         <div className="flex items-center justify-end gap-2">
                                                             <button
                                                                 type="button"
-                                                                onClick={() => setSelectedDetailId(app.id)}
-                                                                className="rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-2.5 py-1 text-[11px] font-medium text-[#ffffff] hover:border-[#6798ff] transition-colors"
+                                                                onClick={() =>
+                                                                    setSelectedDetailId(
+                                                                        app.id,
+                                                                    )
+                                                                }
+                                                                className="rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-2.5 py-1 text-[11px] font-medium text-[#ffffff] transition-colors hover:border-[#6798ff]"
                                                             >
                                                                 Detail & Status
                                                             </button>
                                                             <button
                                                                 type="button"
-                                                                onClick={() => handleDelete(app.id, app.job_title)}
+                                                                onClick={() =>
+                                                                    handleDelete(
+                                                                        app.id,
+                                                                        app.job_title,
+                                                                    )
+                                                                }
                                                                 aria-label="Hapus lamaran"
-                                                                className="flex h-7 w-7 items-center justify-center rounded-[4px] text-[#7c7c7c] hover:bg-[#f87171]/10 hover:text-[#f87171] transition-colors"
+                                                                className="flex h-7 w-7 items-center justify-center rounded-[4px] text-[#7c7c7c] transition-colors hover:bg-[#f87171]/10 hover:text-[#f87171]"
                                                             >
-                                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                                <svg
+                                                                    width="13"
+                                                                    height="13"
+                                                                    viewBox="0 0 24 24"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth="2"
+                                                                >
                                                                     <polyline points="3 6 5 6 21 6" />
                                                                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                                                                 </svg>
@@ -438,23 +569,34 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
 
                         {/* Pagination Bar */}
                         {meta.last_page > 1 && (
-                            <div className="flex items-center justify-between border-t border-[#313131] px-4 py-3 bg-[#0a0a0a]">
+                            <div className="flex items-center justify-between border-t border-[#313131] bg-[#0a0a0a] px-4 py-3">
                                 <span className="font-mono text-[11px] text-[#7c7c7c]">
-                                    Halaman {meta.current_page} dari {meta.last_page} ({meta.total} item)
+                                    Halaman {meta.current_page} dari{' '}
+                                    {meta.last_page} ({meta.total} item)
                                 </span>
                                 <div className="flex items-center gap-1.5">
                                     <button
                                         type="button"
                                         disabled={meta.current_page <= 1}
-                                        onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                                        onClick={() =>
+                                            setCurrentPage((p) =>
+                                                Math.max(p - 1, 1),
+                                            )
+                                        }
                                         className="rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-2.5 py-1 text-[11px] text-[#ffffff] disabled:opacity-40"
                                     >
                                         Sebelumnya
                                     </button>
                                     <button
                                         type="button"
-                                        disabled={meta.current_page >= meta.last_page}
-                                        onClick={() => setCurrentPage((p) => Math.min(p + 1, meta.last_page))}
+                                        disabled={
+                                            meta.current_page >= meta.last_page
+                                        }
+                                        onClick={() =>
+                                            setCurrentPage((p) =>
+                                                Math.min(p + 1, meta.last_page),
+                                            )
+                                        }
                                         className="rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-2.5 py-1 text-[11px] text-[#ffffff] disabled:opacity-40"
                                     >
                                         Selanjutnya
@@ -469,71 +611,97 @@ export default function ApplicationsIndex({ initialView = 'list' }: Applications
                 {viewMode === 'kanban' && (
                     <div className="flex gap-4 overflow-x-auto pb-4">
                         {kanbanColumns.map((col) => {
-                            const columnApps = applications.filter((app) => col.statuses.includes(app.status));
+                            const columnApps = applications.filter((app) =>
+                                col.statuses.includes(app.status),
+                            );
 
                             return (
                                 <div
                                     key={col.key}
-                                    className="w-80 shrink-0 rounded-[8px] border border-[#313131] bg-[#141414] p-3 flex flex-col max-h-[75vh]"
+                                    className="flex max-h-[75vh] w-80 shrink-0 flex-col rounded-[8px] border border-[#313131] bg-[#141414] p-3"
                                 >
                                     {/* Column Header */}
-                                    <div className="flex items-center justify-between border-b border-[#313131] pb-2.5 mb-3">
+                                    <div className="mb-3 flex items-center justify-between border-b border-[#313131] pb-2.5">
                                         <div className="flex items-center gap-2">
                                             <span
                                                 className="h-2 w-2 rounded-full"
-                                                style={{ backgroundColor: col.color }}
+                                                style={{
+                                                    backgroundColor: col.color,
+                                                }}
                                             />
                                             <h4 className="text-[13px] font-semibold text-[#ffffff]">
                                                 {col.title}
                                             </h4>
                                         </div>
-                                        <span className="rounded-[4px] bg-[#1e1e1e] border border-[#313131] px-1.5 py-0.2 font-mono text-[11px] text-[#a7a7a7]">
+                                        <span className="py-0.2 rounded-[4px] border border-[#313131] bg-[#1e1e1e] px-1.5 font-mono text-[11px] text-[#a7a7a7]">
                                             {columnApps.length}
                                         </span>
                                     </div>
 
                                     {/* Column Cards */}
-                                    <div className="space-y-2.5 overflow-y-auto flex-1 pr-1">
+                                    <div className="flex-1 space-y-2.5 overflow-y-auto pr-1">
                                         {columnApps.length === 0 ? (
-                                            <div className="py-8 text-center text-[12px] text-[#7c7c7c] border border-dashed border-[#313131] rounded-[6px]">
+                                            <div className="rounded-[6px] border border-dashed border-[#313131] py-8 text-center text-[12px] text-[#7c7c7c]">
                                                 Tidak ada lamaran
                                             </div>
                                         ) : (
                                             columnApps.map((app) => {
-                                                const isStagnant = (Date.now() - new Date(app.updated_at).getTime()) / (1000 * 60 * 60 * 24) >= 14;
+                                                const isStagnant =
+                                                    (Date.now() -
+                                                        new Date(
+                                                            app.updated_at,
+                                                        ).getTime()) /
+                                                        (1000 * 60 * 60 * 24) >=
+                                                    14;
 
                                                 return (
                                                     <div
                                                         key={app.id}
-                                                        onClick={() => setSelectedDetailId(app.id)}
-                                                        className="group rounded-[6px] border border-[#313131] bg-[#1e1e1e] p-3 transition-all hover:border-[#6798ff] cursor-pointer"
+                                                        onClick={() =>
+                                                            setSelectedDetailId(
+                                                                app.id,
+                                                            )
+                                                        }
+                                                        className="group cursor-pointer rounded-[6px] border border-[#313131] bg-[#1e1e1e] p-3 transition-all hover:border-[#6798ff]"
                                                     >
                                                         <div className="flex items-start justify-between gap-1">
-                                                            <h5 className="font-semibold text-[13px] text-[#ffffff] group-hover:text-[#6798ff] line-clamp-1">
+                                                            <h5 className="line-clamp-1 text-[13px] font-semibold text-[#ffffff] group-hover:text-[#6798ff]">
                                                                 {app.job_title}
                                                             </h5>
                                                             {isStagnant && (
                                                                 <span
                                                                     title="Lamaran stagnan >= 14 hari"
-                                                                    className="rounded-[4px] bg-[#f59e0b]/20 px-1 py-0.2 font-mono text-[9px] text-[#f59e0b] shrink-0"
+                                                                    className="py-0.2 shrink-0 rounded-[4px] bg-[#f59e0b]/20 px-1 font-mono text-[9px] text-[#f59e0b]"
                                                                 >
                                                                     2w+
                                                                 </span>
                                                             )}
                                                         </div>
 
-                                                        <p className="mt-0.5 text-[12px] text-[#a7a7a7] line-clamp-1">
-                                                            {app.company_name || app.company?.name || 'Perusahaan'}
+                                                        <p className="mt-0.5 line-clamp-1 text-[12px] text-[#a7a7a7]">
+                                                            {app.company_name ||
+                                                                app.company
+                                                                    ?.name ||
+                                                                'Perusahaan'}
                                                         </p>
 
                                                         <div className="mt-2.5 flex items-center justify-between border-t border-[#313131]/60 pt-2 font-mono text-[10px] text-[#7c7c7c]">
-                                                            <span>{app.source || 'Direct'}</span>
+                                                            <span>
+                                                                {app.source ||
+                                                                    'Direct'}
+                                                            </span>
                                                             {app.follow_up_at && (
                                                                 <span className="text-[#6798ff]">
-                                                                    FU: {new Date(app.follow_up_at).toLocaleDateString('id-ID', {
-                                                                        day: 'numeric',
-                                                                        month: 'short',
-                                                                    })}
+                                                                    FU:{' '}
+                                                                    {new Date(
+                                                                        app.follow_up_at,
+                                                                    ).toLocaleDateString(
+                                                                        'id-ID',
+                                                                        {
+                                                                            day: 'numeric',
+                                                                            month: 'short',
+                                                                        },
+                                                                    )}
                                                                 </span>
                                                             )}
                                                         </div>

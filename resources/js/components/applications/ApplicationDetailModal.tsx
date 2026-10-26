@@ -47,7 +47,14 @@ interface ApplicationDetailModalProps {
 
 const VALID_TRANSITIONS: Record<string, string[]> = {
     saved: ['applied', 'withdrawn'],
-    applied: ['screening', 'assessment', 'interview', 'offer', 'rejected', 'withdrawn'],
+    applied: [
+        'screening',
+        'assessment',
+        'interview',
+        'offer',
+        'rejected',
+        'withdrawn',
+    ],
     screening: ['assessment', 'interview', 'offer', 'rejected', 'withdrawn'],
     assessment: ['screening', 'interview', 'offer', 'rejected', 'withdrawn'],
     interview: ['assessment', 'offer', 'rejected', 'withdrawn'],
@@ -82,7 +89,10 @@ export function ApplicationDetailModal({
 
     // Stagnant AI Advisor state
     const [isCheckingStagnant, setIsCheckingStagnant] = useState(false);
-    const [stagnantResult, setStagnantResult] = useState<Record<string, unknown> | null>(null);
+    const [stagnantResult, setStagnantResult] = useState<Record<
+        string,
+        unknown
+    > | null>(null);
     const [stagnantError, setStagnantError] = useState<string | null>(null);
 
     // Fetch full application details
@@ -119,7 +129,7 @@ export function ApplicationDetailModal({
 
     useEffect(() => {
         if (isOpen && applicationId) {
-            fetchDetail(applicationId);
+            void fetchDetail(applicationId);
         } else {
             setData(null);
         }
@@ -151,7 +161,10 @@ export function ApplicationDetailModal({
 
         try {
             const token = localStorage.getItem('careerpilot_token');
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            const csrfToken =
+                document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute('content') || '';
             const headers: Record<string, string> = {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -181,7 +194,7 @@ export function ApplicationDetailModal({
             setTransitionNotes('');
             setIsTransitioning(false);
             onUpdated();
-            fetchDetail(data.id);
+            void fetchDetail(data.id);
         } catch {
             setTransitionError('Terjadi kesalahan jaringan.');
             setIsTransitioning(false);
@@ -195,7 +208,10 @@ export function ApplicationDetailModal({
 
         try {
             const token = localStorage.getItem('careerpilot_token');
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            const csrfToken =
+                document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute('content') || '';
             const headers: Record<string, string> = {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -204,17 +220,22 @@ export function ApplicationDetailModal({
             };
             if (token) headers.Authorization = `Bearer ${token}`;
 
-            const res = await fetch(`/api/v1/applications/${data.id}/check-stagnant`, {
-                method: 'POST',
-                headers,
-                credentials: 'same-origin',
-            });
+            const res = await fetch(
+                `/api/v1/applications/${data.id}/check-stagnant`,
+                {
+                    method: 'POST',
+                    headers,
+                    credentials: 'same-origin',
+                },
+            );
 
             const json = await res.json();
             if (res.ok) {
                 setStagnantResult(json.data || json);
             } else {
-                setStagnantError(json.message || 'Gagal memproses analisis stagnan.');
+                setStagnantError(
+                    json.message || 'Gagal memproses analisis stagnan.',
+                );
             }
         } catch {
             setStagnantError('Gagal terhubung ke layanan AI.');
@@ -225,12 +246,18 @@ export function ApplicationDetailModal({
 
     if (!isOpen) return null;
 
-    const availableTransitions = data ? VALID_TRANSITIONS[data.status] || [] : [];
-    const isStagnant = data ? (Date.now() - new Date(data.updated_at).getTime()) / (1000 * 60 * 60 * 24) >= 14 : false;
+    const availableTransitions = data
+        ? VALID_TRANSITIONS[data.status] || []
+        : [];
+    const isStagnant = data
+        ? (Date.now() - new Date(data.updated_at).getTime()) /
+              (1000 * 60 * 60 * 24) >=
+          14
+        : false;
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+            className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 sm:p-6"
             role="dialog"
             aria-modal="true"
             aria-labelledby="detail-modal-title"
@@ -241,25 +268,30 @@ export function ApplicationDetailModal({
                 aria-hidden="true"
             />
 
-            <div className="relative z-10 w-full max-w-2xl rounded-[8px] border border-[#313131] bg-[#141414] p-6 text-[#ffffff] shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="relative z-10 max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[8px] border border-[#313131] bg-[#141414] p-6 text-[#ffffff] shadow-2xl">
                 {/* Header */}
                 <div className="flex items-start justify-between border-b border-[#313131] pb-4">
                     <div>
                         <div className="flex items-center gap-2">
-                            <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
+                            <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                                 DETAIL LAMARAN KERJA
                             </span>
                             {isStagnant && (
-                                <span className="rounded-[4px] bg-[#f59e0b]/15 border border-[#f59e0b]/40 px-1.5 py-0.2 font-mono text-[10px] text-[#f59e0b]">
+                                <span className="py-0.2 rounded-[4px] border border-[#f59e0b]/40 bg-[#f59e0b]/15 px-1.5 font-mono text-[10px] text-[#f59e0b]">
                                     Stagnan $\ge 14$ Hari
                                 </span>
                             )}
                         </div>
-                        <h2 id="detail-modal-title" className="mt-1 text-[20px] font-semibold text-[#ffffff] tracking-[-0.3px]">
+                        <h2
+                            id="detail-modal-title"
+                            className="mt-1 text-[20px] font-semibold tracking-[-0.3px] text-[#ffffff]"
+                        >
                             {data?.job_title || 'Memuat...'}
                         </h2>
                         <p className="text-[14px] text-[#a7a7a7]">
-                            {data?.company_name || data?.company?.name || 'Perusahaan'}
+                            {data?.company_name ||
+                                data?.company?.name ||
+                                'Perusahaan'}
                         </p>
                     </div>
 
@@ -267,7 +299,7 @@ export function ApplicationDetailModal({
                         type="button"
                         onClick={onClose}
                         aria-label="Tutup detail modal"
-                        className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] hover:border-[#6798ff] hover:text-[#ffffff] transition-colors focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                        className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
                     >
                         <svg
                             width="20"
@@ -298,38 +330,52 @@ export function ApplicationDetailModal({
                                 <div className="flex items-start justify-between gap-3">
                                     <div>
                                         <h4 className="text-[13px] font-semibold text-[#f59e0b]">
-                                            Lamaran Tidak Ada Kabar Selama 2+ Minggu
+                                            Lamaran Tidak Ada Kabar Selama 2+
+                                            Minggu
                                         </h4>
                                         <p className="mt-1 text-[12px] text-[#a7a7a7]">
-                                            Status lamaran belum diperbarui sejak{' '}
-                                            {new Date(data.updated_at).toLocaleDateString('id-ID', {
+                                            Status lamaran belum diperbarui
+                                            sejak{' '}
+                                            {new Date(
+                                                data.updated_at,
+                                            ).toLocaleDateString('id-ID', {
                                                 day: 'numeric',
                                                 month: 'long',
                                                 year: 'numeric',
-                                            })}. Jangan patah semangat, Anda dapat meminta rekomendasi alternatif lowongan serupa dari AI.
+                                            })}
+                                            . Jangan patah semangat, Anda dapat
+                                            meminta rekomendasi alternatif
+                                            lowongan serupa dari AI.
                                         </p>
                                     </div>
                                     <button
                                         type="button"
                                         onClick={handleCheckStagnant}
                                         disabled={isCheckingStagnant}
-                                        className="shrink-0 rounded-[6px] border border-[#f59e0b] bg-[#f59e0b]/20 px-3 py-1.5 text-[12px] font-medium text-[#f59e0b] hover:bg-[#f59e0b]/30 transition-colors disabled:opacity-50"
+                                        className="shrink-0 rounded-[6px] border border-[#f59e0b] bg-[#f59e0b]/20 px-3 py-1.5 text-[12px] font-medium text-[#f59e0b] transition-colors hover:bg-[#f59e0b]/30 disabled:opacity-50"
                                     >
-                                        {isCheckingStagnant ? 'Menganalisis AI...' : 'Cek Alternatif AI'}
+                                        {isCheckingStagnant
+                                            ? 'Menganalisis AI...'
+                                            : 'Cek Alternatif AI'}
                                     </button>
                                 </div>
 
                                 {stagnantError && (
-                                    <p className="mt-2 text-[12px] text-[#f87171]">{stagnantError}</p>
+                                    <p className="mt-2 text-[12px] text-[#f87171]">
+                                        {stagnantError}
+                                    </p>
                                 )}
 
                                 {stagnantResult && (
-                                    <div className="mt-3 border-t border-[#f59e0b]/30 pt-3 text-[12px] text-[#ffffff] space-y-2">
+                                    <div className="mt-3 space-y-2 border-t border-[#f59e0b]/30 pt-3 text-[12px] text-[#ffffff]">
                                         <p className="font-medium text-[#34d399]">
-                                            ✓ Analisis AI & Notifikasi Email Berhasil Dikirimkan!
+                                            ✓ Analisis AI & Notifikasi Email
+                                            Berhasil Dikirimkan!
                                         </p>
                                         <p className="text-[#a7a7a7]">
-                                            Rekomendasi lowongan serupa telah diterbitkan ke Pusat Notifikasi dan email terdaftar Anda.
+                                            Rekomendasi lowongan serupa telah
+                                            diterbitkan ke Pusat Notifikasi dan
+                                            email terdaftar Anda.
                                         </p>
                                     </div>
                                 )}
@@ -337,32 +383,50 @@ export function ApplicationDetailModal({
                         )}
 
                         {/* Status & Attributes Grid */}
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                             <div className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3">
-                                <span className="font-mono text-[10px] text-[#7c7c7c] uppercase">STATUS SAAT INI</span>
+                                <span className="font-mono text-[10px] text-[#7c7c7c] uppercase">
+                                    STATUS SAAT INI
+                                </span>
                                 <div className="mt-1">
-                                    <Badge variant={data.is_active ? 'accent' : 'default'} size="md">
+                                    <Badge
+                                        variant={
+                                            data.is_active
+                                                ? 'accent'
+                                                : 'default'
+                                        }
+                                        size="md"
+                                    >
                                         {data.status_label}
                                     </Badge>
                                 </div>
                             </div>
                             <div className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3">
-                                <span className="font-mono text-[10px] text-[#7c7c7c] uppercase">TIPE KERJA</span>
+                                <span className="font-mono text-[10px] text-[#7c7c7c] uppercase">
+                                    TIPE KERJA
+                                </span>
                                 <p className="mt-1 text-[13px] font-medium text-[#ffffff] capitalize">
-                                    {data.employment_type?.replace('_', ' ') || '-'}
+                                    {data.employment_type?.replace('_', ' ') ||
+                                        '-'}
                                 </p>
                             </div>
                             <div className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3">
-                                <span className="font-mono text-[10px] text-[#7c7c7c] uppercase">TANGGAL LAMAR</span>
+                                <span className="font-mono text-[10px] text-[#7c7c7c] uppercase">
+                                    TANGGAL LAMAR
+                                </span>
                                 <p className="mt-1 font-mono text-[12px] text-[#ffffff]">
                                     {data.applied_at || 'Belum dilamar'}
                                 </p>
                             </div>
                             <div className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3">
-                                <span className="font-mono text-[10px] text-[#7c7c7c] uppercase">FOLLOW-UP</span>
+                                <span className="font-mono text-[10px] text-[#7c7c7c] uppercase">
+                                    FOLLOW-UP
+                                </span>
                                 <p className="mt-1 font-mono text-[12px] text-[#6798ff]">
                                     {data.follow_up_at
-                                        ? new Date(data.follow_up_at).toLocaleDateString('id-ID', {
+                                        ? new Date(
+                                              data.follow_up_at,
+                                          ).toLocaleDateString('id-ID', {
                                               day: 'numeric',
                                               month: 'short',
                                           })
@@ -375,14 +439,22 @@ export function ApplicationDetailModal({
                         <div className="space-y-2 text-[13px]">
                             {data.location && (
                                 <div className="flex items-center gap-2 text-[#a7a7a7]">
-                                    <span className="font-mono text-[11px] text-[#7c7c7c] w-28 uppercase">Lokasi:</span>
-                                    <span className="text-[#ffffff]">{data.location}</span>
+                                    <span className="w-28 font-mono text-[11px] text-[#7c7c7c] uppercase">
+                                        Lokasi:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        {data.location}
+                                    </span>
                                 </div>
                             )}
                             {data.source && (
                                 <div className="flex items-center gap-2 text-[#a7a7a7]">
-                                    <span className="font-mono text-[11px] text-[#7c7c7c] w-28 uppercase">Sumber:</span>
-                                    <span className="text-[#ffffff]">{data.source}</span>
+                                    <span className="w-28 font-mono text-[11px] text-[#7c7c7c] uppercase">
+                                        Sumber:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        {data.source}
+                                    </span>
                                     {data.source_url && (
                                         <a
                                             href={data.source_url}
@@ -396,9 +468,11 @@ export function ApplicationDetailModal({
                                 </div>
                             )}
                             {data.notes && (
-                                <div className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3 mt-2">
-                                    <span className="font-mono text-[10px] text-[#7c7c7c] uppercase block mb-1">CATATAN PRIBADI</span>
-                                    <p className="text-[12px] leading-relaxed text-[#ffffff] whitespace-pre-wrap">
+                                <div className="mt-2 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3">
+                                    <span className="mb-1 block font-mono text-[10px] text-[#7c7c7c] uppercase">
+                                        CATATAN PRIBADI
+                                    </span>
+                                    <p className="text-[12px] leading-relaxed whitespace-pre-wrap text-[#ffffff]">
                                         {data.notes}
                                     </p>
                                 </div>
@@ -406,23 +480,31 @@ export function ApplicationDetailModal({
                         </div>
 
                         {/* AI Copilot & Career Tools Quick Action */}
-                        <div className="rounded-[6px] border border-[#313131] bg-[#1e1e1e] p-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex flex-col gap-3 rounded-[6px] border border-[#313131] bg-[#1e1e1e] p-3.5 sm:flex-row sm:items-center sm:justify-between">
                             <div className="space-y-0.5">
                                 <div className="flex items-center gap-1.5">
-                                    <span className="font-mono text-[10px] uppercase tracking-[0.85px] text-[#6798ff]">
+                                    <span className="font-mono text-[10px] tracking-[0.85px] text-[#6798ff] uppercase">
                                         AI TOOLS BANTUAN
                                     </span>
                                 </div>
                                 <p className="text-[12px] text-[#a7a7a7]">
-                                    Siapkan jawaban interview nyata atau susun roadmap karier untuk posisi ini.
+                                    Siapkan jawaban interview nyata atau susun
+                                    roadmap karier untuk posisi ini.
                                 </p>
                             </div>
-                            <div className="flex items-center gap-2 shrink-0">
+                            <div className="flex shrink-0 items-center gap-2">
                                 <a
                                     href={`/ai/interview-copilot?application_id=${data.id}&job_title=${encodeURIComponent(data.job_title)}&company=${encodeURIComponent(data.company_name || data.company?.name || '')}&url=${encodeURIComponent(data.source_url || '')}`}
-                                    className="flex items-center gap-1.5 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-3 py-1.5 text-[12px] font-medium text-[#6798ff] hover:bg-[#6798ff]/20 transition-colors"
+                                    className="flex items-center gap-1.5 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-3 py-1.5 text-[12px] font-medium text-[#6798ff] transition-colors hover:bg-[#6798ff]/20"
                                 >
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <svg
+                                        width="13"
+                                        height="13"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                    >
                                         <circle cx="12" cy="12" r="10"></circle>
                                         <polyline points="12 6 12 12 16 14"></polyline>
                                     </svg>
@@ -435,13 +517,15 @@ export function ApplicationDetailModal({
                         {availableTransitions.length > 0 && (
                             <form
                                 onSubmit={handleStatusTransition}
-                                className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-4 space-y-3"
+                                className="space-y-3 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-4"
                             >
                                 <div className="flex items-center justify-between">
-                                    <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
+                                    <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                                         TRANSISI STATUS RESMI
                                     </span>
-                                    <span className="text-[11px] text-[#7c7c7c]">Aturan Audit PRD</span>
+                                    <span className="text-[11px] text-[#7c7c7c]">
+                                        Aturan Audit PRD
+                                    </span>
                                 </div>
 
                                 {transitionError && (
@@ -450,14 +534,18 @@ export function ApplicationDetailModal({
                                     </div>
                                 )}
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                     <div>
-                                        <label className="block text-[11px] font-mono text-[#a7a7a7] uppercase mb-1">
+                                        <label className="mb-1 block font-mono text-[11px] text-[#a7a7a7] uppercase">
                                             Ubah Ke Status
                                         </label>
                                         <select
                                             value={selectedNewStatus}
-                                            onChange={(e) => setSelectedNewStatus(e.target.value)}
+                                            onChange={(e) =>
+                                                setSelectedNewStatus(
+                                                    e.target.value,
+                                                )
+                                            }
                                             className="w-full rounded-[6px] border border-[#313131] bg-[#141414] px-3 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                                         >
                                             {availableTransitions.map((st) => (
@@ -468,14 +556,18 @@ export function ApplicationDetailModal({
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-[11px] font-mono text-[#a7a7a7] uppercase mb-1">
+                                        <label className="mb-1 block font-mono text-[11px] text-[#a7a7a7] uppercase">
                                             Catatan Riwayat / Alasan
                                         </label>
                                         <input
                                             type="text"
                                             placeholder="Contoh: Lolos berkas, dipanggil HRD"
                                             value={transitionNotes}
-                                            onChange={(e) => setTransitionNotes(e.target.value)}
+                                            onChange={(e) =>
+                                                setTransitionNotes(
+                                                    e.target.value,
+                                                )
+                                            }
                                             className="w-full rounded-[6px] border border-[#313131] bg-[#141414] px-3 py-2 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                                         />
                                     </div>
@@ -485,9 +577,11 @@ export function ApplicationDetailModal({
                                     <button
                                         type="submit"
                                         disabled={isTransitioning}
-                                        className="rounded-[6px] bg-[#ffffff] px-4 py-1.5 text-[12px] font-medium text-[#0a0a0a] hover:bg-[#a7a7a7] transition-colors disabled:opacity-50"
+                                        className="rounded-[6px] bg-[#ffffff] px-4 py-1.5 text-[12px] font-medium text-[#0a0a0a] transition-colors hover:bg-[#a7a7a7] disabled:opacity-50"
                                     >
-                                        {isTransitioning ? 'Memproses...' : 'Perbarui Status'}
+                                        {isTransitioning
+                                            ? 'Memproses...'
+                                            : 'Perbarui Status'}
                                     </button>
                                 </div>
                             </form>
@@ -495,27 +589,39 @@ export function ApplicationDetailModal({
 
                         {/* Audit Status History Timeline */}
                         <div>
-                            <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#a7a7a7] block mb-3">
+                            <span className="mb-3 block font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                                 RIWAYAT PERUBAHAN STATUS (AUDIT LOG)
                             </span>
-                            <div className="space-y-2 border-l border-[#313131] pl-4 ml-2">
-                                {data.status_histories && data.status_histories.length > 0 ? (
+                            <div className="ml-2 space-y-2 border-l border-[#313131] pl-4">
+                                {data.status_histories &&
+                                data.status_histories.length > 0 ? (
                                     data.status_histories.map((hist) => (
                                         <div key={hist.id} className="relative">
-                                            <span className="absolute -left-[21px] top-1.5 h-2 w-2 rounded-full bg-[#6798ff]" />
+                                            <span className="absolute top-1.5 -left-[21px] h-2 w-2 rounded-full bg-[#6798ff]" />
                                             <div className="flex flex-wrap items-center gap-2">
                                                 <span className="text-[12px] font-medium text-[#ffffff]">
-                                                    {hist.previous_status ? `${STATUS_LABELS[hist.previous_status] || hist.previous_status} → ` : 'Awal: '}
-                                                    <span className="text-[#6798ff]">{STATUS_LABELS[hist.new_status] || hist.new_status}</span>
+                                                    {hist.previous_status
+                                                        ? `${STATUS_LABELS[hist.previous_status] || hist.previous_status} → `
+                                                        : 'Awal: '}
+                                                    <span className="text-[#6798ff]">
+                                                        {STATUS_LABELS[
+                                                            hist.new_status
+                                                        ] || hist.new_status}
+                                                    </span>
                                                 </span>
                                                 <span className="font-mono text-[10px] text-[#7c7c7c]">
-                                                    {new Date(hist.changed_at).toLocaleDateString('id-ID', {
-                                                        day: 'numeric',
-                                                        month: 'short',
-                                                        year: 'numeric',
-                                                        hour: '2-digit',
-                                                        minute: '2-digit',
-                                                    })}
+                                                    {new Date(
+                                                        hist.changed_at,
+                                                    ).toLocaleDateString(
+                                                        'id-ID',
+                                                        {
+                                                            day: 'numeric',
+                                                            month: 'short',
+                                                            year: 'numeric',
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                        },
+                                                    )}
                                                 </span>
                                             </div>
                                             {hist.notes && (
@@ -526,7 +632,9 @@ export function ApplicationDetailModal({
                                         </div>
                                     ))
                                 ) : (
-                                    <p className="text-[12px] text-[#7c7c7c]">Belum ada riwayat transisi status.</p>
+                                    <p className="text-[12px] text-[#7c7c7c]">
+                                        Belum ada riwayat transisi status.
+                                    </p>
                                 )}
                             </div>
                         </div>

@@ -12,7 +12,7 @@ interface RegisterFormProps {
 
 export function RegisterForm({
     onSwitchToLogin,
-    onSuccess,
+    onSuccess: _onSuccess,
 }: RegisterFormProps) {
     const nameId = useId();
     const emailId = useId();
@@ -162,7 +162,10 @@ export function RegisterForm({
 
             // Beri waktu 1.2 detik untuk menampilkan notifikasi sukses sebelum dialihkan ke login
             setTimeout(() => {
-                if (window.location.pathname === '/register' || window.location.pathname.startsWith('/register')) {
+                if (
+                    window.location.pathname === '/register' ||
+                    window.location.pathname.startsWith('/register')
+                ) {
                     window.location.href = `/login?registered=1&email=${encodeURIComponent(registeredEmail)}`;
                 } else if (onSwitchToLogin) {
                     onSwitchToLogin(registeredEmail);

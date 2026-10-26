@@ -302,17 +302,17 @@ Berdasarkan `PRD.md` Bagian 34, langkah-langkah implementasi berikutnya meliputi
         - Modal detail & transisi status (`ApplicationDetailModal.tsx`) yang menegakkan graf transisi resmi PRD serta pencatatan audit log history.
     - **Task 4 — Kalender Wawancara Interaktif (`interviews/index.tsx`):**
         - Tampilan ganda: **Kalender Bulanan (Month Grid)** dengan cell hover quick-add vs **Daftar Agenda (Weekly/Chronological List)**.
-        - Deteksi konflik waktu (*conflict warning*) otomatis jika ada jadwal sesi yang bertabrakan di jam yang sama.
+        - Deteksi konflik waktu (_conflict warning_) otomatis jika ada jadwal sesi yang bertabrakan di jam yang sama.
         - Modal penjadwalan interview baru (`POST /api/v1/interviews`) terhubung ke lamaran aktif, preset tahapan, mode online (Google Meet/Zoom) vs offline (Google Maps), dan penjadwalan reminder otomatis.
         - Modal kelola & reschedule (`PATCH /api/v1/interviews/{id}`) dengan pencatatan alasan resmi dan pembaruan pengingat.
         - Aksi ubah status (Tandai Selesai / Dibatalkan / Hapus).
         - Pintasan 1-klik dari kartu jadwal interview langsung ke **AI Interview Copilot** untuk simulasi latihan.
     - **Task 6 — Integrasi Akun Gmail & Email Triage UI (`integrations/index.tsx` & `notifications/index.tsx`):**
-        - **Halaman Integrasi (`integrations/index.tsx`):** Otorisasi Google OAuth, kartu status akun terhubung, sinkronisasi manual (`POST /api/v1/email/accounts/{id}/sync`), pemutusan akun aman (`POST /api/v1/email/accounts/{id}/disconnect`), pilar jaminan privasi (*read-only scope*, tanpa kirim email, enkripsi token AES-256-CBC), dan alat simulasi 4 skenario email rekrutmen masuk untuk pengujian langsung.
+        - **Halaman Integrasi (`integrations/index.tsx`):** Otorisasi Google OAuth, kartu status akun terhubung, sinkronisasi manual (`POST /api/v1/email/accounts/{id}/sync`), pemutusan akun aman (`POST /api/v1/email/accounts/{id}/disconnect`), pilar jaminan privasi (_read-only scope_, tanpa kirim email, enkripsi token AES-256-CBC), dan alat simulasi 4 skenario email rekrutmen masuk untuk pengujian langsung.
         - **Pusat Notifikasi & Review Triase (`notifications/index.tsx`):**
-            - Panel review triase email rekrutmen (*Awaiting Review*) dengan kartu klasifikasi warna (*Undangan Interview*, *Tawaran Kerja/Offer*, *Proses Seleksi*, *Penolakan*).
+            - Panel review triase email rekrutmen (_Awaiting Review_) dengan kartu klasifikasi warna (_Undangan Interview_, _Tawaran Kerja/Offer_, _Proses Seleksi_, _Penolakan_).
             - Ekstraksi AI terstruktur: Perusahaan & Posisi, jadwal interview, link Google Meet/Zoom, dan alamat Google Maps.
-            - Konfirmasi 1-klik: Otomatis memasukkan agenda ke Kalender Wawancara dan memperbarui status lamaran kerja, atau abaikan (*dismiss*).
+            - Konfirmasi 1-klik: Otomatis memasukkan agenda ke Kalender Wawancara dan memperbarui status lamaran kerja, atau abaikan (_dismiss_).
             - Riwayat notifikasi in-app, filter tab, tandai dibaca per-item atau semua sekaligus, dan hapus notifikasi.
             - **Modal Pratinjau Email Notifikasi:** Tombol "Lihat Format Email Yang Dikirimkan" untuk melihat secara visual template email resmi bertema Dovetail (`StagnantApplicationAlertMail`) yang dikirimkan ke kotak masuk pengguna jika lamaran stagnan $\ge 14$ hari.
 - [ ] **Langkah Berikutnya (Next Step):**
@@ -326,7 +326,7 @@ Berdasarkan `PRD.md` Bagian 34, langkah-langkah implementasi berikutnya meliputi
 - [x] **Konfigurasi Provider & Failover AI Gemini:**
     - Perbaikan `config/ai.php` dan `.env` yang sebelumnya mengarah ke provider default `openai` tanpa API key (penyebab HTTP 401/503).
     - Menetapkan provider default `gemini` dan model aktif `gemini-3.5-flash-lite` dengan atribut kelas `#[Provider(Lab::Gemini)]` dan `#[Model('gemini-3.5-flash-lite')]`.
-    - Menambahkan mekanisme *automatic failover* bertingkat di `AiController`: jika model primer mengalami lonjakan traffic/overload, otomatis dialihkan ke model cadangan `gemini-3.1-flash-lite`.
+    - Menambahkan mekanisme _automatic failover_ bertingkat di `AiController`: jika model primer mengalami lonjakan traffic/overload, otomatis dialihkan ke model cadangan `gemini-3.1-flash-lite`.
 - [x] **Frontend UI AI Career Planner (`resources/js/pages/ai/career-planner.tsx`):**
     - Input posisi target, durasi (3 atau 5 bulan), skill yang dikuasai saat ini, draf CV, dan catatan.
     - Analisis gap skill (matching vs missing skills).

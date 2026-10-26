@@ -18,13 +18,19 @@ export function QuickAddApplicationModal({
     const [location, setLocation] = useState('');
     const [source, setSource] = useState('LinkedIn');
     const [sourceUrl, setSourceUrl] = useState('');
-    const [appliedAt, setAppliedAt] = useState(new Date().toISOString().split('T')[0]);
+    const [appliedAt, setAppliedAt] = useState(
+        new Date().toISOString().split('T')[0],
+    );
     const [followUpAt, setFollowUpAt] = useState(
-        new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+        new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+            .toISOString()
+            .split('T')[0],
     );
     const [notes, setNotes] = useState('');
 
-    const [duplicateWarning, setDuplicateWarning] = useState<string | null>(null);
+    const [duplicateWarning, setDuplicateWarning] = useState<string | null>(
+        null,
+    );
     const [isLoading, setIsLoading] = useState(false);
     const [serverError, setServerError] = useState<string | null>(null);
 
@@ -62,14 +68,17 @@ export function QuickAddApplicationModal({
                 if (token) headers.Authorization = `Bearer ${token}`;
 
                 const url = `/api/v1/applications/check-duplicate?company_name=${encodeURIComponent(
-                    companyName.trim()
+                    companyName.trim(),
                 )}&job_title=${encodeURIComponent(jobTitle.trim())}`;
-                const res = await fetch(url, { headers, credentials: 'same-origin' });
+                const res = await fetch(url, {
+                    headers,
+                    credentials: 'same-origin',
+                });
                 if (res.ok) {
                     const json = await res.json();
                     if (json.is_duplicate) {
                         setDuplicateWarning(
-                            `Peringatan: Anda sudah pernah mencatat lamaran untuk "${jobTitle}" di "${companyName}".`
+                            `Peringatan: Anda sudah pernah mencatat lamaran untuk "${jobTitle}" di "${companyName}".`,
                         );
                     } else {
                         setDuplicateWarning(null);
@@ -96,7 +105,10 @@ export function QuickAddApplicationModal({
 
         try {
             const token = localStorage.getItem('careerpilot_token');
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            const csrfToken =
+                document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute('content') || '';
             const headers: Record<string, string> = {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -152,7 +164,7 @@ export function QuickAddApplicationModal({
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+            className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 sm:p-6"
             role="dialog"
             aria-modal="true"
             aria-labelledby="quick-add-title"
@@ -169,10 +181,13 @@ export function QuickAddApplicationModal({
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-[#313131] pb-4">
                     <div>
-                        <span className="font-mono text-[11px] uppercase tracking-[0.85px] text-[#6798ff]">
+                        <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                             PENCATATAN LAMARAN
                         </span>
-                        <h2 id="quick-add-title" className="text-[18px] font-semibold text-[#ffffff] tracking-[-0.3px]">
+                        <h2
+                            id="quick-add-title"
+                            className="text-[18px] font-semibold tracking-[-0.3px] text-[#ffffff]"
+                        >
                             Tambah Lamaran Baru
                         </h2>
                     </div>
@@ -180,7 +195,7 @@ export function QuickAddApplicationModal({
                         type="button"
                         onClick={onClose}
                         aria-label="Tutup form"
-                        className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] hover:border-[#6798ff] hover:text-[#ffffff] transition-colors focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                        className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
                     >
                         <svg
                             width="20"
@@ -213,10 +228,11 @@ export function QuickAddApplicationModal({
 
                 {/* Form Fields */}
                 <form onSubmit={handleSubmit} className="mt-4 space-y-3.5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
                         <div>
-                            <label className="block text-[12px] font-medium text-[#a7a7a7] mb-1">
-                                Perusahaan <span className="text-[#f87171]">*</span>
+                            <label className="mb-1 block text-[12px] font-medium text-[#a7a7a7]">
+                                Perusahaan{' '}
+                                <span className="text-[#f87171]">*</span>
                             </label>
                             <input
                                 type="text"
@@ -228,8 +244,9 @@ export function QuickAddApplicationModal({
                             />
                         </div>
                         <div>
-                            <label className="block text-[12px] font-medium text-[#a7a7a7] mb-1">
-                                Posisi Pekerjaan <span className="text-[#f87171]">*</span>
+                            <label className="mb-1 block text-[12px] font-medium text-[#a7a7a7]">
+                                Posisi Pekerjaan{' '}
+                                <span className="text-[#f87171]">*</span>
                             </label>
                             <input
                                 type="text"
@@ -242,9 +259,9 @@ export function QuickAddApplicationModal({
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                    <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3">
                         <div>
-                            <label className="block text-[12px] font-medium text-[#a7a7a7] mb-1">
+                            <label className="mb-1 block text-[12px] font-medium text-[#a7a7a7]">
                                 Status Awal
                             </label>
                             <select
@@ -252,7 +269,9 @@ export function QuickAddApplicationModal({
                                 onChange={(e) => setStatus(e.target.value)}
                                 className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                             >
-                                <option value="applied">Dilamar (Applied)</option>
+                                <option value="applied">
+                                    Dilamar (Applied)
+                                </option>
                                 <option value="saved">Tersimpan (Saved)</option>
                                 <option value="screening">Screening</option>
                                 <option value="interview">Interview</option>
@@ -260,22 +279,26 @@ export function QuickAddApplicationModal({
                             </select>
                         </div>
                         <div>
-                            <label className="block text-[12px] font-medium text-[#a7a7a7] mb-1">
+                            <label className="mb-1 block text-[12px] font-medium text-[#a7a7a7]">
                                 Tipe Kerja
                             </label>
                             <select
                                 value={employmentType}
-                                onChange={(e) => setEmploymentType(e.target.value)}
+                                onChange={(e) =>
+                                    setEmploymentType(e.target.value)
+                                }
                                 className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[13px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
                             >
                                 <option value="full-time">Full-time</option>
                                 <option value="contract">Kontrak</option>
-                                <option value="internship">Magang (Intern)</option>
+                                <option value="internship">
+                                    Magang (Intern)
+                                </option>
                                 <option value="part-time">Part-time</option>
                             </select>
                         </div>
                         <div>
-                            <label className="block text-[12px] font-medium text-[#a7a7a7] mb-1">
+                            <label className="mb-1 block text-[12px] font-medium text-[#a7a7a7]">
                                 Lokasi / Mode
                             </label>
                             <input
@@ -288,9 +311,9 @@ export function QuickAddApplicationModal({
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
                         <div>
-                            <label className="block text-[12px] font-medium text-[#a7a7a7] mb-1">
+                            <label className="mb-1 block text-[12px] font-medium text-[#a7a7a7]">
                                 Sumber Lowongan
                             </label>
                             <select
@@ -301,13 +324,17 @@ export function QuickAddApplicationModal({
                                 <option value="LinkedIn">LinkedIn</option>
                                 <option value="JobStreet">JobStreet</option>
                                 <option value="Glints">Glints</option>
-                                <option value="Website Perusahaan">Website Perusahaan</option>
-                                <option value="Referral">Rekomendasi Teman</option>
+                                <option value="Website Perusahaan">
+                                    Website Perusahaan
+                                </option>
+                                <option value="Referral">
+                                    Rekomendasi Teman
+                                </option>
                                 <option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
                         <div>
-                            <label className="block text-[12px] font-medium text-[#a7a7a7] mb-1">
+                            <label className="mb-1 block text-[12px] font-medium text-[#a7a7a7]">
                                 URL Lowongan (Opsional)
                             </label>
                             <input
@@ -320,9 +347,9 @@ export function QuickAddApplicationModal({
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
                         <div>
-                            <label className="block text-[12px] font-medium text-[#a7a7a7] mb-1">
+                            <label className="mb-1 block text-[12px] font-medium text-[#a7a7a7]">
                                 Tanggal Lamar
                             </label>
                             <input
@@ -333,7 +360,7 @@ export function QuickAddApplicationModal({
                             />
                         </div>
                         <div>
-                            <label className="block text-[12px] font-medium text-[#a7a7a7] mb-1">
+                            <label className="mb-1 block text-[12px] font-medium text-[#a7a7a7]">
                                 Tanggal Target Follow-up
                             </label>
                             <input
@@ -346,7 +373,7 @@ export function QuickAddApplicationModal({
                     </div>
 
                     <div>
-                        <label className="block text-[12px] font-medium text-[#a7a7a7] mb-1">
+                        <label className="mb-1 block text-[12px] font-medium text-[#a7a7a7]">
                             Catatan / Catatan Seleksi
                         </label>
                         <textarea
@@ -359,18 +386,18 @@ export function QuickAddApplicationModal({
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#313131]">
+                    <div className="flex items-center justify-end gap-2.5 border-t border-[#313131] pt-3">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-4 py-2 text-[13px] text-[#a7a7a7] hover:text-[#ffffff] transition-colors"
+                            className="rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-4 py-2 text-[13px] text-[#a7a7a7] transition-colors hover:text-[#ffffff]"
                         >
                             Batal
                         </button>
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="rounded-[6px] bg-[#ffffff] px-4 py-2 text-[13px] font-medium text-[#0a0a0a] hover:bg-[#a7a7a7] transition-colors disabled:opacity-50"
+                            className="rounded-[6px] bg-[#ffffff] px-4 py-2 text-[13px] font-medium text-[#0a0a0a] transition-colors hover:bg-[#a7a7a7] disabled:opacity-50"
                         >
                             {isLoading ? 'Menyimpan...' : 'Simpan Lamaran'}
                         </button>
