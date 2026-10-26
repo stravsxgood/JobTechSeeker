@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\EmailClassification;
 use App\Enums\EmailProcessingStatus;
+use Carbon\CarbonInterface;
 use Database\Factories\EmailEventFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +12,31 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property string $id
+ * @property string $connected_email_account_id
+ * @property string $provider_message_id
+ * @property string|null $provider_thread_id
+ * @property CarbonInterface|null $received_at
+ * @property string|null $sender_address
+ * @property string|null $sender_name
+ * @property string|null $subject
+ * @property string|null $snippet
+ * @property EmailClassification|null $classification
+ * @property array<string, mixed>|null $extracted_payload
+ * @property string|null $uncertainty_notes
+ * @property string|null $related_application_id
+ * @property EmailProcessingStatus $processing_status
+ * @property bool $requires_confirmation
+ * @property CarbonInterface|null $reviewed_at
+ * @property int|null $reviewed_by_user_id
+ * @property CarbonInterface|null $processed_at
+ * @property string|null $last_error_category
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
+ * @property-read ConnectedEmailAccount $connectedEmailAccount
+ * @property-read JobApplication|null $relatedApplication
+ */
 class EmailEvent extends Model
 {
     /** @use HasFactory<EmailEventFactory> */

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ApplicationStatus;
 use App\Enums\EmploymentType;
+use Carbon\CarbonInterface;
 use Database\Factories\JobApplicationFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -13,6 +14,29 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property string $id
+ * @property int $user_id
+ * @property string $company_id
+ * @property string $job_title
+ * @property string|null $description
+ * @property string|null $source
+ * @property string|null $source_url
+ * @property EmploymentType|null $employment_type
+ * @property string|null $location
+ * @property string|null $salary_min
+ * @property string|null $salary_max
+ * @property string|null $salary_currency
+ * @property CarbonInterface|null $applied_at
+ * @property ApplicationStatus $status
+ * @property string|null $notes
+ * @property CarbonInterface|null $follow_up_at
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
+ * @property CarbonInterface|null $deleted_at
+ * @property-read Company|null $company
+ * @property-read User $user
+ */
 class JobApplication extends Model
 {
     /** @use HasFactory<JobApplicationFactory> */

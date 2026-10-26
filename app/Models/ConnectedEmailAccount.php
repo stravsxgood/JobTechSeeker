@@ -3,13 +3,36 @@
 namespace App\Models;
 
 use App\Enums\ConnectionStatus;
+use Carbon\CarbonInterface;
 use Database\Factories\ConnectedEmailAccountFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property string $id
+ * @property int $user_id
+ * @property string $provider
+ * @property string $provider_account_id
+ * @property string $email_address
+ * @property string $access_token_encrypted
+ * @property string|null $refresh_token_encrypted
+ * @property CarbonInterface|null $token_expires_at
+ * @property array<string>|null $granted_scopes
+ * @property string|null $gmail_history_id
+ * @property CarbonInterface|null $watch_expiration_at
+ * @property ConnectionStatus $connection_status
+ * @property CarbonInterface|null $last_sync_at
+ * @property string|null $last_sync_status
+ * @property string|null $last_sync_error_category
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
+ * @property-read User $user
+ * @property-read Collection<int, EmailEvent> $emailEvents
+ */
 class ConnectedEmailAccount extends Model
 {
     /** @use HasFactory<ConnectedEmailAccountFactory> */
