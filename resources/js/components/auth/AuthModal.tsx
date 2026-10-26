@@ -50,7 +50,7 @@ export function AuthModal({
         <AnimatePresence>
             {isOpen && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+                    className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 sm:p-6"
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="auth-modal-title"
@@ -73,14 +73,14 @@ export function AuthModal({
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.96, y: 10 }}
                         transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="relative z-10 w-full max-w-[480px] rounded-[10px] border border-[#313131] bg-[#141414] p-6 sm:p-7 text-[#ffffff] shadow-2xl selection:bg-[#1e1e1e] selection:text-[#6798ff]"
+                        className="relative z-10 w-full max-w-[480px] rounded-[10px] border border-[#313131] bg-[#141414] p-6 text-[#ffffff] shadow-2xl selection:bg-[#1e1e1e] selection:text-[#6798ff] sm:p-7"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Close button with accessible >= 44px tap target */}
                         <button
                             type="button"
                             onClick={onClose}
-                            className="absolute right-4 top-4 flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] text-[#7c7c7c] hover:bg-[#1e1e1e] hover:text-[#ffffff] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6798ff]"
+                            className="absolute top-4 right-4 flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] text-[#7c7c7c] transition-colors hover:bg-[#1e1e1e] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
                             aria-label="Tutup modal autentikasi"
                         >
                             <svg
@@ -101,7 +101,7 @@ export function AuthModal({
 
                         {/* Brand header */}
                         <div className="mb-6">
-                            <div className="flex items-center gap-2 mb-2">
+                            <div className="mb-2 flex items-center gap-2">
                                 <div className="flex h-6 w-6 items-center justify-center rounded-[4px] border border-[#313131] bg-[#1e1e1e] text-[#6798ff]">
                                     <svg
                                         width="13"
@@ -126,13 +126,13 @@ export function AuthModal({
 
                             <h2
                                 id="auth-modal-title"
-                                className="text-[22px] font-semibold tracking-[-0.4px] text-[#ffffff] font-sans"
+                                className="font-sans text-[22px] font-semibold tracking-[-0.4px] text-[#ffffff]"
                             >
                                 {mode === 'login'
                                     ? 'Selamat Datang Kembali'
                                     : 'Mulai Kelola Karier Anda'}
                             </h2>
-                            <p className="mt-1 text-[13px] text-[#a7a7a7] font-sans leading-relaxed">
+                            <p className="mt-1 font-sans text-[13px] leading-relaxed text-[#a7a7a7]">
                                 {mode === 'login'
                                     ? 'Masuk ke akun CareerPilot Anda untuk memantau status lamaran dan persiapan interview.'
                                     : 'Daftar gratis untuk mencatat lamaran, sinkronisasi Gmail rekrutmen, dan copilot AI.'}
@@ -148,7 +148,7 @@ export function AuthModal({
                                     mode === 'login'
                                         ? 'bg-[#1e1e1e] text-[#ffffff] shadow-sm'
                                         : 'text-[#7c7c7c] hover:text-[#ffffff]'
-                                } focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#6798ff]`}
+                                } focus-visible:ring-1 focus-visible:ring-[#6798ff] focus-visible:outline-none`}
                                 aria-selected={mode === 'login'}
                                 role="tab"
                             >
@@ -161,7 +161,7 @@ export function AuthModal({
                                     mode === 'register'
                                         ? 'bg-[#1e1e1e] text-[#ffffff] shadow-sm'
                                         : 'text-[#7c7c7c] hover:text-[#ffffff]'
-                                } focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#6798ff]`}
+                                } focus-visible:ring-1 focus-visible:ring-[#6798ff] focus-visible:outline-none`}
                                 aria-selected={mode === 'register'}
                                 role="tab"
                             >

@@ -73,14 +73,20 @@ function VelocityScrollRow({
     const x = useTransform(baseX, (v) => `${v}%`);
 
     return (
-        <div className="w-full overflow-hidden whitespace-nowrap select-none py-1.5">
-            <motion.div className="flex w-max will-change-transform" style={{ x }}>
+        <div className="w-full overflow-hidden py-1.5 whitespace-nowrap select-none">
+            <motion.div
+                className="flex w-max will-change-transform"
+                style={{ x }}
+            >
                 {/* Segment 1 */}
                 <div className={`flex shrink-0 items-center ${className}`}>
                     {children}
                 </div>
                 {/* Segment 2 (Exact duplicate for seamless infinite loop) */}
-                <div className={`flex shrink-0 items-center ${className}`} aria-hidden="true">
+                <div
+                    className={`flex shrink-0 items-center ${className}`}
+                    aria-hidden="true"
+                >
                     {children}
                 </div>
             </motion.div>
@@ -141,16 +147,13 @@ function StarIcon({ filled }: { filled: boolean }) {
 /**
  * StarRating: displays a row of 5 stars with numeric rating label.
  */
-function StarRating({
-    rating,
-    label,
-}: {
-    rating: number;
-    label: string;
-}) {
+function StarRating({ rating, label }: { rating: number; label: string }) {
     return (
         <div className="flex items-center gap-2">
-            <div className="flex items-center gap-0.5" aria-label={`Rating ${rating} dari 5`}>
+            <div
+                className="flex items-center gap-0.5"
+                aria-label={`Rating ${rating} dari 5`}
+            >
                 {[1, 2, 3, 4, 5].map((star) => (
                     <StarIcon key={star} filled={star <= Math.round(rating)} />
                 ))}
@@ -170,7 +173,17 @@ const features = [
         description:
             'Catat setiap lamaran dengan status, perusahaan, posisi, dan sumber. Deteksi duplikasi otomatis dan riwayat perubahan status tercatat penuh.',
         icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6798ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#6798ff"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+            >
                 <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
                 <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
             </svg>
@@ -181,7 +194,17 @@ const features = [
         description:
             'Jadwalkan sesi wawancara, deteksi bentrok otomatis, dan terima pengingat H-24 jam serta H-2 jam sebelum jadwal.',
         icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6798ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#6798ff"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+            >
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                 <line x1="16" y1="2" x2="16" y2="6" />
                 <line x1="8" y1="2" x2="8" y2="6" />
@@ -194,7 +217,17 @@ const features = [
         description:
             'Roadmap belajar 3 atau 5 bulan berdasarkan gap skill Anda. Rekomendasi media belajar dan ide proyek portofolio terarah.',
         icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6798ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#6798ff"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+            >
                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
             </svg>
@@ -205,7 +238,17 @@ const features = [
         description:
             'Latihan wawancara kerja dengan pertanyaan teknis, behavioral, dan studi kasus berdasarkan deskripsi lowongan nyata.',
         icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6798ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#6798ff"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+            >
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
         ),
@@ -215,7 +258,17 @@ const features = [
         description:
             'Hubungkan Gmail dengan izin read-only. AI mengklasifikasi email masuk sebagai interview, offer, rejection, atau pending, lalu mengekstrak jadwal.',
         icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6798ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#6798ff"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+            >
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                 <polyline points="22,6 12,13 2,6" />
             </svg>
@@ -226,7 +279,17 @@ const features = [
         description:
             'Response rate, interview conversion, distribusi sumber lamaran, dan tren bulanan. Dihitung langsung dari data pipeline Anda.',
         icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6798ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#6798ff"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+            >
                 <line x1="18" y1="20" x2="18" y2="10" />
                 <line x1="12" y1="20" x2="12" y2="4" />
                 <line x1="6" y1="20" x2="6" y2="14" />
@@ -269,9 +332,11 @@ interface WelcomeProps {
 
 export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [authModalOpen, setAuthModalOpen] = useState(Boolean(initialAuthModal));
+    const [authModalOpen, setAuthModalOpen] = useState(
+        Boolean(initialAuthModal),
+    );
     const [authModalMode, setAuthModalMode] = useState<'login' | 'register'>(
-        initialAuthModal || 'login'
+        initialAuthModal || 'login',
     );
 
     useEffect(() => {
@@ -309,7 +374,6 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
         <>
             <Head title="CareerPilot AI - Platform Manajemen Pencarian Kerja Personal" />
             <div className="min-h-screen bg-[#0a0a0a] font-sans text-[#ffffff] selection:bg-[#1e1e1e] selection:text-[#6798ff]">
-
                 {/* ===== TOP NAVIGATION BAR (DOVETAIL DESIGN) ===== */}
                 <header className="sticky top-0 z-50 w-full border-b border-[#313131] bg-[#0a0a0a]/95 backdrop-blur-md">
                     <div className="mx-auto flex h-20 max-w-[1240px] items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -320,7 +384,17 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                 className="group flex items-center gap-3 rounded-[6px] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
                             >
                                 <div className="flex h-10 w-10 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#6798ff] transition-colors group-hover:border-[#6798ff]">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                    <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        aria-hidden="true"
+                                    >
                                         <polygon points="12 2 2 7 12 12 22 7 12 2" />
                                         <polyline points="2 17 12 22 22 17" />
                                         <polyline points="2 12 12 17 22 12" />
@@ -337,12 +411,15 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                             </Link>
 
                             {/* Desktop Nav Links (DESIGN.md) */}
-                            <nav aria-label="Navigasi Utama Landing" className="hidden items-center gap-1.5 lg:gap-2 md:flex">
+                            <nav
+                                aria-label="Navigasi Utama Landing"
+                                className="hidden items-center gap-1.5 md:flex lg:gap-2"
+                            >
                                 {navLinks.map((link) => (
                                     <a
                                         key={link.name}
                                         href={link.href}
-                                        className="rounded-[6px] px-3.5 py-2 text-[14px] lg:text-[15px] font-medium text-[#a7a7a7] transition-colors hover:bg-[#141414] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                                        className="rounded-[6px] px-3.5 py-2 text-[14px] font-medium text-[#a7a7a7] transition-colors hover:bg-[#141414] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none lg:text-[15px]"
                                     >
                                         {link.name}
                                     </a>
@@ -370,10 +447,16 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                             {/* Mobile Hamburger Toggle (Tap target >= 44px) */}
                             <button
                                 type="button"
-                                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                                onClick={() =>
+                                    setMobileMenuOpen(!mobileMenuOpen)
+                                }
                                 aria-expanded={mobileMenuOpen}
                                 aria-controls="landing-mobile-menu"
-                                aria-label={mobileMenuOpen ? 'Tutup navigasi' : 'Buka navigasi'}
+                                aria-label={
+                                    mobileMenuOpen
+                                        ? 'Tutup navigasi'
+                                        : 'Buka navigasi'
+                                }
                                 className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] border border-[#454545] bg-[#141414] text-[#ffffff] hover:bg-[#1e1e1e] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none md:hidden"
                             >
                                 <svg
@@ -389,14 +472,39 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                 >
                                     {mobileMenuOpen ? (
                                         <>
-                                            <line x1="18" y1="6" x2="6" y2="18" />
-                                            <line x1="6" y1="6" x2="18" y2="18" />
+                                            <line
+                                                x1="18"
+                                                y1="6"
+                                                x2="6"
+                                                y2="18"
+                                            />
+                                            <line
+                                                x1="6"
+                                                y1="6"
+                                                x2="18"
+                                                y2="18"
+                                            />
                                         </>
                                     ) : (
                                         <>
-                                            <line x1="4" y1="12" x2="20" y2="12" />
-                                            <line x1="4" y1="6" x2="20" y2="6" />
-                                            <line x1="4" y1="18" x2="20" y2="18" />
+                                            <line
+                                                x1="4"
+                                                y1="12"
+                                                x2="20"
+                                                y2="12"
+                                            />
+                                            <line
+                                                x1="4"
+                                                y1="6"
+                                                x2="20"
+                                                y2="6"
+                                            />
+                                            <line
+                                                x1="4"
+                                                y1="18"
+                                                x2="20"
+                                                y2="18"
+                                            />
                                         </>
                                     )}
                                 </svg>
@@ -410,7 +518,10 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                             id="landing-mobile-menu"
                             className="border-t border-[#313131] bg-[#0a0a0a]/98 px-4 py-4 md:hidden"
                         >
-                            <nav aria-label="Navigasi Mobile Landing" className="space-y-1">
+                            <nav
+                                aria-label="Navigasi Mobile Landing"
+                                className="space-y-1"
+                            >
                                 {navLinks.map((link) => (
                                     <a
                                         key={link.name}
@@ -422,7 +533,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                     </a>
                                 ))}
                             </nav>
-                            <div className="mt-4 pt-4 border-t border-[#313131] flex flex-col gap-2">
+                            <div className="mt-4 flex flex-col gap-2 border-t border-[#313131] pt-4">
                                 <Button
                                     variant="ghost"
                                     size="md"
@@ -469,12 +580,14 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                             <p className="mb-4 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                                 PERSONAL JOB-SEARCH MANAGEMENT
                             </p>
-                            <h1 className="text-[36px] font-semibold leading-[1.18] tracking-[-0.84px] text-[#ffffff] sm:text-[52px] sm:leading-[1.12] sm:tracking-[-1.8px] lg:text-[60px] lg:tracking-[-2.2px]">
+                            <h1 className="text-[36px] leading-[1.18] font-semibold tracking-[-0.84px] text-[#ffffff] sm:text-[52px] sm:leading-[1.12] sm:tracking-[-1.8px] lg:text-[60px] lg:tracking-[-2.2px]">
                                 Kendalikan pencarian kerja Anda dari satu tempat
                             </h1>
                             <p className="mt-5 text-[15px] leading-[1.6] tracking-[-0.17px] text-[#a7a7a7] sm:text-[18px] sm:leading-[1.5] sm:tracking-[-0.3px]">
-                                Catat lamaran, jadwalkan interview, terima triase email rekrutmen,
-                                dan persiapkan diri dengan AI. Semua data milik Anda, semua keputusan di tangan Anda.
+                                Catat lamaran, jadwalkan interview, terima
+                                triase email rekrutmen, dan persiapkan diri
+                                dengan AI. Semua data milik Anda, semua
+                                keputusan di tangan Anda.
                             </p>
                             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                                 <Button
@@ -493,7 +606,10 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                         </FadeInWhenVisible>
 
                         {/* Product Preview Card (Dovetail Command Center Instrument) */}
-                        <FadeInWhenVisible delay={0.15} className="mt-12 sm:mt-16">
+                        <FadeInWhenVisible
+                            delay={0.15}
+                            className="mt-12 sm:mt-16"
+                        >
                             <div className="mx-auto max-w-4xl rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-1.5">
                                 <div className="rounded-[6px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
                                     {/* Mockup Header Bar */}
@@ -561,7 +677,8 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                                     PT Teknologi Nusantara
                                                 </p>
                                                 <p className="text-[12px] text-[#a7a7a7]">
-                                                    Senior Fullstack Engineer • Google Meet
+                                                    Senior Fullstack Engineer •
+                                                    Google Meet
                                                 </p>
                                             </div>
                                             <Badge variant="accent" size="sm">
@@ -574,7 +691,8 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                                     GoForward Solutions
                                                 </p>
                                                 <p className="text-[12px] text-[#a7a7a7]">
-                                                    Backend Developer (Laravel) • Assessment
+                                                    Backend Developer (Laravel)
+                                                    • Assessment
                                                 </p>
                                             </div>
                                             <Badge variant="warning" size="sm">
@@ -589,44 +707,77 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                 </section>
 
                 {/* ===== INTERACTIVE VELOCITY SCROLL BANNER (ZIG-ZAG MOTION & ADVANCED ADVANTAGES) ===== */}
-                <section aria-label="Keunggulan dan Fitur Mendalam" className="border-b border-[#313131] bg-[#141414] py-3.5 sm:py-4 overflow-hidden">
-                    <div className="space-y-1.5 font-mono text-[12px] sm:text-[13px] tracking-[0.85px] uppercase">
+                <section
+                    aria-label="Keunggulan dan Fitur Mendalam"
+                    className="overflow-hidden border-b border-[#313131] bg-[#141414] py-3.5 sm:py-4"
+                >
+                    <div className="space-y-1.5 font-mono text-[12px] tracking-[0.85px] uppercase sm:text-[13px]">
                         {/* Baris Atas: Bergerak Mulus ke KANAN */}
                         <VelocityScrollRow baseSpeed={0.65} direction="right">
                             <div className="flex items-center gap-6 pr-6">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">DETEKSI DUPLIKASI REAL-TIME:</span>
-                                    <span className="text-[#ffffff]">Cegah melamar posisi dan perusahaan yang sama berulang kali</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        DETEKSI DUPLIKASI REAL-TIME:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        Cegah melamar posisi dan perusahaan yang
+                                        sama berulang kali
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
 
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">ALERT STAGNAN 14 HARI:</span>
-                                    <span className="text-[#ffffff]">Pantau lamaran tanpa kabar 2 minggu plus rekomendasi lowongan baru AI</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        ALERT STAGNAN 14 HARI:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        Pantau lamaran tanpa kabar 2 minggu plus
+                                        rekomendasi lowongan baru AI
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
 
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">DETEKSI BENTROK KALENDER:</span>
-                                    <span className="text-[#ffffff]">Peringatan otomatis saat jadwal wawancara saling bertabrakan</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        DETEKSI BENTROK KALENDER:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        Peringatan otomatis saat jadwal
+                                        wawancara saling bertabrakan
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
 
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">EKSTRAKSI MEETING & MAPS:</span>
-                                    <span className="text-[#ffffff]">Pilah otomatis link Zoom/Meet online atau rute Google Maps offline</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        EKSTRAKSI MEETING & MAPS:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        Pilah otomatis link Zoom/Meet online
+                                        atau rute Google Maps offline
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
 
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">AUTO-MATCHING EMAIL REKRUTMEN:</span>
-                                    <span className="text-[#ffffff]">Pesan Gmail masuk langsung ditautkan ke lamaran aktif Anda</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        AUTO-MATCHING EMAIL REKRUTMEN:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        Pesan Gmail masuk langsung ditautkan ke
+                                        lamaran aktif Anda
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
 
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">PENGINGAT OTOMATIS H-24 & H-2:</span>
-                                    <span className="text-[#ffffff]">Notifikasi terjadwal sebelum sesi wawancara dimulai</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        PENGINGAT OTOMATIS H-24 & H-2:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        Notifikasi terjadwal sebelum sesi
+                                        wawancara dimulai
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
                             </div>
@@ -636,38 +787,68 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                         <VelocityScrollRow baseSpeed={0.65} direction="left">
                             <div className="flex items-center gap-6 pr-6">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">POSTGRESQL RLS ENFORCED:</span>
-                                    <span className="text-[#ffffff]">Supabase Row Level Security aktif di seluruh tabel database</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        POSTGRESQL RLS ENFORCED:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        Supabase Row Level Security aktif di
+                                        seluruh tabel database
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
 
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">TOKEN ENKRIPSI SERVER-SIDE:</span>
-                                    <span className="text-[#ffffff]">OAuth Gmail disimpan terenkripsi dengan izin read-only minimal</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        TOKEN ENKRIPSI SERVER-SIDE:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        OAuth Gmail disimpan terenkripsi dengan
+                                        izin read-only minimal
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
 
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">AUDIT STATUS TRAIL:</span>
-                                    <span className="text-[#ffffff]">Riwayat perubahan status dari Applied hingga Offer tercatat permanen</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        AUDIT STATUS TRAIL:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        Riwayat perubahan status dari Applied
+                                        hingga Offer tercatat permanen
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
 
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">IDEMPOTENT RESCHEDULE:</span>
-                                    <span className="text-[#ffffff]">Jadwal interview berubah, reminder lama otomatis diganti tanpa duplikasi</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        IDEMPOTENT RESCHEDULE:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        Jadwal interview berubah, reminder lama
+                                        otomatis diganti tanpa duplikasi
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
 
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">GRACEFUL DEGRADATION:</span>
-                                    <span className="text-[#ffffff]">Pencatatan lamaran dan kalender tetap normal saat AI sedang offline</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        GRACEFUL DEGRADATION:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        Pencatatan lamaran dan kalender tetap
+                                        normal saat AI sedang offline
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
 
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[#6798ff] font-semibold">PRIVACY BY DESIGN:</span>
-                                    <span className="text-[#ffffff]">Kendali penuh pengguna untuk memutuskan koneksi atau hapus akun kapan saja</span>
+                                    <span className="font-semibold text-[#6798ff]">
+                                        PRIVACY BY DESIGN:
+                                    </span>
+                                    <span className="text-[#ffffff]">
+                                        Kendali penuh pengguna untuk memutuskan
+                                        koneksi atau hapus akun kapan saja
+                                    </span>
                                 </div>
                                 <span className="text-[#6798ff]">•</span>
                             </div>
@@ -676,24 +857,33 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                 </section>
 
                 {/* ===== FEATURES SECTION ===== */}
-                <section id="fitur" className="border-b border-[#1e1e1e] py-20 sm:py-28">
+                <section
+                    id="fitur"
+                    className="border-b border-[#1e1e1e] py-20 sm:py-28"
+                >
                     <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
                         <FadeInWhenVisible>
                             <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                                 APA YANG BISA ANDA LAKUKAN
                             </p>
-                            <h2 className="max-w-2xl text-[28px] font-semibold leading-[1.25] tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
-                                Satu platform untuk seluruh proses pencarian kerja
+                            <h2 className="max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                                Satu platform untuk seluruh proses pencarian
+                                kerja
                             </h2>
                             <p className="mt-3 max-w-xl text-[15px] leading-[1.6] text-[#a7a7a7]">
-                                Dari pencatatan lamaran sampai persiapan interview, CareerPilot AI membantu Anda tetap terstruktur tanpa kehilangan kendali.
+                                Dari pencatatan lamaran sampai persiapan
+                                interview, CareerPilot AI membantu Anda tetap
+                                terstruktur tanpa kehilangan kendali.
                             </p>
                         </FadeInWhenVisible>
 
                         {/* Feature grid: 3 columns on desktop, 1 on mobile */}
                         <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                             {features.map((feature, idx) => (
-                                <FadeInWhenVisible key={feature.title} delay={idx * 0.06}>
+                                <FadeInWhenVisible
+                                    key={feature.title}
+                                    delay={idx * 0.06}
+                                >
                                     <div className="group h-full rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6 transition-colors hover:border-[#454545]">
                                         <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-[8px] border border-[#313131] bg-[#141414] transition-colors group-hover:border-[#6798ff]/40">
                                             {feature.icon}
@@ -712,13 +902,16 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                 </section>
 
                 {/* ===== HOW IT WORKS SECTION ===== */}
-                <section id="alur-kerja" className="border-b border-[#1e1e1e] bg-[#141414] py-20 sm:py-28">
+                <section
+                    id="alur-kerja"
+                    className="border-b border-[#1e1e1e] bg-[#141414] py-20 sm:py-28"
+                >
                     <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
                         <FadeInWhenVisible>
                             <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                                 ALUR KERJA
                             </p>
-                            <h2 className="max-w-2xl text-[28px] font-semibold leading-[1.25] tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                            <h2 className="max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
                                 Dari lamaran sampai persiapan interview
                             </h2>
                         </FadeInWhenVisible>
@@ -726,9 +919,12 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                         {/* Timeline layout: 4 columns on lg, 2 on sm, 1 on xs */}
                         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                             {steps.map((step, idx) => (
-                                <FadeInWhenVisible key={step.number} delay={idx * 0.08}>
+                                <FadeInWhenVisible
+                                    key={step.number}
+                                    delay={idx * 0.08}
+                                >
                                     <div className="rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6">
-                                        <span className="font-mono text-[28px] font-semibold leading-none tracking-[-0.84px] text-[#6798ff]">
+                                        <span className="font-mono text-[28px] leading-none font-semibold tracking-[-0.84px] text-[#6798ff]">
                                             {step.number}
                                         </span>
                                         <h3 className="mt-3 text-[16px] font-semibold tracking-[-0.19px] text-[#ffffff]">
@@ -745,7 +941,10 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                 </section>
 
                 {/* ===== AI HIGHLIGHT SECTION (Asymmetric 2-column) ===== */}
-                <section id="ai-copilot" className="border-b border-[#1e1e1e] py-20 sm:py-28">
+                <section
+                    id="ai-copilot"
+                    className="border-b border-[#1e1e1e] py-20 sm:py-28"
+                >
                     <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
                         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
                             {/* Left: Copy & Explanations */}
@@ -754,13 +953,17 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                     <Badge variant="accent" size="sm">
                                         AI-ASSISTED
                                     </Badge>
-                                    <h2 className="mt-4 text-[28px] font-semibold leading-[1.25] tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                                    <h2 className="mt-4 text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
                                         AI membantu, Anda yang memutuskan
                                     </h2>
                                     <p className="mt-4 text-[15px] leading-[1.6] text-[#a7a7a7]">
-                                        CareerPilot AI memberikan rekomendasi, draf roadmap belajar,
-                                        simulasi wawancara, dan triase email. Tetapi setiap keputusan penting tetap
-                                        memerlukan konfirmasi Anda. Tidak ada perubahan status otomatis tanpa persetujuan.
+                                        CareerPilot AI memberikan rekomendasi,
+                                        draf roadmap belajar, simulasi
+                                        wawancara, dan triase email. Tetapi
+                                        setiap keputusan penting tetap
+                                        memerlukan konfirmasi Anda. Tidak ada
+                                        perubahan status otomatis tanpa
+                                        persetujuan.
                                     </p>
                                     <ul className="mt-6 space-y-3">
                                         {[
@@ -769,7 +972,10 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                             'Triase email rekrutmen dengan klasifikasi 4 kategori definitif',
                                             'Deteksi lamaran stagnan setelah 2 minggu tanpa ada pembaruan status',
                                         ].map((item) => (
-                                            <li key={item} className="flex items-start gap-2.5">
+                                            <li
+                                                key={item}
+                                                className="flex items-start gap-2.5"
+                                            >
                                                 <svg
                                                     width="16"
                                                     height="16"
@@ -811,7 +1017,8 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                                     TARGET POSISI
                                                 </p>
                                                 <p className="mt-1 text-[15px] font-medium text-[#ffffff]">
-                                                    Senior Fullstack Developer (Laravel + React)
+                                                    Senior Fullstack Developer
+                                                    (Laravel + React)
                                                 </p>
                                             </div>
                                             <div>
@@ -819,8 +1026,15 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                                     GAP SKILL TERDETEKSI
                                                 </p>
                                                 <div className="mt-2 flex flex-wrap gap-2">
-                                                    {['Docker & K8s', 'Inertia v3 SSR', 'PostgreSQL RLS'].map((s) => (
-                                                        <span key={s} className="rounded-[4px] border border-[#313131] bg-[#0a0a0a] px-2.5 py-1 font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7]">
+                                                    {[
+                                                        'Docker & K8s',
+                                                        'Inertia v3 SSR',
+                                                        'PostgreSQL RLS',
+                                                    ].map((s) => (
+                                                        <span
+                                                            key={s}
+                                                            className="rounded-[4px] border border-[#313131] bg-[#0a0a0a] px-2.5 py-1 font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7]"
+                                                        >
                                                             {s}
                                                         </span>
                                                     ))}
@@ -831,10 +1045,13 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                                     MILESTONE BULAN 1
                                                 </p>
                                                 <p className="mt-1 text-[13px] text-[#a7a7a7]">
-                                                    Arsitektur Microservices, Docker containerization, dan implementasi Supabase Row Level Security.
+                                                    Arsitektur Microservices,
+                                                    Docker containerization, dan
+                                                    implementasi Supabase Row
+                                                    Level Security.
                                                 </p>
                                             </div>
-                                            <div className="border-t border-[#313131] pt-3 flex items-center justify-between">
+                                            <div className="flex items-center justify-between border-t border-[#313131] pt-3">
                                                 <span className="font-mono text-[11px] tracking-[0.85px] text-[#7c7c7c] uppercase">
                                                     DURASI ROADMAP
                                                 </span>
@@ -852,30 +1069,40 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
 
                 {/* ===== RATINGS / SOCIAL PROOF SECTION ===== */}
                 {/* R-17, R-18, R-38: All ratings explicitly marked as placeholder data */}
-                <section id="penilaian" className="border-b border-[#1e1e1e] bg-[#141414] py-20 sm:py-28">
+                <section
+                    id="penilaian"
+                    className="border-b border-[#1e1e1e] bg-[#141414] py-20 sm:py-28"
+                >
                     <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
                         <FadeInWhenVisible className="text-center">
                             <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                                 PENILAIAN PENGGUNA
                             </p>
-                            <h2 className="mx-auto max-w-2xl text-[28px] font-semibold leading-[1.25] tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                            <h2 className="mx-auto max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
                                 Apa kata mereka yang sudah mencoba
                             </h2>
                             <p className="mx-auto mt-3 max-w-lg text-[14px] text-[#7c7c7c]">
-                                [REAL DATA] Metrik dan ulasan berikut disiapkan untuk memuat data pengguna nyata
+                                [REAL DATA] Metrik dan ulasan berikut disiapkan
+                                untuk memuat data pengguna nyata
                             </p>
                         </FadeInWhenVisible>
 
                         {/* Rating Summary Bar */}
-                        <FadeInWhenVisible delay={0.1} className="mx-auto mt-10 max-w-md">
+                        <FadeInWhenVisible
+                            delay={0.1}
+                            className="mx-auto mt-10 max-w-md"
+                        >
                             <div className="flex flex-col items-center justify-center gap-6 rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6 sm:flex-row sm:gap-10">
                                 <div className="text-center">
-                                    <p className="text-[44px] font-semibold leading-none tracking-[-0.84px] text-[#ffffff]">
+                                    <p className="text-[44px] leading-none font-semibold tracking-[-0.84px] text-[#ffffff]">
                                         [X.X]
                                     </p>
                                     <div className="mt-2 flex items-center justify-center gap-1">
                                         {[1, 2, 3, 4, 5].map((star) => (
-                                            <StarIcon key={star} filled={star <= 4} />
+                                            <StarIcon
+                                                key={star}
+                                                filled={star <= 4}
+                                            />
                                         ))}
                                     </div>
                                     <p className="mt-1 font-mono text-[11px] tracking-[0.85px] text-[#7c7c7c]">
@@ -884,7 +1111,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                 </div>
                                 <div className="hidden h-12 w-px bg-[#313131] sm:block" />
                                 <div className="text-center">
-                                    <p className="text-[44px] font-semibold leading-none tracking-[-0.84px] text-[#ffffff]">
+                                    <p className="text-[44px] leading-none font-semibold tracking-[-0.84px] text-[#ffffff]">
                                         [N]
                                     </p>
                                     <p className="mt-1 text-[13px] text-[#a7a7a7]">
@@ -916,7 +1143,10 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                     label: 'Pengingat otomatis dan jadwal interview',
                                 },
                             ].map((item, idx) => (
-                                <FadeInWhenVisible key={item.category} delay={idx * 0.08}>
+                                <FadeInWhenVisible
+                                    key={item.category}
+                                    delay={idx * 0.08}
+                                >
                                     <div className="rounded-[8px] border border-[#313131] bg-[#0a0a0a] p-5">
                                         <p className="mb-2 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                                             {item.category}
@@ -936,13 +1166,16 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                 </section>
 
                 {/* ===== PRINCIPLES SECTION ===== */}
-                <section id="prinsip" className="border-b border-[#1e1e1e] py-20 sm:py-28">
+                <section
+                    id="prinsip"
+                    className="border-b border-[#1e1e1e] py-20 sm:py-28"
+                >
                     <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
                         <FadeInWhenVisible>
                             <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                                 PRINSIP KAMI
                             </p>
-                            <h2 className="max-w-2xl text-[28px] font-semibold leading-[1.25] tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                            <h2 className="max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
                                 Privasi dan akurasi data sebagai fondasi
                             </h2>
                         </FadeInWhenVisible>
@@ -970,7 +1203,10 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                         'Akses email minimal (read-only), token OAuth terenkripsi server-side, dan Anda memiliki kendali penuh untuk memutuskan koneksi kapan saja.',
                                 },
                             ].map((principle, idx) => (
-                                <FadeInWhenVisible key={principle.title} delay={idx * 0.06}>
+                                <FadeInWhenVisible
+                                    key={principle.title}
+                                    delay={idx * 0.06}
+                                >
                                     <div className="rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6">
                                         <h3 className="mb-2 text-[16px] font-semibold tracking-[-0.19px] text-[#ffffff]">
                                             {principle.title}
@@ -989,11 +1225,12 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                 <section className="border-b border-[#1e1e1e] bg-[#141414] py-20 sm:py-28">
                     <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
                         <FadeInWhenVisible className="mx-auto max-w-2xl text-center">
-                            <h2 className="text-[28px] font-semibold leading-[1.25] tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                            <h2 className="text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
                                 Mulai kelola pencarian kerja Anda hari ini
                             </h2>
                             <p className="mt-3 text-[15px] leading-[1.6] text-[#a7a7a7]">
-                                Daftar gratis, tidak perlu kartu kredit. Semua fitur inti dapat langsung digunakan.
+                                Daftar gratis, tidak perlu kartu kredit. Semua
+                                fitur inti dapat langsung digunakan.
                             </p>
                             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                                 <Button

@@ -14,7 +14,9 @@ export function evaluatePassword(password: string): {
     criteria: PasswordCriteriaState;
 } {
     const hasMinLength = password.length >= 8;
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>[\]\\/'`~_+=;\-]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>[\]\\/'`~_+=;-]/.test(
+        password,
+    );
     const hasMixedCase = /[a-z]/.test(password) && /[A-Z]/.test(password);
     const hasNumber = /\d/.test(password);
     const hasBonusLength = password.length >= 12;
@@ -75,7 +77,10 @@ interface PasswordStrengthMeterProps {
     className?: string;
 }
 
-export function PasswordStrengthMeter({ password, className = '' }: PasswordStrengthMeterProps) {
+export function PasswordStrengthMeter({
+    password,
+    className = '',
+}: PasswordStrengthMeterProps) {
     const { score, label, color, criteria } = evaluatePassword(password);
     const hasInput = password.length > 0;
 
@@ -83,7 +88,9 @@ export function PasswordStrengthMeter({ password, className = '' }: PasswordStre
         <div className={`space-y-3 ${className}`}>
             {/* Header label & Strength indicator */}
             <div className="flex items-center justify-between text-[12px]">
-                <span className="text-[#a7a7a7] font-sans">Kekuatan Password:</span>
+                <span className="font-sans text-[#a7a7a7]">
+                    Kekuatan Password:
+                </span>
                 <span
                     className="font-mono text-[11px] font-semibold tracking-[0.5px] uppercase transition-colors"
                     style={{ color: hasInput ? color : '#7c7c7c' }}
@@ -93,7 +100,13 @@ export function PasswordStrengthMeter({ password, className = '' }: PasswordStre
             </div>
 
             {/* 4-Segment Strength Bar */}
-            <div className="grid grid-cols-4 gap-1.5" role="progressbar" aria-valuenow={score} aria-valuemin={0} aria-valuemax={4}>
+            <div
+                className="grid grid-cols-4 gap-1.5"
+                role="progressbar"
+                aria-valuenow={score}
+                aria-valuemin={0}
+                aria-valuemax={4}
+            >
                 {[1, 2, 3, 4].map((step) => {
                     const isFilled = hasInput && score >= step;
                     return (
@@ -109,8 +122,8 @@ export function PasswordStrengthMeter({ password, className = '' }: PasswordStre
             </div>
 
             {/* 3 Mandatory Criteria Checklist */}
-            <div className="rounded-[6px] border border-[#313131] bg-[#101010] p-2.5 space-y-1.5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.8px] text-[#7c7c7c] mb-1">
+            <div className="space-y-1.5 rounded-[6px] border border-[#313131] bg-[#101010] p-2.5">
+                <p className="mb-1 font-mono text-[10px] tracking-[0.8px] text-[#7c7c7c] uppercase">
                     3 Kriteria Wajib:
                 </p>
 
@@ -138,7 +151,7 @@ export function PasswordStrengthMeter({ password, className = '' }: PasswordStre
 
 function CriteriaItem({ isMet, text }: { isMet: boolean; text: string }) {
     return (
-        <div className="flex items-center gap-2 text-[12px] font-sans">
+        <div className="flex items-center gap-2 font-sans text-[12px]">
             <span
                 className={`flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-[3px] border transition-colors ${
                     isMet
