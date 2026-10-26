@@ -205,3 +205,36 @@ test('unauthenticated user cannot access protected endpoints', function () {
     $this->deleteJson(route('api.v1.me.delete'), ['password' => 'Pass'])->assertStatus(401);
     $this->postJson(route('api.v1.logout'))->assertStatus(401);
 });
+
+test('registration validates the 3 mandatory password criteria', function (string $invalidPassword) {
+    $response = $this->postJson(route('api.v1.register'), [
+        'name' => 'Test User',
+        'email' => 'criteria-test@example.com',
+        'password' => $invalidPassword,
+        'password_confirmation' => $invalidPassword,
+    ]);
+
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['password']);
+})->with([
+    'less than 8 characters' => ['Short1!'],
+    'missing special character' => ['NoSymbol123A'],
+    'missing uppercase letter' => ['nosymbol123!'],
+    'missing lowercase letter' => ['NOSYMBOL123!'],
+]);
+
+test('web routes login and register render welcome page with initial modal state', function () {
+    $responseLogin = $this->get(route('login'));
+    $responseLogin->assertStatus(200)
+        ->assertInertia(fn ($page) => $page
+            ->component('welcome')
+            ->where('initialAuthModal', 'login')
+        );
+
+    $responseRegister = $this->get(route('register'));
+    $responseRegister->assertStatus(200)
+        ->assertInertia(fn ($page) => $page
+            ->component('welcome')
+            ->where('initialAuthModal', 'register')
+        );
+});
