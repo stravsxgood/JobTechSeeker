@@ -374,7 +374,10 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
     return (
         <>
             <Head title="CareerPilot AI - Platform Manajemen Pencarian Kerja Personal">
-                <meta name="description" content="Catat lamaran kerja, jadwalkan interview, terima triase email rekrutmen, dan persiapkan diri dengan AI. Platform manajemen pencarian kerja personal." />
+                <meta
+                    name="description"
+                    content="Catat lamaran kerja, jadwalkan interview, terima triase email rekrutmen, dan persiapkan diri dengan AI. Platform manajemen pencarian kerja personal."
+                />
             </Head>
             <div className="min-h-screen bg-[#0a0a0a] font-sans text-[#ffffff] selection:bg-[#1e1e1e] selection:text-[#6798ff]">
                 {/* ===== TOP NAVIGATION BAR (DOVETAIL DESIGN) ===== */}
@@ -565,696 +568,725 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                 </header>
 
                 <main id="main-content">
-                {/* ===== HERO SECTION ===== */}
-                <section className="relative overflow-hidden border-b border-[#1e1e1e]">
-                    {/* Blueprint grid motif (DESIGN.md) */}
-                    <div
-                        className="pointer-events-none absolute inset-0"
-                        style={{
-                            backgroundImage:
-                                'linear-gradient(to right, rgba(30,30,30,0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(30,30,30,0.3) 1px, transparent 1px)',
-                            backgroundSize: '48px 48px',
-                        }}
-                        aria-hidden="true"
-                    />
+                    {/* ===== HERO SECTION ===== */}
+                    <section className="relative overflow-hidden border-b border-[#1e1e1e]">
+                        {/* Blueprint grid motif (DESIGN.md) */}
+                        <div
+                            className="pointer-events-none absolute inset-0"
+                            style={{
+                                backgroundImage:
+                                    'linear-gradient(to right, rgba(30,30,30,0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(30,30,30,0.3) 1px, transparent 1px)',
+                                backgroundSize: '48px 48px',
+                            }}
+                            aria-hidden="true"
+                        />
 
-                    <div className="relative mx-auto max-w-[1200px] px-4 pt-16 pb-16 sm:px-6 sm:pt-20 sm:pb-20 lg:px-8">
-                        {/* Hero Header & Value Proposition */}
-                        <div className="mx-auto max-w-3xl text-center">
-                            <p className="mb-4 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
-                                PERSONAL JOB-SEARCH MANAGEMENT
-                            </p>
-                            <h1 className="text-[36px] leading-[1.18] font-semibold tracking-[-0.84px] text-[#ffffff] sm:text-[52px] sm:leading-[1.12] sm:tracking-[-1.8px] lg:text-[60px] lg:tracking-[-2.2px]">
-                                Kendalikan pencarian kerja Anda dari satu tempat
-                            </h1>
-                            <p className="mt-5 text-[15px] leading-[1.6] tracking-[-0.17px] text-[#a7a7a7] sm:text-[18px] sm:leading-[1.5] sm:tracking-[-0.3px]">
-                                Catat lamaran, jadwalkan interview, terima
-                                triase email rekrutmen, dan persiapkan diri
-                                dengan AI. Semua data milik Anda, semua
-                                keputusan di tangan Anda.
-                            </p>
-                            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-                                <Button
-                                    variant="primary"
-                                    size="lg"
-                                    onClick={() => handleOpenAuth('register')}
-                                >
-                                    Mulai Kelola Karier
-                                </Button>
-                                <a href="#fitur">
-                                    <Button variant="secondary" size="lg">
-                                        Lihat Fitur Lengkap
+                        <div className="relative mx-auto max-w-[1200px] px-4 pt-16 pb-16 sm:px-6 sm:pt-20 sm:pb-20 lg:px-8">
+                            {/* Hero Header & Value Proposition */}
+                            <div className="mx-auto max-w-3xl text-center">
+                                <p className="mb-4 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                    PERSONAL JOB-SEARCH MANAGEMENT
+                                </p>
+                                <h1 className="text-[36px] leading-[1.18] font-semibold tracking-[-0.84px] text-[#ffffff] sm:text-[52px] sm:leading-[1.12] sm:tracking-[-1.8px] lg:text-[60px] lg:tracking-[-2.2px]">
+                                    Kendalikan pencarian kerja Anda dari satu
+                                    tempat
+                                </h1>
+                                <p className="mt-5 text-[15px] leading-[1.6] tracking-[-0.17px] text-[#a7a7a7] sm:text-[18px] sm:leading-[1.5] sm:tracking-[-0.3px]">
+                                    Catat lamaran, jadwalkan interview, terima
+                                    triase email rekrutmen, dan persiapkan diri
+                                    dengan AI. Semua data milik Anda, semua
+                                    keputusan di tangan Anda.
+                                </p>
+                                <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                                    <Button
+                                        variant="primary"
+                                        size="lg"
+                                        onClick={() =>
+                                            handleOpenAuth('register')
+                                        }
+                                    >
+                                        Mulai Kelola Karier
                                     </Button>
-                                </a>
-                            </div>
-                        </div>
-
-                        {/* Product Preview Card (Dovetail Command Center Instrument) */}
-                        <FadeInWhenVisible
-                            delay={0.15}
-                            className="mt-12 sm:mt-16"
-                        >
-                            <div className="mx-auto max-w-4xl rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-1.5">
-                                <div className="rounded-[6px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
-                                    {/* Mockup Header Bar */}
-                                    <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-[#313131] pb-4">
-                                        <div className="flex items-center gap-2">
-                                            <div className="h-2.5 w-2.5 rounded-full bg-[#313131]" />
-                                            <div className="h-2.5 w-2.5 rounded-full bg-[#313131]" />
-                                            <div className="h-2.5 w-2.5 rounded-full bg-[#313131]" />
-                                            <span className="ml-2 font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
-                                                DASHBOARD PIPELINE
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <Badge variant="accent" size="sm">
-                                                LIVE SYNC
-                                            </Badge>
-                                            <span className="font-mono text-[11px] text-[#8a8a8a]">
-                                                WIB
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    {/* Mockup Stat Row (3 Columns per DESIGN.md) */}
-                                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                                        <div className="rounded-[8px] border border-[#313131] bg-[#0a0a0a] p-4">
-                                            <p className="font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
-                                                Lamaran Aktif
-                                            </p>
-                                            <p className="mt-1 text-[28px] font-semibold tracking-[-0.5px] text-[#ffffff]">
-                                                12
-                                            </p>
-                                            <p className="text-[12px] text-[#8a8a8a]">
-                                                3 dalam tahap seleksi
-                                            </p>
-                                        </div>
-                                        <div className="rounded-[8px] border border-[#313131] bg-[#0a0a0a] p-4">
-                                            <p className="font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
-                                                Interview Terdekat
-                                            </p>
-                                            <p className="mt-1 text-[28px] font-semibold tracking-[-0.5px] text-[#ffffff]">
-                                                2
-                                            </p>
-                                            <p className="text-[12px] text-[#8a8a8a]">
-                                                Technical interview minggu ini
-                                            </p>
-                                        </div>
-                                        <div className="rounded-[8px] border border-[#313131] bg-[#0a0a0a] p-4">
-                                            <p className="font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
-                                                Target Mingguan
-                                            </p>
-                                            <p className="mt-1 text-[28px] font-semibold tracking-[-0.5px] text-[#ffffff]">
-                                                4/5
-                                            </p>
-                                            <p className="text-[12px] text-[#8a8a8a]">
-                                                80% target tercapai
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {/* Mockup Activity Rows */}
-                                    <div className="mt-4 space-y-2">
-                                        <div className="flex flex-col gap-2 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3 sm:flex-row sm:items-center sm:justify-between">
-                                            <div>
-                                                <p className="text-[14px] font-medium text-[#ffffff]">
-                                                    PT Teknologi Nusantara
-                                                </p>
-                                                <p className="text-[12px] text-[#a7a7a7]">
-                                                    Senior Fullstack Engineer •
-                                                    Google Meet
-                                                </p>
-                                            </div>
-                                            <Badge variant="accent" size="sm">
-                                                Interview
-                                            </Badge>
-                                        </div>
-                                        <div className="flex flex-col gap-2 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3 sm:flex-row sm:items-center sm:justify-between">
-                                            <div>
-                                                <p className="text-[14px] font-medium text-[#ffffff]">
-                                                    GoForward Solutions
-                                                </p>
-                                                <p className="text-[12px] text-[#a7a7a7]">
-                                                    Backend Developer (Laravel)
-                                                    • Assessment
-                                                </p>
-                                            </div>
-                                            <Badge variant="warning" size="sm">
-                                                In Review
-                                            </Badge>
-                                        </div>
-                                    </div>
+                                    <a href="#fitur">
+                                        <Button variant="secondary" size="lg">
+                                            Lihat Fitur Lengkap
+                                        </Button>
+                                    </a>
                                 </div>
                             </div>
-                        </FadeInWhenVisible>
-                    </div>
-                </section>
 
-                {/* ===== INTERACTIVE VELOCITY SCROLL BANNER (ZIG-ZAG MOTION & ADVANCED ADVANTAGES) ===== */}
-                <section
-                    aria-label="Keunggulan dan Fitur Mendalam"
-                    className="overflow-hidden border-b border-[#313131] bg-[#141414] py-3.5 sm:py-4"
-                >
-                    <div className="space-y-1.5 font-mono text-[12px] tracking-[0.85px] uppercase sm:text-[13px]">
-                        {/* Baris Atas: Bergerak Mulus ke KANAN */}
-                        <VelocityScrollRow baseSpeed={0.65} direction="right">
-                            <div className="flex items-center gap-6 pr-6">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        DETEKSI DUPLIKASI REAL-TIME:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        Cegah melamar posisi dan perusahaan yang
-                                        sama berulang kali
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        ALERT STAGNAN 14 HARI:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        Pantau lamaran tanpa kabar 2 minggu plus
-                                        rekomendasi lowongan baru AI
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        DETEKSI BENTROK KALENDER:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        Peringatan otomatis saat jadwal
-                                        wawancara saling bertabrakan
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        EKSTRAKSI MEETING & MAPS:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        Pilah otomatis link Zoom/Meet online
-                                        atau rute Google Maps offline
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        AUTO-MATCHING EMAIL REKRUTMEN:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        Pesan Gmail masuk langsung ditautkan ke
-                                        lamaran aktif Anda
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        PENGINGAT OTOMATIS H-24 & H-2:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        Notifikasi terjadwal sebelum sesi
-                                        wawancara dimulai
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-                            </div>
-                        </VelocityScrollRow>
-
-                        {/* Baris Bawah: Bergerak Mulus ke KIRI */}
-                        <VelocityScrollRow baseSpeed={0.65} direction="left">
-                            <div className="flex items-center gap-6 pr-6">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        POSTGRESQL RLS ENFORCED:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        Supabase Row Level Security aktif di
-                                        seluruh tabel database
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        TOKEN ENKRIPSI SERVER-SIDE:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        OAuth Gmail disimpan terenkripsi dengan
-                                        izin read-only minimal
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        AUDIT STATUS TRAIL:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        Riwayat perubahan status dari Applied
-                                        hingga Offer tercatat permanen
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        IDEMPOTENT RESCHEDULE:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        Jadwal interview berubah, reminder lama
-                                        otomatis diganti tanpa duplikasi
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        GRACEFUL DEGRADATION:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        Pencatatan lamaran dan kalender tetap
-                                        normal saat AI sedang offline
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-[#6798ff]">
-                                        PRIVACY BY DESIGN:
-                                    </span>
-                                    <span className="text-[#ffffff]">
-                                        Kendali penuh pengguna untuk memutuskan
-                                        koneksi atau hapus akun kapan saja
-                                    </span>
-                                </div>
-                                <span className="text-[#6798ff]">•</span>
-                            </div>
-                        </VelocityScrollRow>
-                    </div>
-                </section>
-
-                {/* ===== FEATURES SECTION ===== */}
-                <section
-                    id="fitur"
-                    className="border-b border-[#1e1e1e] py-20 sm:py-28"
-                >
-                    <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-                        <FadeInWhenVisible>
-                            <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
-                                APA YANG BISA ANDA LAKUKAN
-                            </p>
-                            <h2 className="max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
-                                Satu platform untuk seluruh proses pencarian
-                                kerja
-                            </h2>
-                            <p className="mt-3 max-w-xl text-[15px] leading-[1.6] text-[#a7a7a7]">
-                                Dari pencatatan lamaran sampai persiapan
-                                interview, CareerPilot AI membantu Anda tetap
-                                terstruktur tanpa kehilangan kendali.
-                            </p>
-                        </FadeInWhenVisible>
-
-                        {/* Feature grid: 3 columns on desktop, 1 on mobile */}
-                        <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                            {features.map((feature, idx) => (
-                                <FadeInWhenVisible
-                                    key={feature.title}
-                                    delay={idx * 0.06}
-                                >
-                                    <div className="group h-full rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6 transition-colors hover:border-[#454545]">
-                                        <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-[8px] border border-[#313131] bg-[#141414] transition-colors group-hover:border-[#6798ff]/40">
-                                            {feature.icon}
-                                        </div>
-                                        <h3 className="mb-2 text-[16px] font-semibold tracking-[-0.19px] text-[#ffffff]">
-                                            {feature.title}
-                                        </h3>
-                                        <p className="text-[14px] leading-[1.5] text-[#a7a7a7]">
-                                            {feature.description}
-                                        </p>
-                                    </div>
-                                </FadeInWhenVisible>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* ===== HOW IT WORKS SECTION ===== */}
-                <section
-                    id="alur-kerja"
-                    className="border-b border-[#1e1e1e] bg-[#141414] py-20 sm:py-28"
-                >
-                    <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-                        <FadeInWhenVisible>
-                            <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
-                                ALUR KERJA
-                            </p>
-                            <h2 className="max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
-                                Dari lamaran sampai persiapan interview
-                            </h2>
-                        </FadeInWhenVisible>
-
-                        {/* Timeline layout: 4 columns on lg, 2 on sm, 1 on xs */}
-                        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                            {steps.map((step, idx) => (
-                                <FadeInWhenVisible
-                                    key={step.number}
-                                    delay={idx * 0.08}
-                                >
-                                    <div className="rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6">
-                                        <span className="font-mono text-[28px] leading-none font-semibold tracking-[-0.84px] text-[#6798ff]">
-                                            {step.number}
-                                        </span>
-                                        <h3 className="mt-3 text-[16px] font-semibold tracking-[-0.19px] text-[#ffffff]">
-                                            {step.title}
-                                        </h3>
-                                        <p className="mt-2 text-[14px] leading-[1.5] text-[#a7a7a7]">
-                                            {step.description}
-                                        </p>
-                                    </div>
-                                </FadeInWhenVisible>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* ===== AI HIGHLIGHT SECTION (Asymmetric 2-column) ===== */}
-                <section
-                    id="ai-copilot"
-                    className="border-b border-[#1e1e1e] py-20 sm:py-28"
-                >
-                    <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-                        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-                            {/* Left: Copy & Explanations */}
-                            <FadeInWhenVisible>
-                                <div>
-                                    <Badge variant="accent" size="sm">
-                                        AI-ASSISTED
-                                    </Badge>
-                                    <h2 className="mt-4 text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
-                                        AI membantu, Anda yang memutuskan
-                                    </h2>
-                                    <p className="mt-4 text-[15px] leading-[1.6] text-[#a7a7a7]">
-                                        CareerPilot AI memberikan rekomendasi,
-                                        draf roadmap belajar, simulasi
-                                        wawancara, dan triase email. Tetapi
-                                        setiap keputusan penting tetap
-                                        memerlukan konfirmasi Anda. Tidak ada
-                                        perubahan status otomatis tanpa
-                                        persetujuan.
-                                    </p>
-                                    <ul className="mt-6 space-y-3">
-                                        {[
-                                            'Roadmap belajar 3 atau 5 bulan berdasarkan analisis gap skill',
-                                            'Simulasi wawancara berbasis deskripsi lowongan nyata',
-                                            'Triase email rekrutmen dengan klasifikasi 4 kategori definitif',
-                                            'Deteksi lamaran stagnan setelah 2 minggu tanpa ada pembaruan status',
-                                        ].map((item) => (
-                                            <li
-                                                key={item}
-                                                className="flex items-start gap-2.5"
-                                            >
-                                                <svg
-                                                    width="16"
-                                                    height="16"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="#6798ff"
-                                                    strokeWidth="2"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    aria-hidden="true"
-                                                    className="mt-0.5 shrink-0"
-                                                >
-                                                    <polyline points="20 6 9 17 4 12" />
-                                                </svg>
-                                                <span className="text-[14px] leading-[1.5] text-[#a7a7a7]">
-                                                    {item}
+                            {/* Product Preview Card (Dovetail Command Center Instrument) */}
+                            <FadeInWhenVisible
+                                delay={0.15}
+                                className="mt-12 sm:mt-16"
+                            >
+                                <div className="mx-auto max-w-4xl rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-1.5">
+                                    <div className="rounded-[6px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
+                                        {/* Mockup Header Bar */}
+                                        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-[#313131] pb-4">
+                                            <div className="flex items-center gap-2">
+                                                <div className="h-2.5 w-2.5 rounded-full bg-[#313131]" />
+                                                <div className="h-2.5 w-2.5 rounded-full bg-[#313131]" />
+                                                <div className="h-2.5 w-2.5 rounded-full bg-[#313131]" />
+                                                <span className="ml-2 font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
+                                                    DASHBOARD PIPELINE
                                                 </span>
-                                            </li>
-                                        ))}
-                                    </ul>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <Badge
+                                                    variant="accent"
+                                                    size="sm"
+                                                >
+                                                    LIVE SYNC
+                                                </Badge>
+                                                <span className="font-mono text-[11px] text-[#8a8a8a]">
+                                                    WIB
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Mockup Stat Row (3 Columns per DESIGN.md) */}
+                                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                                            <div className="rounded-[8px] border border-[#313131] bg-[#0a0a0a] p-4">
+                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                                    Lamaran Aktif
+                                                </p>
+                                                <p className="mt-1 text-[28px] font-semibold tracking-[-0.5px] text-[#ffffff]">
+                                                    12
+                                                </p>
+                                                <p className="text-[12px] text-[#8a8a8a]">
+                                                    3 dalam tahap seleksi
+                                                </p>
+                                            </div>
+                                            <div className="rounded-[8px] border border-[#313131] bg-[#0a0a0a] p-4">
+                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                                    Interview Terdekat
+                                                </p>
+                                                <p className="mt-1 text-[28px] font-semibold tracking-[-0.5px] text-[#ffffff]">
+                                                    2
+                                                </p>
+                                                <p className="text-[12px] text-[#8a8a8a]">
+                                                    Technical interview minggu
+                                                    ini
+                                                </p>
+                                            </div>
+                                            <div className="rounded-[8px] border border-[#313131] bg-[#0a0a0a] p-4">
+                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                                    Target Mingguan
+                                                </p>
+                                                <p className="mt-1 text-[28px] font-semibold tracking-[-0.5px] text-[#ffffff]">
+                                                    4/5
+                                                </p>
+                                                <p className="text-[12px] text-[#8a8a8a]">
+                                                    80% target tercapai
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {/* Mockup Activity Rows */}
+                                        <div className="mt-4 space-y-2">
+                                            <div className="flex flex-col gap-2 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3 sm:flex-row sm:items-center sm:justify-between">
+                                                <div>
+                                                    <p className="text-[14px] font-medium text-[#ffffff]">
+                                                        PT Teknologi Nusantara
+                                                    </p>
+                                                    <p className="text-[12px] text-[#a7a7a7]">
+                                                        Senior Fullstack
+                                                        Engineer • Google Meet
+                                                    </p>
+                                                </div>
+                                                <Badge
+                                                    variant="accent"
+                                                    size="sm"
+                                                >
+                                                    Interview
+                                                </Badge>
+                                            </div>
+                                            <div className="flex flex-col gap-2 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-3 sm:flex-row sm:items-center sm:justify-between">
+                                                <div>
+                                                    <p className="text-[14px] font-medium text-[#ffffff]">
+                                                        GoForward Solutions
+                                                    </p>
+                                                    <p className="text-[12px] text-[#a7a7a7]">
+                                                        Backend Developer
+                                                        (Laravel) • Assessment
+                                                    </p>
+                                                </div>
+                                                <Badge
+                                                    variant="warning"
+                                                    size="sm"
+                                                >
+                                                    In Review
+                                                </Badge>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </FadeInWhenVisible>
+                        </div>
+                    </section>
 
-                            {/* Right: AI Output Mockup Card */}
-                            <FadeInWhenVisible delay={0.12}>
-                                <div className="rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-1.5">
-                                    <div className="rounded-[6px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
-                                        <div className="mb-4 flex items-center justify-between border-b border-[#313131] pb-3">
-                                            <Badge variant="accent" size="sm">
-                                                AI CAREER PLANNER
-                                            </Badge>
-                                            <span className="font-mono text-[11px] text-[#8a8a8a]">
-                                                STRUCTURED OUTPUT
-                                            </span>
-                                        </div>
-                                        <div className="space-y-4">
-                                            <div>
-                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
-                                                    TARGET POSISI
-                                                </p>
-                                                <p className="mt-1 text-[15px] font-medium text-[#ffffff]">
-                                                    Senior Fullstack Developer
-                                                    (Laravel + React)
-                                                </p>
+                    {/* ===== INTERACTIVE VELOCITY SCROLL BANNER (ZIG-ZAG MOTION & ADVANCED ADVANTAGES) ===== */}
+                    <section
+                        aria-label="Keunggulan dan Fitur Mendalam"
+                        className="overflow-hidden border-b border-[#313131] bg-[#141414] py-3.5 sm:py-4"
+                    >
+                        <div className="space-y-1.5 font-mono text-[12px] tracking-[0.85px] uppercase sm:text-[13px]">
+                            {/* Baris Atas: Bergerak Mulus ke KANAN */}
+                            <VelocityScrollRow
+                                baseSpeed={0.65}
+                                direction="right"
+                            >
+                                <div className="flex items-center gap-6 pr-6">
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            DETEKSI DUPLIKASI REAL-TIME:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            Cegah melamar posisi dan perusahaan
+                                            yang sama berulang kali
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            ALERT STAGNAN 14 HARI:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            Pantau lamaran tanpa kabar 2 minggu
+                                            plus rekomendasi lowongan baru AI
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            DETEKSI BENTROK KALENDER:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            Peringatan otomatis saat jadwal
+                                            wawancara saling bertabrakan
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            EKSTRAKSI MEETING & MAPS:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            Pilah otomatis link Zoom/Meet online
+                                            atau rute Google Maps offline
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            AUTO-MATCHING EMAIL REKRUTMEN:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            Pesan Gmail masuk langsung ditautkan
+                                            ke lamaran aktif Anda
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            PENGINGAT OTOMATIS H-24 & H-2:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            Notifikasi terjadwal sebelum sesi
+                                            wawancara dimulai
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+                                </div>
+                            </VelocityScrollRow>
+
+                            {/* Baris Bawah: Bergerak Mulus ke KIRI */}
+                            <VelocityScrollRow
+                                baseSpeed={0.65}
+                                direction="left"
+                            >
+                                <div className="flex items-center gap-6 pr-6">
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            POSTGRESQL RLS ENFORCED:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            Supabase Row Level Security aktif di
+                                            seluruh tabel database
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            TOKEN ENKRIPSI SERVER-SIDE:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            OAuth Gmail disimpan terenkripsi
+                                            dengan izin read-only minimal
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            AUDIT STATUS TRAIL:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            Riwayat perubahan status dari
+                                            Applied hingga Offer tercatat
+                                            permanen
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            IDEMPOTENT RESCHEDULE:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            Jadwal interview berubah, reminder
+                                            lama otomatis diganti tanpa
+                                            duplikasi
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            GRACEFUL DEGRADATION:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            Pencatatan lamaran dan kalender
+                                            tetap normal saat AI sedang offline
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-[#6798ff]">
+                                            PRIVACY BY DESIGN:
+                                        </span>
+                                        <span className="text-[#ffffff]">
+                                            Kendali penuh pengguna untuk
+                                            memutuskan koneksi atau hapus akun
+                                            kapan saja
+                                        </span>
+                                    </div>
+                                    <span className="text-[#6798ff]">•</span>
+                                </div>
+                            </VelocityScrollRow>
+                        </div>
+                    </section>
+
+                    {/* ===== FEATURES SECTION ===== */}
+                    <section
+                        id="fitur"
+                        className="border-b border-[#1e1e1e] py-20 sm:py-28"
+                    >
+                        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+                            <FadeInWhenVisible>
+                                <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                    APA YANG BISA ANDA LAKUKAN
+                                </p>
+                                <h2 className="max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                                    Satu platform untuk seluruh proses pencarian
+                                    kerja
+                                </h2>
+                                <p className="mt-3 max-w-xl text-[15px] leading-[1.6] text-[#a7a7a7]">
+                                    Dari pencatatan lamaran sampai persiapan
+                                    interview, CareerPilot AI membantu Anda
+                                    tetap terstruktur tanpa kehilangan kendali.
+                                </p>
+                            </FadeInWhenVisible>
+
+                            {/* Feature grid: 3 columns on desktop, 1 on mobile */}
+                            <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                                {features.map((feature, idx) => (
+                                    <FadeInWhenVisible
+                                        key={feature.title}
+                                        delay={idx * 0.06}
+                                    >
+                                        <div className="group h-full rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6 transition-colors hover:border-[#454545]">
+                                            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-[8px] border border-[#313131] bg-[#141414] transition-colors group-hover:border-[#6798ff]/40">
+                                                {feature.icon}
                                             </div>
-                                            <div>
-                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
-                                                    GAP SKILL TERDETEKSI
-                                                </p>
-                                                <div className="mt-2 flex flex-wrap gap-2">
-                                                    {[
-                                                        'Docker & K8s',
-                                                        'Inertia v3 SSR',
-                                                        'PostgreSQL RLS',
-                                                    ].map((s) => (
-                                                        <span
-                                                            key={s}
-                                                            className="rounded-[4px] border border-[#313131] bg-[#0a0a0a] px-2.5 py-1 font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7]"
-                                                        >
-                                                            {s}
-                                                        </span>
-                                                    ))}
+                                            <h3 className="mb-2 text-[16px] font-semibold tracking-[-0.19px] text-[#ffffff]">
+                                                {feature.title}
+                                            </h3>
+                                            <p className="text-[14px] leading-[1.5] text-[#a7a7a7]">
+                                                {feature.description}
+                                            </p>
+                                        </div>
+                                    </FadeInWhenVisible>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* ===== HOW IT WORKS SECTION ===== */}
+                    <section
+                        id="alur-kerja"
+                        className="border-b border-[#1e1e1e] bg-[#141414] py-20 sm:py-28"
+                    >
+                        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+                            <FadeInWhenVisible>
+                                <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                    ALUR KERJA
+                                </p>
+                                <h2 className="max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                                    Dari lamaran sampai persiapan interview
+                                </h2>
+                            </FadeInWhenVisible>
+
+                            {/* Timeline layout: 4 columns on lg, 2 on sm, 1 on xs */}
+                            <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                                {steps.map((step, idx) => (
+                                    <FadeInWhenVisible
+                                        key={step.number}
+                                        delay={idx * 0.08}
+                                    >
+                                        <div className="rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6">
+                                            <span className="font-mono text-[28px] leading-none font-semibold tracking-[-0.84px] text-[#6798ff]">
+                                                {step.number}
+                                            </span>
+                                            <h3 className="mt-3 text-[16px] font-semibold tracking-[-0.19px] text-[#ffffff]">
+                                                {step.title}
+                                            </h3>
+                                            <p className="mt-2 text-[14px] leading-[1.5] text-[#a7a7a7]">
+                                                {step.description}
+                                            </p>
+                                        </div>
+                                    </FadeInWhenVisible>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* ===== AI HIGHLIGHT SECTION (Asymmetric 2-column) ===== */}
+                    <section
+                        id="ai-copilot"
+                        className="border-b border-[#1e1e1e] py-20 sm:py-28"
+                    >
+                        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+                            <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+                                {/* Left: Copy & Explanations */}
+                                <FadeInWhenVisible>
+                                    <div>
+                                        <Badge variant="accent" size="sm">
+                                            AI-ASSISTED
+                                        </Badge>
+                                        <h2 className="mt-4 text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                                            AI membantu, Anda yang memutuskan
+                                        </h2>
+                                        <p className="mt-4 text-[15px] leading-[1.6] text-[#a7a7a7]">
+                                            CareerPilot AI memberikan
+                                            rekomendasi, draf roadmap belajar,
+                                            simulasi wawancara, dan triase
+                                            email. Tetapi setiap keputusan
+                                            penting tetap memerlukan konfirmasi
+                                            Anda. Tidak ada perubahan status
+                                            otomatis tanpa persetujuan.
+                                        </p>
+                                        <ul className="mt-6 space-y-3">
+                                            {[
+                                                'Roadmap belajar 3 atau 5 bulan berdasarkan analisis gap skill',
+                                                'Simulasi wawancara berbasis deskripsi lowongan nyata',
+                                                'Triase email rekrutmen dengan klasifikasi 4 kategori definitif',
+                                                'Deteksi lamaran stagnan setelah 2 minggu tanpa ada pembaruan status',
+                                            ].map((item) => (
+                                                <li
+                                                    key={item}
+                                                    className="flex items-start gap-2.5"
+                                                >
+                                                    <svg
+                                                        width="16"
+                                                        height="16"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="#6798ff"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        aria-hidden="true"
+                                                        className="mt-0.5 shrink-0"
+                                                    >
+                                                        <polyline points="20 6 9 17 4 12" />
+                                                    </svg>
+                                                    <span className="text-[14px] leading-[1.5] text-[#a7a7a7]">
+                                                        {item}
+                                                    </span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </FadeInWhenVisible>
+
+                                {/* Right: AI Output Mockup Card */}
+                                <FadeInWhenVisible delay={0.12}>
+                                    <div className="rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-1.5">
+                                        <div className="rounded-[6px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
+                                            <div className="mb-4 flex items-center justify-between border-b border-[#313131] pb-3">
+                                                <Badge
+                                                    variant="accent"
+                                                    size="sm"
+                                                >
+                                                    AI CAREER PLANNER
+                                                </Badge>
+                                                <span className="font-mono text-[11px] text-[#8a8a8a]">
+                                                    STRUCTURED OUTPUT
+                                                </span>
+                                            </div>
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
+                                                        TARGET POSISI
+                                                    </p>
+                                                    <p className="mt-1 text-[15px] font-medium text-[#ffffff]">
+                                                        Senior Fullstack
+                                                        Developer (Laravel +
+                                                        React)
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
+                                                        GAP SKILL TERDETEKSI
+                                                    </p>
+                                                    <div className="mt-2 flex flex-wrap gap-2">
+                                                        {[
+                                                            'Docker & K8s',
+                                                            'Inertia v3 SSR',
+                                                            'PostgreSQL RLS',
+                                                        ].map((s) => (
+                                                            <span
+                                                                key={s}
+                                                                className="rounded-[4px] border border-[#313131] bg-[#0a0a0a] px-2.5 py-1 font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7]"
+                                                            >
+                                                                {s}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
+                                                        MILESTONE BULAN 1
+                                                    </p>
+                                                    <p className="mt-1 text-[13px] text-[#a7a7a7]">
+                                                        Arsitektur
+                                                        Microservices, Docker
+                                                        containerization, dan
+                                                        implementasi Supabase
+                                                        Row Level Security.
+                                                    </p>
+                                                </div>
+                                                <div className="flex items-center justify-between border-t border-[#313131] pt-3">
+                                                    <span className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
+                                                        DURASI ROADMAP
+                                                    </span>
+                                                    <span className="text-[14px] font-semibold text-[#6798ff]">
+                                                        3 Bulan Intensif
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
-                                                    MILESTONE BULAN 1
-                                                </p>
-                                                <p className="mt-1 text-[13px] text-[#a7a7a7]">
-                                                    Arsitektur Microservices,
-                                                    Docker containerization, dan
-                                                    implementasi Supabase Row
-                                                    Level Security.
-                                                </p>
-                                            </div>
-                                            <div className="flex items-center justify-between border-t border-[#313131] pt-3">
-                                                <span className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a] uppercase">
-                                                    DURASI ROADMAP
-                                                </span>
-                                                <span className="text-[14px] font-semibold text-[#6798ff]">
-                                                    3 Bulan Intensif
-                                                </span>
-                                            </div>
                                         </div>
+                                    </div>
+                                </FadeInWhenVisible>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* ===== RATINGS / SOCIAL PROOF SECTION ===== */}
+                    {/* R-17, R-18, R-38: All ratings explicitly marked as placeholder data */}
+                    <section
+                        id="penilaian"
+                        className="border-b border-[#1e1e1e] bg-[#141414] py-20 sm:py-28"
+                    >
+                        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+                            <FadeInWhenVisible className="text-center">
+                                <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                    PENILAIAN PENGGUNA
+                                </p>
+                                <h2 className="mx-auto max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                                    Apa kata mereka yang sudah mencoba
+                                </h2>
+                                <p className="mx-auto mt-3 max-w-lg text-[14px] text-[#8a8a8a]">
+                                    [REAL DATA] Metrik dan ulasan berikut
+                                    disiapkan untuk memuat data pengguna nyata
+                                </p>
+                            </FadeInWhenVisible>
+
+                            {/* Rating Summary Bar */}
+                            <FadeInWhenVisible
+                                delay={0.1}
+                                className="mx-auto mt-10 max-w-md"
+                            >
+                                <div className="flex flex-col items-center justify-center gap-6 rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6 sm:flex-row sm:gap-10">
+                                    <div className="text-center">
+                                        <p className="text-[44px] leading-none font-semibold tracking-[-0.84px] text-[#ffffff]">
+                                            [X.X]
+                                        </p>
+                                        <div className="mt-2 flex items-center justify-center gap-1">
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <StarIcon
+                                                    key={star}
+                                                    filled={star <= 4}
+                                                />
+                                            ))}
+                                        </div>
+                                        <p className="mt-1 font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a]">
+                                            [REAL DATA] RATING
+                                        </p>
+                                    </div>
+                                    <div className="hidden h-12 w-px bg-[#313131] sm:block" />
+                                    <div className="text-center">
+                                        <p className="text-[44px] leading-none font-semibold tracking-[-0.84px] text-[#ffffff]">
+                                            [N]
+                                        </p>
+                                        <p className="mt-1 text-[13px] text-[#a7a7a7]">
+                                            Pengguna Terdaftar
+                                        </p>
+                                        <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a]">
+                                            [REAL DATA] JUMLAH
+                                        </p>
                                     </div>
                                 </div>
                             </FadeInWhenVisible>
-                        </div>
-                    </div>
-                </section>
 
-                {/* ===== RATINGS / SOCIAL PROOF SECTION ===== */}
-                {/* R-17, R-18, R-38: All ratings explicitly marked as placeholder data */}
-                <section
-                    id="penilaian"
-                    className="border-b border-[#1e1e1e] bg-[#141414] py-20 sm:py-28"
-                >
-                    <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-                        <FadeInWhenVisible className="text-center">
-                            <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
-                                PENILAIAN PENGGUNA
-                            </p>
-                            <h2 className="mx-auto max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
-                                Apa kata mereka yang sudah mencoba
-                            </h2>
-                            <p className="mx-auto mt-3 max-w-lg text-[14px] text-[#8a8a8a]">
-                                [REAL DATA] Metrik dan ulasan berikut disiapkan
-                                untuk memuat data pengguna nyata
-                            </p>
-                        </FadeInWhenVisible>
-
-                        {/* Rating Summary Bar */}
-                        <FadeInWhenVisible
-                            delay={0.1}
-                            className="mx-auto mt-10 max-w-md"
-                        >
-                            <div className="flex flex-col items-center justify-center gap-6 rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6 sm:flex-row sm:gap-10">
-                                <div className="text-center">
-                                    <p className="text-[44px] leading-none font-semibold tracking-[-0.84px] text-[#ffffff]">
-                                        [X.X]
-                                    </p>
-                                    <div className="mt-2 flex items-center justify-center gap-1">
-                                        {[1, 2, 3, 4, 5].map((star) => (
-                                             <StarIcon
-                                                key={star}
-                                                filled={star <= 4}
+                            {/* Rating Categories Cards */}
+                            <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-4 md:grid-cols-3">
+                                {[
+                                    {
+                                        category: 'Kemudahan Penggunaan',
+                                        rating: 0,
+                                        label: 'Desain ringkas dan mudah dipahami',
+                                    },
+                                    {
+                                        category: 'Akurasi Rekomendasi AI',
+                                        rating: 0,
+                                        label: 'Relevansi roadmap dan persiapan interview',
+                                    },
+                                    {
+                                        category: 'Manajemen Waktu',
+                                        rating: 0,
+                                        label: 'Pengingat otomatis dan jadwal interview',
+                                    },
+                                ].map((item, idx) => (
+                                    <FadeInWhenVisible
+                                        key={item.category}
+                                        delay={idx * 0.08}
+                                    >
+                                        <div className="rounded-[8px] border border-[#313131] bg-[#0a0a0a] p-5">
+                                            <p className="mb-2 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                                {item.category}
+                                            </p>
+                                            <StarRating
+                                                rating={item.rating}
+                                                label="[REAL DATA]"
                                             />
-                                        ))}
-                                    </div>
-                                    <p className="mt-1 font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a]">
-                                        [REAL DATA] RATING
-                                    </p>
-                                </div>
-                                <div className="hidden h-12 w-px bg-[#313131] sm:block" />
-                                <div className="text-center">
-                                    <p className="text-[44px] leading-none font-semibold tracking-[-0.84px] text-[#ffffff]">
-                                        [N]
-                                    </p>
-                                    <p className="mt-1 text-[13px] text-[#a7a7a7]">
-                                        Pengguna Terdaftar
-                                    </p>
-                                    <p className="font-mono text-[11px] tracking-[0.85px] text-[#8a8a8a]">
-                                        [REAL DATA] JUMLAH
-                                    </p>
-                                </div>
+                                            <p className="mt-3 text-[13px] leading-[1.5] text-[#8a8a8a]">
+                                                [REAL DATA] {item.label}
+                                            </p>
+                                        </div>
+                                    </FadeInWhenVisible>
+                                ))}
                             </div>
-                        </FadeInWhenVisible>
-
-                        {/* Rating Categories Cards */}
-                        <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-4 md:grid-cols-3">
-                            {[
-                                {
-                                    category: 'Kemudahan Penggunaan',
-                                    rating: 0,
-                                    label: 'Desain ringkas dan mudah dipahami',
-                                },
-                                {
-                                    category: 'Akurasi Rekomendasi AI',
-                                    rating: 0,
-                                    label: 'Relevansi roadmap dan persiapan interview',
-                                },
-                                {
-                                    category: 'Manajemen Waktu',
-                                    rating: 0,
-                                    label: 'Pengingat otomatis dan jadwal interview',
-                                },
-                            ].map((item, idx) => (
-                                <FadeInWhenVisible
-                                    key={item.category}
-                                    delay={idx * 0.08}
-                                >
-                                    <div className="rounded-[8px] border border-[#313131] bg-[#0a0a0a] p-5">
-                                        <p className="mb-2 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
-                                            {item.category}
-                                        </p>
-                                        <StarRating
-                                            rating={item.rating}
-                                            label="[REAL DATA]"
-                                        />
-                                        <p className="mt-3 text-[13px] leading-[1.5] text-[#8a8a8a]">
-                                            [REAL DATA] {item.label}
-                                        </p>
-                                    </div>
-                                </FadeInWhenVisible>
-                            ))}
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                {/* ===== PRINCIPLES SECTION ===== */}
-                <section
-                    id="prinsip"
-                    className="border-b border-[#1e1e1e] py-20 sm:py-28"
-                >
-                    <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-                        <FadeInWhenVisible>
-                            <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
-                                PRINSIP KAMI
-                            </p>
-                            <h2 className="max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
-                                Privasi dan akurasi data sebagai fondasi
-                            </h2>
-                        </FadeInWhenVisible>
+                    {/* ===== PRINCIPLES SECTION ===== */}
+                    <section
+                        id="prinsip"
+                        className="border-b border-[#1e1e1e] py-20 sm:py-28"
+                    >
+                        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+                            <FadeInWhenVisible>
+                                <p className="mb-3 font-mono text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                    PRINSIP KAMI
+                                </p>
+                                <h2 className="max-w-2xl text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                                    Privasi dan akurasi data sebagai fondasi
+                                </h2>
+                            </FadeInWhenVisible>
 
-                        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            {[
-                                {
-                                    title: 'AI-assisted, bukan AI-controlled',
-                                    description:
-                                        'AI memberikan rekomendasi dan draf. Keputusan penting seperti perubahan status lamaran dan penjadwalan tetap di tangan Anda.',
-                                },
-                                {
-                                    title: 'Akurasi Data Absolut',
-                                    description:
-                                        'Tidak ada manipulasi atau halusinasi pada status, tanggal, atau metrik analitik. Angka dihitung dari data riil di database Anda.',
-                                },
-                                {
-                                    title: 'Tetap Berjalan Tanpa AI',
-                                    description:
-                                        'Pencatatan lamaran, kalender, dan pengingat tetap berfungsi normal meskipun layanan AI atau integrasi email sedang offline.',
-                                },
-                                {
-                                    title: 'Privasi Sejak Awal',
-                                    description:
-                                        'Akses email minimal (read-only), token OAuth terenkripsi server-side, dan Anda memiliki kendali penuh untuk memutuskan koneksi kapan saja.',
-                                },
-                            ].map((principle, idx) => (
-                                <FadeInWhenVisible
-                                    key={principle.title}
-                                    delay={idx * 0.06}
-                                >
-                                    <div className="rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6">
-                                        <h3 className="mb-2 text-[16px] font-semibold tracking-[-0.19px] text-[#ffffff]">
-                                            {principle.title}
-                                        </h3>
-                                        <p className="text-[14px] leading-[1.5] text-[#a7a7a7]">
-                                            {principle.description}
-                                        </p>
-                                    </div>
-                                </FadeInWhenVisible>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* ===== FINAL CALL TO ACTION ===== */}
-                <section className="border-b border-[#1e1e1e] bg-[#141414] py-20 sm:py-28">
-                    <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-                        <FadeInWhenVisible className="mx-auto max-w-2xl text-center">
-                            <h2 className="text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
-                                Mulai kelola pencarian kerja Anda hari ini
-                            </h2>
-                            <p className="mt-3 text-[15px] leading-[1.6] text-[#a7a7a7]">
-                                Daftar gratis, tidak perlu kartu kredit. Semua
-                                fitur inti dapat langsung digunakan.
-                            </p>
-                            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-                                <Button
-                                    variant="primary"
-                                    size="lg"
-                                    onClick={() => handleOpenAuth('register')}
-                                >
-                                    Daftar Gratis
-                                </Button>
-                                <Button
-                                    variant="secondary"
-                                    size="lg"
-                                    onClick={() => handleOpenAuth('login')}
-                                >
-                                    Masuk ke Akun
-                                </Button>
+                            <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                {[
+                                    {
+                                        title: 'AI-assisted, bukan AI-controlled',
+                                        description:
+                                            'AI memberikan rekomendasi dan draf. Keputusan penting seperti perubahan status lamaran dan penjadwalan tetap di tangan Anda.',
+                                    },
+                                    {
+                                        title: 'Akurasi Data Absolut',
+                                        description:
+                                            'Tidak ada manipulasi atau halusinasi pada status, tanggal, atau metrik analitik. Angka dihitung dari data riil di database Anda.',
+                                    },
+                                    {
+                                        title: 'Tetap Berjalan Tanpa AI',
+                                        description:
+                                            'Pencatatan lamaran, kalender, dan pengingat tetap berfungsi normal meskipun layanan AI atau integrasi email sedang offline.',
+                                    },
+                                    {
+                                        title: 'Privasi Sejak Awal',
+                                        description:
+                                            'Akses email minimal (read-only), token OAuth terenkripsi server-side, dan Anda memiliki kendali penuh untuk memutuskan koneksi kapan saja.',
+                                    },
+                                ].map((principle, idx) => (
+                                    <FadeInWhenVisible
+                                        key={principle.title}
+                                        delay={idx * 0.06}
+                                    >
+                                        <div className="rounded-[8px] border border-[#313131] bg-[#1e1e1e] p-6">
+                                            <h3 className="mb-2 text-[16px] font-semibold tracking-[-0.19px] text-[#ffffff]">
+                                                {principle.title}
+                                            </h3>
+                                            <p className="text-[14px] leading-[1.5] text-[#a7a7a7]">
+                                                {principle.description}
+                                            </p>
+                                        </div>
+                                    </FadeInWhenVisible>
+                                ))}
                             </div>
-                        </FadeInWhenVisible>
-                    </div>
-                </section>
+                        </div>
+                    </section>
+
+                    {/* ===== FINAL CALL TO ACTION ===== */}
+                    <section className="border-b border-[#1e1e1e] bg-[#141414] py-20 sm:py-28">
+                        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+                            <FadeInWhenVisible className="mx-auto max-w-2xl text-center">
+                                <h2 className="text-[28px] leading-[1.25] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[38px] sm:tracking-[-0.84px]">
+                                    Mulai kelola pencarian kerja Anda hari ini
+                                </h2>
+                                <p className="mt-3 text-[15px] leading-[1.6] text-[#a7a7a7]">
+                                    Daftar gratis, tidak perlu kartu kredit.
+                                    Semua fitur inti dapat langsung digunakan.
+                                </p>
+                                <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                                    <Button
+                                        variant="primary"
+                                        size="lg"
+                                        onClick={() =>
+                                            handleOpenAuth('register')
+                                        }
+                                    >
+                                        Daftar Gratis
+                                    </Button>
+                                    <Button
+                                        variant="secondary"
+                                        size="lg"
+                                        onClick={() => handleOpenAuth('login')}
+                                    >
+                                        Masuk ke Akun
+                                    </Button>
+                                </div>
+                            </FadeInWhenVisible>
+                        </div>
+                    </section>
                 </main>
 
                 {/* ===== FOOTER ===== */}
