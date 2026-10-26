@@ -235,8 +235,8 @@ class EmailEventController extends Controller
                 'request_id' => (string) Str::uuid(),
                 'user_id' => $user->id,
                 'agent_name' => 'EmailTriageAgent',
-                'provider' => 'gemini',
-                'model' => 'gemini-2.5-flash',
+                'provider' => config('ai.default', 'gemini'),
+                'model' => config('ai.default_model', 'gemini-3.5-flash-lite'),
                 'prompt_version' => '1.0.0',
                 'latency_ms' => $latencyMs,
                 'status' => $status,
@@ -250,5 +250,122 @@ class EmailEventController extends Controller
             'message' => 'Email berhasil dianalisis oleh EmailTriageAgent',
             'data' => new EmailEventResource($event->fresh('relatedApplication.company')),
         ]);
+    }
+
+    /**
+     * Create a mock recruitment email event for demonstration and testing purposes.
+     */
+    public function simulate(Request $request): JsonResponse
+    {
+        /** @var User $user */
+        $user = $request->user();
+
+        $account = $user->connectedEmailAccounts()->first();
+        if (! $account) {
+            $account = $user->connectedEmailAccounts()->create([
+                'id' => (string) Str::uuid(),
+                'provider' => 'gmail',
+                'email_address' => $user->email,
+                'connection_status' => 'connected',
+                'access_token_encrypted' => encrypt('demo-mock-token'),
+                'last_sync_at' => now(),
+                'last_sync_status' => 'success',
+            ]);
+        }
+
+        $type = $request->input('preset', 'interview_invitation');
+
+        $presets = [
+            'interview_invitation' => [
+                'sender_name' => 'Talent Acquisition GoTo',
+                'sender_address' => 'recruitment@goto-company.com',
+                'subject' => 'Undangan Wawancara Technical: Senior Frontend Engineer di Tokopedia',
+                'snippet' => 'Halo! Kami mengundang Anda untuk mengikuti sesi Technical Interview online via Google Meet pada hari Kamis pukul 14:00 - 15:00 WIB. Tautan meeting: https://meet.google.com/xyz-demo-meet',
+                'classification' => EmailClassification::InterviewInvitation,
+                'extracted_payload' => [
+                    'company_name' => 'GoTo / Tokopedia',
+                    'job_title' => 'Senior Frontend Engineer',
+                    'classification' => 'interview_invitation',
+                    'interview_details' => [
+                        'date' => now()->addDays(3)->format('Y-m-d'),
+                        'start_time' => '14:00',
+                        'end_time' => '15:00',
+                        'timezone' => 'Asia/Jakarta',
+                        'mode' => 'online',
+                        'meeting_url' => 'https://meet.google.com/xyz-demo-meet',
+                    ],
+                    'uncertainty_notes' => null,
+                ],
+            ],
+            'offer' => [
+                'sender_name' => 'HR People Operations Bank Mandiri',
+                'sender_address' => 'recruitment@bankmandiri.co.id',
+                'subject' => 'Selamat! Job Offering Letter: Fullstack Developer di Bank Mandiri',
+                'snippet' => 'Selamat, berdasarkan hasil rangkaian seleksi, kami memutuskan untuk menawarkan posisi Fullstack Developer. Terlampir offering letter resmi dan rincian benefit.',
+                'classification' => EmailClassification::Accepted,
+                'extracted_payload' => [
+                    'company_name' => 'Bank Mandiri',
+                    'job_title' => 'Fullstack Developer',
+                    'classification' => 'accepted',
+                    'offering_details' => [
+                        'role' => 'Fullstack Developer',
+                        'status' => 'offering_letter_ready',
+                    ],
+                ],
+            ],
+            'pending' => [
+                'sender_name' => 'Shopee Recruitment Team',
+                'sender_address' => 'no-reply@shopee.co.id',
+                'subject' => 'Lamaran Diterima: Berkas Anda Sedang Ditinjau Tim HR Shopee',
+                'snippet' => 'Terima kasih telah melamar posisi Backend Engineer. Saat ini berkas Anda sedang dalam proses screening oleh hiring manager kami.',
+                'classification' => EmailClassification::Pending,
+                'extracted_payload' => [
+                    'company_name' => 'Shopee',
+                    'job_title' => 'Backend Engineer',
+                    'classification' => 'pending',
+                ],
+            ],
+            'rejection' => [
+                'sender_name' => 'Traveloka Talent Acquisition',
+                'sender_address' => 'careers@traveloka.com',
+                'subject' => 'Pembaruan Lamaran: Product Designer di Traveloka',
+                'snippet' => 'Terima kasih atas waktu Anda. Setelah mempertimbangkan kualifikasi seluruh kandidat, saat ini kami belum dapat melanjutkan lamaran Anda ke tahap berikutnya.',
+                'classification' => EmailClassification::Rejected,
+                'extracted_payload' => [
+                    'company_name' => 'Traveloka',
+                    'job_title' => 'Product Designer',
+                    'classification' => 'rejected',
+                ],
+            ],
+        ];
+
+        $chosen = $presets[$type] ?? $presets['interview_invitation'];
+
+        // Auto-match with existing application if exists
+        $matchedApp = $user->jobApplications()
+            ->whereHas('company', fn ($q) => $q->where('name', 'like', "%{$chosen['extracted_payload']['company_name']}%"))
+            ->latest('updated_at')
+            ->first();
+
+        $event = EmailEvent::create([
+            'id' => (string) Str::uuid(),
+            'connected_email_account_id' => $account->id,
+            'provider_message_id' => 'mock-msg-'.Str::random(12),
+            'received_at' => now(),
+            'sender_address' => $chosen['sender_address'],
+            'sender_name' => $chosen['sender_name'],
+            'subject' => $chosen['subject'],
+            'snippet' => $chosen['snippet'],
+            'classification' => $chosen['classification'],
+            'extracted_payload' => $chosen['extracted_payload'],
+            'related_application_id' => $matchedApp?->id,
+            'processing_status' => EmailProcessingStatus::AwaitingReview,
+            'requires_confirmation' => true,
+        ]);
+
+        return response()->json([
+            'message' => 'Simulasi event email berhasil dibuat untuk review',
+            'data' => new EmailEventResource($event->fresh('relatedApplication.company')),
+        ], 201);
     }
 }

@@ -278,18 +278,72 @@ Berdasarkan `PRD.md` Bagian 34, langkah-langkah implementasi berikutnya meliputi
     - Manual interview calendar CRUD, reschedule idempotent reminder engine.
     - In-app notification center, scheduler command `app:process-due-reminders`.
     - Basic career analytics (conversion rate, source distribution, monthly trend).
-- [ ] **Frontend Inertia/React UI (Next Step):**
-    - Halaman Dashboard & Kanban Board (`resources/js/pages/dashboard.tsx` atau `applications/index.tsx`) bertema Dovetail.
-    - Form Input/Edit Lamaran dengan validasi Zod & Form Request.
-    - Halaman Kalender Interview & Modal Detail.
-    - Komponen Notification Center & Bell dropdown.
-    - Halaman Career Analytics terperinci.
+- [x] **Frontend Inertia/React UI (Task 1, 2, 3 Selesai):**
+    - **Perbaikan Alur Registrasi:** User setelah register diarahkan ke halaman login terlebih dahulu (`/login?registered=1`), bukan langsung ke dashboard. Form login otomatis menampilkan notifikasi sukses dan pre-fill email.
+    - **Task 1 — Authenticated Layout (`AppLayout.tsx`):**
+        - Header tema Dovetail dengan zona waktu IANA user.
+        - Pusat notifikasi dropdown (`NotificationDropdown.tsx`) dengan polling badge unread count, list notifikasi real-time, dan tombol "Tandai Semua Dibaca".
+        - Menu dropdown pengguna (`UserDropdown.tsx`) dengan avatar inisial, info email, link ke pengaturan profil, dan aksi logout terpadu.
+        - Navigasi responsif mobile drawer dengan tap target $\ge 44$ px dan dukungan tombol Escape.
+    - **Task 2 — Dashboard UI Interaktif (`dashboard.tsx`):**
+        - 5 kartu metrik KPI real-time (Total Lamaran, Dalam Proses, Jadwal Interview 14 hari, Tawaran Kerja/Offer, Target Mingguan).
+        - **Real-Time Chart:**
+            - `PipelineChart.tsx`: Visualisasi progress bar & kartu segmentasi status real-time dengan hover tooltip.
+            - `MonthlyTrendChart.tsx`: Grafik tren aktivitas lamaran 6 bulan terakhir berbasis kurva SVG dengan tombol refresh instan.
+        - **To-Do List Lamaran Yang Sudah Dilamar (`ApplicationTodoList.tsx`):**
+            - Filter tindakan: Follow-up jatuh tempo, jadwal interview terdekat, peringatan lamaran stagnan ($\ge 14$ hari).
+            - Checklist tugas interaktif (checkbox toggle) dan form tambah to-do kustom per lamaran.
+            - Tautan aksi cepat (Latihan Interview AI, Buka Meeting/Maps, Update Status, Cari Alternatif Lowongan).
+        - Modal pencatatan cepat (`QuickAddApplicationModal.tsx`) dengan deteksi duplikasi otomatis secara real-time.
+    - **Task 3 — My Applications & Kanban Board (`applications/index.tsx`):**
+        - Toggle tampilan: **Daftar Tabel** vs **Kanban Board** 5 lajur status (Tersimpan, Dilamar, Tahap Seleksi, Tawaran, Selesai/Ditolak).
+        - Pencarian multi-field (posisi & perusahaan), filter status, filter sumber, dan paginasi server-side.
+        - Indikator peringatan lamaran stagnan $\ge 14$ hari pada tabel dan kartu kanban.
+        - Modal detail & transisi status (`ApplicationDetailModal.tsx`) yang menegakkan graf transisi resmi PRD serta pencatatan audit log history.
+    - **Task 4 — Kalender Wawancara Interaktif (`interviews/index.tsx`):**
+        - Tampilan ganda: **Kalender Bulanan (Month Grid)** dengan cell hover quick-add vs **Daftar Agenda (Weekly/Chronological List)**.
+        - Deteksi konflik waktu (*conflict warning*) otomatis jika ada jadwal sesi yang bertabrakan di jam yang sama.
+        - Modal penjadwalan interview baru (`POST /api/v1/interviews`) terhubung ke lamaran aktif, preset tahapan, mode online (Google Meet/Zoom) vs offline (Google Maps), dan penjadwalan reminder otomatis.
+        - Modal kelola & reschedule (`PATCH /api/v1/interviews/{id}`) dengan pencatatan alasan resmi dan pembaruan pengingat.
+        - Aksi ubah status (Tandai Selesai / Dibatalkan / Hapus).
+        - Pintasan 1-klik dari kartu jadwal interview langsung ke **AI Interview Copilot** untuk simulasi latihan.
+    - **Task 6 — Integrasi Akun Gmail & Email Triage UI (`integrations/index.tsx` & `notifications/index.tsx`):**
+        - **Halaman Integrasi (`integrations/index.tsx`):** Otorisasi Google OAuth, kartu status akun terhubung, sinkronisasi manual (`POST /api/v1/email/accounts/{id}/sync`), pemutusan akun aman (`POST /api/v1/email/accounts/{id}/disconnect`), pilar jaminan privasi (*read-only scope*, tanpa kirim email, enkripsi token AES-256-CBC), dan alat simulasi 4 skenario email rekrutmen masuk untuk pengujian langsung.
+        - **Pusat Notifikasi & Review Triase (`notifications/index.tsx`):**
+            - Panel review triase email rekrutmen (*Awaiting Review*) dengan kartu klasifikasi warna (*Undangan Interview*, *Tawaran Kerja/Offer*, *Proses Seleksi*, *Penolakan*).
+            - Ekstraksi AI terstruktur: Perusahaan & Posisi, jadwal interview, link Google Meet/Zoom, dan alamat Google Maps.
+            - Konfirmasi 1-klik: Otomatis memasukkan agenda ke Kalender Wawancara dan memperbarui status lamaran kerja, atau abaikan (*dismiss*).
+            - Riwayat notifikasi in-app, filter tab, tandai dibaca per-item atau semua sekaligus, dan hapus notifikasi.
+            - **Modal Pratinjau Email Notifikasi:** Tombol "Lihat Format Email Yang Dikirimkan" untuk melihat secara visual template email resmi bertema Dovetail (`StagnantApplicationAlertMail`) yang dikirimkan ke kotak masuk pengguna jika lamaran stagnan $\ge 14$ hari.
+- [ ] **Langkah Berikutnya (Next Step):**
+    - Halaman Analitik Karier (`resources/js/pages/analytics/index.tsx`).
+    - Halaman Pengaturan Profil & Privasi (`resources/js/pages/settings/index.tsx`).
 
-### Fase 3: Integrasi AI Core (Laravel AI SDK + Google Gemini)
+### Fase 3: Integrasi AI Core (Laravel AI SDK + Google Gemini) (Task 5 Selesai)
 
 - [x] Backend `CareerPlannerAgent` dengan structured output roadmap 3/5 bulan & media belajar.
 - [x] Backend `InterviewPrepAgent` simulasi wawancara nyata berdasarkan lowongan kerja.
-- [ ] UI Interaktif AI Career Planner & Interview Copilot di Frontend.
+- [x] **Konfigurasi Provider & Failover AI Gemini:**
+    - Perbaikan `config/ai.php` dan `.env` yang sebelumnya mengarah ke provider default `openai` tanpa API key (penyebab HTTP 401/503).
+    - Menetapkan provider default `gemini` dan model aktif `gemini-3.5-flash-lite` dengan atribut kelas `#[Provider(Lab::Gemini)]` dan `#[Model('gemini-3.5-flash-lite')]`.
+    - Menambahkan mekanisme *automatic failover* bertingkat di `AiController`: jika model primer mengalami lonjakan traffic/overload, otomatis dialihkan ke model cadangan `gemini-3.1-flash-lite`.
+- [x] **Frontend UI AI Career Planner (`resources/js/pages/ai/career-planner.tsx`):**
+    - Input posisi target, durasi (3 atau 5 bulan), skill yang dikuasai saat ini, draf CV, dan catatan.
+    - Analisis gap skill (matching vs missing skills).
+    - Roadmap per bulan interaktif dengan tab navigasi, action items, rekomendasi media (YouTube, dokumentasi, roadmap.sh), dan ide proyek portofolio.
+    - Aksi salin seluruh roadmap ke clipboard dengan feedback visual.
+- [x] **Frontend UI AI Interview Copilot (`resources/js/pages/ai/interview-copilot.tsx`):**
+    - Pilihan autofill 1-klik dari daftar lamaran aktif yang terlacak atau input manual lowongan baru.
+    - Deteksi otomatis portal lowongan kerja (LinkedIn, Glints, JobStreet, Indeed, Kalibrr, Pintarnya) dari tautan URL.
+    - Pilihan fokus interview: Komprehensif (semua aspek), Technical, Behavioral (metode STAR), dan HR / Culture Fit.
+    - Tombol "Isi Contoh Cepat" untuk pengujian instan tanpa perlu mengetik manual.
+    - Tampilan ringkasan pewawancara: peran interviewer persona, portal sumber, dan ringkasan ekspektasi.
+    - Filter kategori pertanyaan (Semua, Introductory, Teknis, Behavioral STAR, Studi Kasus) dengan accordion interaktif.
+    - Panduan mendalam per pertanyaan: tujuan pertanyaan bagi rekruter, poin kunci jawaban, contoh respons kuat terstruktur, dan jebakan fatal yang harus dihindari.
+    - Lembar catatan latihan jawaban pribadi (auto-save ke browser localStorage).
+    - Reverse Interview: Daftar pertanyaan strategis berbobot untuk diajukan kandidat kepada pewawancara di akhir sesi beserta tujuannya.
+    - Checklist persiapan pra-wawancara interaktif dengan progress bar penyelesaian.
+    - Tautan pintasan dari modal detail lamaran (`ApplicationDetailModal.tsx`) dan to-do list (`ApplicationTodoList.tsx`) langsung ke Interview Copilot.
 
 ### Fase 4: Integrasi Gmail (OAuth & Email Triage) (Selesai)
 

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
+import { NotificationDropdown } from '@/components/layout/NotificationDropdown';
+import { UserDropdown } from '@/components/layout/UserDropdown';
 
 export interface AppLayoutProps {
     children: React.ReactNode;
@@ -58,7 +60,7 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
         <div className="flex min-h-screen flex-col bg-[#0a0a0a] font-sans text-[#ffffff] selection:bg-[#1e1e1e] selection:text-[#6798ff]">
             {/* Top Bar / Header */}
             <header className="sticky top-0 z-40 w-full border-b border-[#313131] bg-[#0a0a0a]/95 backdrop-blur-sm">
-                <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto flex h-20 max-w-[1280px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
                     {/* Brand / Logo */}
                     <div className="flex items-center gap-6">
                         <Link
@@ -100,35 +102,18 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                     </div>
 
                     {/* Right Header Utilities & Actions */}
-                    <div className="flex items-center gap-3">
-                        {/* Notification Link */}
-                        <Link
-                            href="/notifications"
-                            aria-label="Notifikasi"
-                            className="relative flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] border border-transparent text-[#a7a7a7] transition-colors hover:border-[#313131] hover:bg-[#1e1e1e] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
-                        >
-                            <svg
-                                width="18"
-                                height="18"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="1.75"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                aria-hidden="true"
-                            >
-                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                            </svg>
-                            <span className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-[#6798ff]" />
-                        </Link>
+                    <div className="flex items-center gap-2.5 sm:gap-3">
+                        {/* Notification Bell Dropdown */}
+                        <NotificationDropdown />
+
+                        {/* User Profile Dropdown */}
+                        <UserDropdown />
 
                         {/* Custom Context Action or Default + Tambah Lamaran */}
                         {action ? (
                             action
                         ) : (
-                            <Link href="/applications/create">
+                            <Link href="/applications?create=true">
                                 <Button variant="primary" size="md">
                                     <svg
                                         width="14"
@@ -144,7 +129,7 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                                         <line x1="12" y1="5" x2="12" y2="19" />
                                         <line x1="5" y1="12" x2="19" y2="12" />
                                     </svg>
-                                    <span>Tambah Lamaran</span>
+                                    <span className="hidden sm:inline">Tambah Lamaran</span>
                                 </Button>
                             </Link>
                         )}
@@ -234,7 +219,7 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                 {mobileMenuOpen && (
                     <div
                         id="mobile-navigation"
-                        className="fixed inset-x-0 top-16 bottom-0 z-50 flex flex-col justify-between overflow-y-auto border-t border-[#313131] bg-[#0a0a0a]/98 p-4 lg:hidden"
+                        className="fixed inset-x-0 top-20 bottom-0 z-50 flex flex-col justify-between overflow-y-auto border-t border-[#313131] bg-[#0a0a0a]/98 p-4 lg:hidden"
                     >
                         <nav aria-label="Navigasi Mobile" className="space-y-1">
                             {navItems.map((item) => {

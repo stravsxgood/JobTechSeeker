@@ -62,6 +62,7 @@ Route::prefix('v1')->group(function () {
 
         // Email Events & Review Workflow
         Route::get('/email/events', [EmailEventController::class, 'index'])->name('api.v1.email.events.index');
+        Route::post('/email/events/simulate', [EmailEventController::class, 'simulate'])->name('api.v1.email.events.simulate');
         Route::post('/email/events/{id}/confirm', [EmailEventController::class, 'confirm'])->name('api.v1.email.events.confirm');
         Route::post('/email/events/{id}/dismiss', [EmailEventController::class, 'dismiss'])->name('api.v1.email.events.dismiss');
         Route::post('/email/events/{id}/triage', [EmailEventController::class, 'triage'])->name('api.v1.email.events.triage');

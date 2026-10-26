@@ -6,7 +6,7 @@ import {
 } from './PasswordStrengthMeter';
 
 interface RegisterFormProps {
-    onSwitchToLogin: () => void;
+    onSwitchToLogin: (prefilledEmail?: string) => void;
     onSuccess?: (user: unknown, token: string) => void;
 }
 
@@ -156,20 +156,20 @@ export function RegisterForm({
                 return;
             }
 
-            // Success
+            // Success: Akun terdaftar, arahkan user ke login terlebih dahulu sesuai PRD workflow
             setIsSuccess(true);
-            if (data.token) {
-                localStorage.setItem('careerpilot_token', data.token);
-            }
+            const registeredEmail = email.trim().toLowerCase();
 
-            if (onSuccess) {
-                onSuccess(data.data, data.token);
-            }
-
-            // Redirect smoothly to dashboard after a short notification delay
+            // Beri waktu 1.2 detik untuk menampilkan notifikasi sukses sebelum dialihkan ke login
             setTimeout(() => {
-                window.location.href = '/dashboard';
-            }, 1000);
+                if (window.location.pathname === '/register' || window.location.pathname.startsWith('/register')) {
+                    window.location.href = `/login?registered=1&email=${encodeURIComponent(registeredEmail)}`;
+                } else if (onSwitchToLogin) {
+                    onSwitchToLogin(registeredEmail);
+                } else {
+                    window.location.href = `/login?registered=1&email=${encodeURIComponent(registeredEmail)}`;
+                }
+            }, 1200);
         } catch {
             setServerGeneralError(
                 'Koneksi gagal. Periksa koneksi internet Anda dan coba lagi.',
@@ -223,7 +223,7 @@ export function RegisterForm({
                         <polyline points="20 6 9 17 4 12" />
                     </svg>
                     <span>
-                        Registrasi berhasil! Mengalihkan ke dashboard Anda...
+                        Registrasi berhasil! Mengalihkan ke halaman masuk...
                     </span>
                 </div>
             )}
@@ -585,7 +585,7 @@ export function RegisterForm({
                     Sudah memiliki akun?{' '}
                     <button
                         type="button"
-                        onClick={onSwitchToLogin}
+                        onClick={() => onSwitchToLogin()}
                         className="rounded-[4px] px-1 font-medium text-[#6798ff] hover:underline focus-visible:ring-1 focus-visible:ring-[#6798ff] focus-visible:outline-none"
                     >
                         Masuk di sini

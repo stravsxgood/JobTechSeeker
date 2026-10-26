@@ -62,10 +62,24 @@ PROMPT;
 
         $requestId = (string) Str::uuid();
         $startTime = hrtime(true);
+        $provider = config('ai.default', 'gemini');
+        $model = config('ai.default_model', 'gemini-3.5-flash-lite');
 
         try {
             $agent = new CareerPlannerAgent;
-            $response = $agent->prompt($prompt);
+
+            try {
+                $response = $agent->prompt($prompt, provider: $provider, model: $model);
+            } catch (Throwable $firstException) {
+                // Automatic failover to backup model if primary model is overloaded or unavailable
+                if ($model === 'gemini-3.5-flash-lite') {
+                    $model = 'gemini-3.1-flash-lite';
+                    $response = $agent->prompt($prompt, provider: $provider, model: $model);
+                } else {
+                    throw $firstException;
+                }
+            }
+
             $latencyMs = (int) round((hrtime(true) - $startTime) / 1e6);
 
             $payload = $response->toArray();
@@ -75,8 +89,8 @@ PROMPT;
                 'request_id' => $requestId,
                 'user_id' => $user->id,
                 'agent_name' => 'CareerPlannerAgent',
-                'provider' => config('ai.default', 'gemini'),
-                'model' => 'gemini-2.5-flash',
+                'provider' => $provider,
+                'model' => $model,
                 'prompt_version' => '1.0.0',
                 'status' => 'succeeded',
                 'latency_ms' => $latencyMs,
@@ -97,8 +111,8 @@ PROMPT;
                 'request_id' => $requestId,
                 'user_id' => $user->id,
                 'agent_name' => 'CareerPlannerAgent',
-                'provider' => config('ai.default', 'gemini'),
-                'model' => 'gemini-2.5-flash',
+                'provider' => $provider,
+                'model' => $model,
                 'prompt_version' => '1.0.0',
                 'status' => 'failed',
                 'latency_ms' => $latencyMs,
@@ -173,10 +187,24 @@ PROMPT;
 
         $requestId = (string) Str::uuid();
         $startTime = hrtime(true);
+        $provider = config('ai.default', 'gemini');
+        $model = config('ai.default_model', 'gemini-3.5-flash-lite');
 
         try {
             $agent = new InterviewPrepAgent;
-            $response = $agent->prompt($prompt);
+
+            try {
+                $response = $agent->prompt($prompt, provider: $provider, model: $model);
+            } catch (Throwable $firstException) {
+                // Automatic failover to backup model if primary model is overloaded or unavailable
+                if ($model === 'gemini-3.5-flash-lite') {
+                    $model = 'gemini-3.1-flash-lite';
+                    $response = $agent->prompt($prompt, provider: $provider, model: $model);
+                } else {
+                    throw $firstException;
+                }
+            }
+
             $latencyMs = (int) round((hrtime(true) - $startTime) / 1e6);
 
             $payload = $response->toArray();
@@ -186,8 +214,8 @@ PROMPT;
                 'request_id' => $requestId,
                 'user_id' => $user->id,
                 'agent_name' => 'InterviewPrepAgent',
-                'provider' => config('ai.default', 'gemini'),
-                'model' => 'gemini-2.5-flash',
+                'provider' => $provider,
+                'model' => $model,
                 'prompt_version' => '1.0.0',
                 'status' => 'succeeded',
                 'latency_ms' => $latencyMs,
@@ -208,8 +236,8 @@ PROMPT;
                 'request_id' => $requestId,
                 'user_id' => $user->id,
                 'agent_name' => 'InterviewPrepAgent',
-                'provider' => config('ai.default', 'gemini'),
-                'model' => 'gemini-2.5-flash',
+                'provider' => $provider,
+                'model' => $model,
                 'prompt_version' => '1.0.0',
                 'status' => 'failed',
                 'latency_ms' => $latencyMs,

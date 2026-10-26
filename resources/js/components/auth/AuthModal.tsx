@@ -17,12 +17,17 @@ export function AuthModal({
     onSuccess,
 }: AuthModalProps) {
     const [mode, setMode] = useState<'login' | 'register'>(initialMode);
+    const [registeredEmail, setRegisteredEmail] = useState('');
+    const [justRegistered, setJustRegistered] = useState(false);
     const modalRef = useRef<HTMLDivElement>(null);
 
     // Keep internal mode in sync when initialMode changes or modal reopens
     useEffect(() => {
         if (isOpen) {
             setMode(initialMode);
+            if (initialMode === 'register') {
+                setJustRegistered(false);
+            }
         }
     }, [isOpen, initialMode]);
 
@@ -172,12 +177,23 @@ export function AuthModal({
                         {/* Active Form */}
                         {mode === 'login' ? (
                             <LoginForm
-                                onSwitchToRegister={() => setMode('register')}
+                                onSwitchToRegister={() => {
+                                    setJustRegistered(false);
+                                    setMode('register');
+                                }}
                                 onSuccess={onSuccess}
+                                initialEmail={registeredEmail}
+                                justRegistered={justRegistered}
                             />
                         ) : (
                             <RegisterForm
-                                onSwitchToLogin={() => setMode('login')}
+                                onSwitchToLogin={(email?: string) => {
+                                    if (email) {
+                                        setRegisteredEmail(email);
+                                        setJustRegistered(true);
+                                    }
+                                    setMode('login');
+                                }}
                                 onSuccess={onSuccess}
                             />
                         )}

@@ -65,6 +65,11 @@ class AuthController extends Controller
             ]);
         }
 
+        if ($request->hasSession()) {
+            Auth::guard('web')->login($user, $request->boolean('remember'));
+            $request->session()->regenerate();
+        }
+
         $deviceName = $request->input('device_name', 'web-app');
         $token = $user->createToken($deviceName)->plainTextToken;
 
@@ -100,6 +105,10 @@ class AuthController extends Controller
             'timezone' => $validated['timezone'] ?? null,
             'locale' => $validated['locale'] ?? null,
         ], fn ($val) => ! is_null($val));
+
+        if (! empty($validated['password'])) {
+            $userUpdate['password'] = Hash::make($validated['password']);
+        }
 
         if (! empty($userUpdate)) {
             $user->update($userUpdate);
@@ -143,7 +152,7 @@ class AuthController extends Controller
         $user->currentAccessToken()->delete();
 
         // If session guard is authenticated, invalidate it
-        if (Auth::guard('web')->check()) {
+        if (Auth::guard('web')->check() && $request->hasSession()) {
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
@@ -179,7 +188,7 @@ class AuthController extends Controller
         ]);
 
         // Invalidate web session if active
-        if (Auth::guard('web')->check()) {
+        if (Auth::guard('web')->check() && $request->hasSession()) {
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

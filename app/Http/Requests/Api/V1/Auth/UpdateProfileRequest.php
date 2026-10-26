@@ -33,6 +33,8 @@ class UpdateProfileRequest extends FormRequest
             'salary_expectation_max' => ['sometimes', 'nullable', 'numeric', 'min:0', 'gte:salary_expectation_min'],
             'salary_currency' => ['sometimes', 'nullable', 'string', 'size:3'],
             'weekly_application_target' => ['sometimes', 'nullable', 'integer', 'min:0', 'max:100'],
+            'current_password' => ['sometimes', 'required_with:password', 'current_password'],
+            'password' => ['sometimes', 'string', 'min:8', 'confirmed'],
         ];
     }
 }

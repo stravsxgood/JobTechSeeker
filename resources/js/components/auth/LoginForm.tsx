@@ -4,16 +4,29 @@ import { Button } from '@/components/ui/Button';
 interface LoginFormProps {
     onSwitchToRegister: () => void;
     onSuccess?: (user: unknown, token: string) => void;
+    initialEmail?: string;
+    justRegistered?: boolean;
 }
 
-export function LoginForm({ onSwitchToRegister, onSuccess }: LoginFormProps) {
+export function LoginForm({
+    onSwitchToRegister,
+    onSuccess,
+    initialEmail = '',
+    justRegistered = false,
+}: LoginFormProps) {
     const emailId = useId();
     const passwordId = useId();
 
-    const [email, setEmail] = useState('');
+    // Check URL parameters for registration redirect status
+    const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+    const urlRegistered = urlParams?.get('registered') === '1' || justRegistered;
+    const urlEmail = urlParams?.get('email') || initialEmail;
+
+    const [email, setEmail] = useState(urlEmail);
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [registrationSuccessBanner, setRegistrationSuccessBanner] = useState(urlRegistered);
 
     // Track touched fields for reactive validation
     const [touched, setTouched] = useState<{
@@ -138,6 +151,30 @@ export function LoginForm({ onSwitchToRegister, onSuccess }: LoginFormProps) {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+            {/* Registration Success Banner */}
+            {registrationSuccessBanner && (
+                <div
+                    className="flex items-start gap-2.5 rounded-[8px] border border-[#34d399]/40 bg-[#34d399]/10 p-3 text-[13px] text-[#34d399]"
+                    role="status"
+                >
+                    <svg
+                        className="mt-0.5 h-4 w-4 shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                    >
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <div>
+                        <span className="font-semibold">Pendaftaran akun berhasil!</span> Silakan masukkan kata sandi akun Anda untuk masuk ke sistem.
+                    </div>
+                </div>
+            )}
+
             {/* Server Error Alert Banner */}
             {serverError && (
                 <div
