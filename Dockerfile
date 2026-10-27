@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:experimental
 
 ARG PHP_VERSION=8.4
-ARG NODE_VERSION=18
+ARG NODE_VERSION=20
 FROM ubuntu:22.04 as base
 LABEL fly_launch_runtime="laravel"
 
@@ -87,7 +87,11 @@ COPY . .
 # lock file we might find. Defaults to
 # NPM if no lock file is found.
 # Note: We run "production" for Mix and "build" for Vite
-RUN echo "Frontend assets are pre-built in public/build"
+RUN if [ ! -f "public/build/manifest.json" ]; then \
+        npm ci && npm run build; \
+    else \
+        echo "Frontend assets are pre-built in public/build"; \
+    fi
 
 # From our base container created above, we
 # create our final image, adding in static
