@@ -113,6 +113,7 @@ class AnalyticsController extends Controller
                 'month' => $monthKey,
                 'label' => $cursorMonth->translatedFormat('M Y'),
                 'applications_count' => $count,
+                'count' => $count,
             ];
 
             $cursorMonth = $cursorMonth->addMonth();

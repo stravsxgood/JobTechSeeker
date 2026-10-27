@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 interface MonthlyItem {
     month: string;
     label: string;
-    count: number;
+    count?: number;
+    applications_count?: number;
 }
 
 interface MonthlyTrendChartProps {
@@ -19,7 +20,14 @@ export function MonthlyTrendChart({
 }: MonthlyTrendChartProps) {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-    const counts = monthlyTrend.map((m) => m.count);
+    const getItemCount = (item: MonthlyItem): number => {
+        const val = item.count ?? item.applications_count ?? 0;
+        const num = Number(val);
+        return Number.isFinite(num) ? Math.max(0, num) : 0;
+    };
+
+    const validMonthlyTrend = Array.isArray(monthlyTrend) ? monthlyTrend : [];
+    const counts = validMonthlyTrend.map(getItemCount);
     const maxCount = Math.max(...counts, 5);
     const totalSent = counts.reduce((acc, c) => acc + c, 0);
 
@@ -31,13 +39,22 @@ export function MonthlyTrendChart({
     const usableWidth = svgWidth - paddingX * 2;
     const usableHeight = svgHeight - paddingY * 2;
 
-    const points = monthlyTrend.map((item, idx) => {
+    const points = validMonthlyTrend.map((item, idx) => {
+        const count = getItemCount(item);
         const x =
             paddingX +
-            (usableWidth / Math.max(monthlyTrend.length - 1, 1)) * idx;
+            (usableWidth / Math.max(validMonthlyTrend.length - 1, 1)) * idx;
         const y =
-            paddingY + usableHeight - (item.count / maxCount) * usableHeight;
-        return { x, y, ...item };
+            maxCount > 0
+                ? paddingY + usableHeight - (count / maxCount) * usableHeight
+                : paddingY + usableHeight;
+        return {
+            x: Number.isFinite(x) ? x : paddingX,
+            y: Number.isFinite(y) ? y : paddingY + usableHeight,
+            count,
+            month: item.month,
+            label: item.label,
+        };
     });
 
     const pathD =

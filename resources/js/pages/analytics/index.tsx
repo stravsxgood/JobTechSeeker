@@ -102,9 +102,10 @@ export default function AnalyticsPage() {
                 <div className="flex items-center gap-2">
                     <Button
                         variant="secondary"
+                        aria-label="Segarkan Analitik"
                         onClick={fetchAnalytics}
                         isLoading={isLoading}
-                        className="min-h-[44px]"
+                        className="min-h-[44px] min-w-[44px] px-2.5 sm:px-4"
                     >
                         <svg
                             width="15"
@@ -121,7 +122,6 @@ export default function AnalyticsPage() {
                         <span className="hidden sm:inline">
                             Segarkan Analitik
                         </span>
-                        <span className="sm:hidden">Segarkan</span>
                     </Button>
                 </div>
             }

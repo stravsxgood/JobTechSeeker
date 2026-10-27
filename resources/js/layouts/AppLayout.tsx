@@ -32,6 +32,29 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [mobileMenuOpen]);
 
+    // Prevent background scrolling when mobile drawer is open
+    useEffect(() => {
+        if (mobileMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [mobileMenuOpen]);
+
+    // Automatically close mobile menu if viewport widens to desktop
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 768 && mobileMenuOpen) {
+                setMobileMenuOpen(false);
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [mobileMenuOpen]);
+
     const navItems: NavItem[] = [
         { name: 'Dashboard', href: '/dashboard' },
         { name: 'Lamaran', href: '/applications' },
@@ -59,18 +82,18 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
     return (
         <div className="flex min-h-screen flex-col bg-[#0a0a0a] font-sans text-[#ffffff] selection:bg-[#1e1e1e] selection:text-[#6798ff]">
             {/* Top Bar / Header */}
-            <header className="sticky top-0 z-40 w-full border-b border-[#313131] bg-[#0a0a0a]/95 backdrop-blur-sm">
-                <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-2.5 px-3 sm:h-20 sm:gap-4 sm:px-6 lg:px-8">
+            <header className="sticky top-0 z-50 w-full border-b border-[#313131] bg-[#0a0a0a]/95 backdrop-blur-sm">
+                <div className="mx-auto flex h-20 min-h-[5rem] max-w-[1280px] items-center justify-between gap-3 px-3.5 sm:gap-4 sm:px-6 lg:px-8">
                     {/* Brand / Logo */}
-                    <div className="flex items-center gap-3 sm:gap-6">
+                    <div className="flex shrink-0 items-center gap-2.5 sm:gap-6">
                         <Link
                             href="/dashboard"
-                            className="group flex items-center gap-2 rounded-[4px] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none sm:gap-2.5"
+                            className="group flex shrink-0 items-center gap-2 rounded-[6px] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none sm:gap-2.5"
                         >
-                            <div className="flex h-7 w-7 items-center justify-center rounded-[4px] border border-[#313131] bg-[#1e1e1e] text-[#6798ff] transition-colors group-hover:border-[#6798ff]">
+                            <div className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#6798ff] transition-colors group-hover:border-[#6798ff] md:flex">
                                 <svg
-                                    width="16"
-                                    height="16"
+                                    width="18"
+                                    height="18"
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
@@ -85,10 +108,10 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                                 </svg>
                             </div>
                             <div className="flex items-baseline gap-1.5 sm:gap-2">
-                                <span className="text-[14px] font-semibold tracking-[-0.2px] text-[#ffffff] sm:text-[15px]">
+                                <span className="text-[16px] font-semibold tracking-[-0.3px] whitespace-nowrap text-[#ffffff] sm:text-[17px]">
                                     CareerPilot
                                 </span>
-                                <span className="font-mono text-[10px] tracking-[0.85px] text-[#a7a7a7] uppercase sm:text-[11px]">
+                                <span className="font-mono text-[10px] font-medium uppercase tracking-[0.85px] text-[#a7a7a7] sm:text-[11px]">
                                     AI
                                 </span>
                             </div>
@@ -102,22 +125,25 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                     </div>
 
                     {/* Right Header Utilities & Actions */}
-                    <div className="flex items-center gap-1.5 sm:gap-2.5">
+                    <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
                         {/* Notification Bell Dropdown */}
-                        <NotificationDropdown />
+                        <NotificationDropdown onOpen={() => setMobileMenuOpen(false)} />
 
                         {/* User Profile Dropdown */}
-                        <UserDropdown />
+                        <UserDropdown onOpen={() => setMobileMenuOpen(false)} />
 
                         {/* Custom Context Action or Default + Tambah Lamaran */}
                         {action ? (
-                            action
+                            <div className="flex shrink-0 items-center [&_button]:min-h-[44px] [&_button]:min-w-[44px] [&_button]:px-2.5 sm:[&_button]:px-4 [&_button>span:not(.sr-only)]:hidden sm:[&_button>span:not(.sr-only)]:inline [&_a]:min-h-[44px] [&_a]:min-w-[44px] [&_a]:px-2.5 sm:[&_a]:px-4 [&_a>span:not(.sr-only)]:hidden sm:[&_a>span:not(.sr-only)]:inline">
+                                {action}
+                            </div>
                         ) : (
-                            <Link href="/applications?create=true">
+                            <Link href="/applications?create=true" className="shrink-0">
                                 <Button
                                     variant="primary"
                                     size="md"
-                                    className="min-h-[40px] px-2.5 sm:px-3.5"
+                                    aria-label="Tambah Lamaran"
+                                    className="min-h-[44px] min-w-[44px] px-2.5 sm:px-3.5"
                                 >
                                     <svg
                                         width="14"
@@ -151,7 +177,7 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                                     ? 'Tutup navigasi'
                                     : 'Buka navigasi'
                             }
-                            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] border border-[#454545] bg-[#141414] text-[#ffffff] hover:bg-[#1e1e1e] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none md:hidden"
+                            className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-[8px] border border-[#454545] bg-[#141414] text-[#ffffff] hover:bg-[#1e1e1e] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none md:hidden"
                         >
                             <svg
                                 width="20"
@@ -225,17 +251,42 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                 {mobileMenuOpen && (
                     <>
                         <div
-                            className="fixed inset-0 top-16 z-40 bg-[#000000]/80 backdrop-blur-sm sm:top-20 md:hidden"
+                            className="fixed inset-0 top-20 z-40 bg-[#000000]/80 backdrop-blur-sm md:hidden"
                             onClick={() => setMobileMenuOpen(false)}
                             aria-hidden="true"
                         />
                         <div
                             id="mobile-navigation"
-                            className="fixed inset-x-0 top-16 bottom-0 z-50 flex flex-col justify-between overflow-y-auto border-t border-[#313131] bg-[#0a0a0a]/98 p-4 shadow-2xl sm:top-20 md:hidden"
+                            className="fixed inset-x-0 top-20 bottom-0 z-50 flex h-[calc(100dvh-5rem)] max-h-[calc(100dvh-5rem)] flex-col overflow-y-auto overscroll-contain border-t border-[#313131] bg-[#0a0a0a]/98 p-4 pb-[calc(2rem+env(safe-area-inset-bottom,0px))] shadow-2xl md:hidden"
                         >
+                            {/* Mobile Quick Action (Primary CTA) */}
+                            <div className="mb-3 shrink-0 border-b border-[#313131] pb-3">
+                                <Link
+                                    href="/applications?create=true"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[8px] bg-[#ffffff] px-4 py-2.5 text-[14px] font-semibold text-[#0a0a0a] transition-opacity hover:bg-[#ffffff]/90 active:bg-[#ffffff]/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6798ff]"
+                                >
+                                    <svg
+                                        width="15"
+                                        height="15"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2.2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        aria-hidden="true"
+                                    >
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                    <span>Tambah Lamaran Baru</span>
+                                </Link>
+                            </div>
+
                             <nav
                                 aria-label="Navigasi Mobile"
-                                className="space-y-1"
+                                className="flex-1 space-y-1 pb-4"
                             >
                                 {navItems.map((item) => {
                                     const active = isActive(item.href);
@@ -269,9 +320,14 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                                     );
                                 })}
                             </nav>
-                            <div className="flex items-center justify-between border-t border-[#313131] p-4 font-mono text-[12px] text-[#7c7c7c]">
-                                <span>Timezone: Asia/Jakarta</span>
-                                <span className="text-[#6798ff]">v1.0.0</span>
+                            <div className="mt-auto shrink-0 border-t border-[#313131] pt-3 font-mono text-[12px] text-[#7c7c7c]">
+                                <div className="flex items-center justify-between">
+                                    <span className="flex items-center gap-1.5">
+                                        <span className="h-1.5 w-1.5 rounded-full bg-[#34d399]" />
+                                        WIB (Asia/Jakarta)
+                                    </span>
+                                    <span className="text-[#6798ff]">v1.0.0</span>
+                                </div>
                             </div>
                         </div>
                     </>

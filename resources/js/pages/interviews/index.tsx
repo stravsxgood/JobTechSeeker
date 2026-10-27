@@ -576,6 +576,8 @@ export default function InterviewsPage() {
                 <div className="flex items-center gap-2">
                     <Button
                         variant="primary"
+                        aria-label="Jadwalkan Wawancara"
+                        className="min-h-[44px] min-w-[44px] px-2.5 sm:px-4"
                         onClick={() => {
                             const now = new Date();
                             const y = now.getFullYear();
@@ -605,7 +607,6 @@ export default function InterviewsPage() {
                         <span className="hidden sm:inline">
                             Jadwalkan Wawancara
                         </span>
-                        <span className="sm:hidden">Jadwalkan</span>
                     </Button>
                 </div>
             }

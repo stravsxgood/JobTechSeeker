@@ -11,7 +11,11 @@ interface NotificationItem {
     data?: Record<string, unknown>;
 }
 
-export function NotificationDropdown() {
+export interface NotificationDropdownProps {
+    onOpen?: () => void;
+}
+
+export function NotificationDropdown({ onOpen }: NotificationDropdownProps = {}) {
     const [isOpen, setIsOpen] = useState(false);
     const [unreadCount, setUnreadCount] = useState<number>(0);
     const [notifications, setNotifications] = useState<NotificationItem[]>([]);
@@ -216,10 +220,13 @@ export function NotificationDropdown() {
     };
 
     return (
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative shrink-0" ref={dropdownRef}>
             <button
                 type="button"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {
+                    if (!isOpen) onOpen?.();
+                    setIsOpen(!isOpen);
+                }}
                 aria-expanded={isOpen}
                 aria-haspopup="true"
                 aria-label={
@@ -227,7 +234,7 @@ export function NotificationDropdown() {
                         ? `${unreadCount} notifikasi belum dibaca`
                         : 'Pusat Notifikasi'
                 }
-                className="relative flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] border border-transparent text-[#a7a7a7] transition-colors hover:border-[#313131] hover:bg-[#1e1e1e] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                className="relative flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-[8px] border border-transparent text-[#a7a7a7] transition-colors hover:border-[#313131] hover:bg-[#1e1e1e] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
             >
                 <svg
                     width="18"
@@ -253,7 +260,7 @@ export function NotificationDropdown() {
             {/* Notification Dropdown Panel (Dovetail Theme) */}
             {isOpen && (
                 <div
-                    className="absolute top-full right-0 z-50 mt-2.5 w-80 overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414] text-[#ffffff] shadow-2xl focus:outline-none sm:w-96"
+                    className="fixed inset-x-3 top-[calc(5rem+4px)] z-50 mx-auto max-w-[420px] overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414] text-[#ffffff] shadow-2xl focus:outline-none sm:absolute sm:top-full sm:right-0 sm:inset-auto sm:mt-2.5 sm:w-96 sm:max-w-none sm:mx-0"
                     role="menu"
                     aria-orientation="vertical"
                 >

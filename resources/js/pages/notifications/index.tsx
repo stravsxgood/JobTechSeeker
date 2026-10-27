@@ -369,7 +369,8 @@ export default function NotificationsPage() {
                 <div className="flex items-center gap-2">
                     <Link
                         href="/integrations"
-                        className="flex min-h-[44px] items-center gap-2 rounded-[8px] border border-[#313131] bg-[#141414] px-3.5 py-2 text-[13px] font-medium text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                        aria-label="Pengaturan Akun Gmail"
+                        className="flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded-[8px] border border-[#313131] bg-[#141414] px-2.5 sm:px-3.5 py-2 text-[13px] font-medium text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
                     >
                         <svg
                             width="15"
@@ -385,14 +386,14 @@ export default function NotificationsPage() {
                         <span className="hidden sm:inline">
                             Pengaturan Akun Gmail
                         </span>
-                        <span className="sm:hidden">Gmail</span>
                     </Link>
 
                     {unreadCount > 0 && (
                         <Button
                             variant="secondary"
+                            aria-label="Tandai Semua Dibaca"
                             onClick={handleMarkAllAsRead}
-                            className="min-h-[44px]"
+                            className="min-h-[44px] min-w-[44px] px-2.5 sm:px-3.5"
                         >
                             <svg
                                 width="15"
@@ -407,7 +408,6 @@ export default function NotificationsPage() {
                             <span className="hidden sm:inline">
                                 Tandai Semua Dibaca
                             </span>
-                            <span className="sm:hidden">Dibaca</span>
                         </Button>
                     )}
                 </div>

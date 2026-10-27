@@ -39,6 +39,7 @@ interface MonthlyTrendItem {
     month: string;
     label: string;
     count: number;
+    applications_count?: number;
 }
 
 export default function Dashboard() {
@@ -114,7 +115,15 @@ export default function Dashboard() {
             if (analyticsRes.ok) {
                 const analyticsJson = await analyticsRes.json();
                 if (analyticsJson.data?.monthly_trend) {
-                    setMonthlyTrend(analyticsJson.data.monthly_trend);
+                    const trend = analyticsJson.data.monthly_trend.map(
+                        (item: { month: string; label: string; count?: number; applications_count?: number }) => ({
+                            month: item.month,
+                            label: item.label,
+                            count: Number(item.count ?? item.applications_count ?? 0),
+                            applications_count: Number(item.applications_count ?? item.count ?? 0),
+                        }),
+                    );
+                    setMonthlyTrend(trend);
                 }
             }
         } catch {
@@ -142,7 +151,9 @@ export default function Dashboard() {
                 <Button
                     variant="primary"
                     size="md"
+                    aria-label="Tambah Lamaran"
                     onClick={() => setIsQuickAddOpen(true)}
+                    className="min-h-[44px] min-w-[44px] px-2.5 sm:px-4"
                 >
                     <svg
                         width="14"
@@ -155,7 +166,7 @@ export default function Dashboard() {
                         <line x1="12" y1="5" x2="12" y2="19" />
                         <line x1="5" y1="12" x2="19" y2="12" />
                     </svg>
-                    <span>Tambah Lamaran</span>
+                    <span className="hidden sm:inline">Tambah Lamaran</span>
                 </Button>
             }
         >

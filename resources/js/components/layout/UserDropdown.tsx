@@ -8,7 +8,11 @@ interface User {
     timezone?: string;
 }
 
-export function UserDropdown() {
+export interface UserDropdownProps {
+    onOpen?: () => void;
+}
+
+export function UserDropdown({ onOpen }: UserDropdownProps = {}) {
     const { auth } = usePage<{ auth?: { user?: User } }>().props;
     const user = auth?.user;
     const [isOpen, setIsOpen] = useState(false);
@@ -95,17 +99,20 @@ export function UserDropdown() {
     }
 
     return (
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative shrink-0" ref={dropdownRef}>
             <button
                 type="button"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {
+                    if (!isOpen) onOpen?.();
+                    setIsOpen(!isOpen);
+                }}
                 aria-expanded={isOpen}
                 aria-haspopup="true"
                 aria-label={`Menu pengguna ${user.name}`}
-                className="flex min-h-[44px] items-center gap-2.5 rounded-[8px] border border-transparent p-1.5 transition-colors hover:border-[#313131] hover:bg-[#141414] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center gap-1.5 sm:gap-2.5 rounded-[8px] border border-transparent p-1 sm:p-1.5 transition-colors hover:border-[#313131] hover:bg-[#141414] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
             >
                 {/* User Initials Avatar */}
-                <div className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] font-mono text-[11px] font-semibold text-[#6798ff]">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] font-mono text-[12px] font-semibold text-[#6798ff] sm:h-8.5 sm:w-8.5">
                     {getInitials(user.name)}
                 </div>
                 <div className="hidden text-left xl:block">
@@ -117,7 +124,7 @@ export function UserDropdown() {
                     </p>
                 </div>
                 <svg
-                    className={`h-4 w-4 text-[#7c7c7c] transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                    className={`hidden sm:block h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#7c7c7c] transition-transform ${isOpen ? 'rotate-180' : ''}`}
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -133,7 +140,7 @@ export function UserDropdown() {
             {/* Profile Dropdown Panel (Dovetail Theme) */}
             {isOpen && (
                 <div
-                    className="absolute top-full right-0 z-50 mt-2.5 w-72 overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414] text-[#ffffff] shadow-2xl focus:outline-none sm:w-80"
+                    className="fixed inset-x-3 top-[calc(5rem+4px)] z-50 mx-auto max-w-[380px] overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414] text-[#ffffff] shadow-2xl focus:outline-none sm:absolute sm:top-full sm:right-0 sm:inset-auto sm:mt-2.5 sm:w-80 sm:max-w-none sm:mx-0"
                     role="menu"
                     aria-orientation="vertical"
                 >
