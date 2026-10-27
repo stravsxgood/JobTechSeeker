@@ -247,7 +247,8 @@ export default function CareerPlannerPage() {
                                                 : 'border border-[#313131] bg-[#0a0a0a] text-[#7c7c7c] hover:text-[#ffffff]'
                                         }`}
                                     >
-                                        3 Bulan (Intensif)
+                                        <span className="hidden sm:inline">3 Bulan (Intensif)</span>
+                                        <span className="sm:hidden">3 Bulan</span>
                                     </button>
                                     <button
                                         type="button"
@@ -258,7 +259,8 @@ export default function CareerPlannerPage() {
                                                 : 'border border-[#313131] bg-[#0a0a0a] text-[#7c7c7c] hover:text-[#ffffff]'
                                         }`}
                                     >
-                                        5 Bulan (Mendalam)
+                                        <span className="hidden sm:inline">5 Bulan (Mendalam)</span>
+                                        <span className="sm:hidden">5 Bulan</span>
                                     </button>
                                 </div>
                             </div>
@@ -314,6 +316,7 @@ export default function CareerPlannerPage() {
                                 variant="primary"
                                 size="md"
                                 disabled={isLoading}
+                                className="w-full sm:w-auto"
                             >
                                 {isLoading ? (
                                     <>
@@ -401,11 +404,11 @@ export default function CareerPlannerPage() {
                                         {result.duration_months} Bulan)
                                     </h3>
                                 </div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex w-full items-center gap-2 sm:w-auto">
                                     <button
                                         type="button"
                                         onClick={handleCopyRoadmap}
-                                        className="flex min-h-[38px] items-center gap-1.5 rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-3.5 text-[12px] font-medium text-[#ffffff] transition-colors hover:border-[#6798ff]"
+                                        className="flex min-h-[40px] w-full items-center justify-center gap-1.5 rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-3.5 text-[12px] font-medium text-[#ffffff] transition-colors hover:border-[#6798ff] sm:w-auto sm:min-h-[38px]"
                                     >
                                         <svg
                                             width="14"
@@ -508,7 +511,7 @@ export default function CareerPlannerPage() {
                             </div>
 
                             {/* Month Selector Tabs */}
-                            <div className="flex items-center gap-2 overflow-x-auto pb-2">
+                            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
                                 {result.milestones.map((m) => (
                                     <button
                                         key={m.month}
@@ -516,7 +519,7 @@ export default function CareerPlannerPage() {
                                         onClick={() =>
                                             setActiveMonthTab(m.month)
                                         }
-                                        className={`flex min-h-[38px] shrink-0 items-center gap-2 rounded-[6px] px-4 text-[13px] font-medium transition-colors ${
+                                        className={`flex min-h-[40px] shrink-0 items-center gap-2 rounded-[6px] px-4 text-[13px] font-medium transition-colors ${
                                             activeMonthTab === m.month
                                                 ? 'border border-[#6798ff] bg-[#1e1e1e] text-[#ffffff]'
                                                 : 'border border-[#313131] bg-[#0a0a0a] text-[#7c7c7c] hover:text-[#ffffff]'

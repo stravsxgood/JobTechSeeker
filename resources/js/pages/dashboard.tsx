@@ -209,78 +209,78 @@ export default function Dashboard() {
                 </div>
 
                 {/* KPI Metrics Cards Grid */}
-                <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-2 lg:grid-cols-5">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-5">
                     {/* 1. Total Lamaran */}
-                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-4 transition-colors hover:border-[#454545]">
-                        <span className="font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-3.5 sm:p-4 transition-colors hover:border-[#454545]">
+                        <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                             TOTAL LAMARAN
                         </span>
                         <div className="mt-2 flex items-baseline justify-between">
-                            <span className="font-mono text-[28px] font-semibold text-[#ffffff]">
+                            <span className="font-mono text-[24px] sm:text-[28px] font-semibold text-[#ffffff]">
                                 {isLoading ? '-' : metrics.total_applications}
                             </span>
-                            <span className="text-[11px] text-[#7c7c7c]">
+                            <span className="text-[10px] sm:text-[11px] text-[#7c7c7c]">
                                 tercatat
                             </span>
                         </div>
                     </div>
 
                     {/* 2. Lamaran Aktif */}
-                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-4 transition-colors hover:border-[#6798ff]">
-                        <span className="font-mono text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
+                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-3.5 sm:p-4 transition-colors hover:border-[#6798ff]">
+                        <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
                             DALAM PROSES
                         </span>
                         <div className="mt-2 flex items-baseline justify-between">
-                            <span className="font-mono text-[28px] font-semibold text-[#6798ff]">
+                            <span className="font-mono text-[24px] sm:text-[28px] font-semibold text-[#6798ff]">
                                 {isLoading ? '-' : metrics.active_applications}
                             </span>
-                            <span className="text-[11px] text-[#a7a7a7]">
+                            <span className="text-[10px] sm:text-[11px] text-[#a7a7a7]">
                                 aktif
                             </span>
                         </div>
                     </div>
 
                     {/* 3. Interview */}
-                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-4 transition-colors hover:border-[#f59e0b]">
-                        <span className="font-mono text-[11px] tracking-[0.85px] text-[#f59e0b] uppercase">
+                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-3.5 sm:p-4 transition-colors hover:border-[#f59e0b]">
+                        <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.85px] text-[#f59e0b] uppercase">
                             INTERVIEW
                         </span>
                         <div className="mt-2 flex items-baseline justify-between">
-                            <span className="font-mono text-[28px] font-semibold text-[#f59e0b]">
+                            <span className="font-mono text-[24px] sm:text-[28px] font-semibold text-[#f59e0b]">
                                 {isLoading ? '-' : upcomingInterviews.length}
                             </span>
-                            <span className="text-[11px] text-[#a7a7a7]">
+                            <span className="text-[10px] sm:text-[11px] text-[#a7a7a7]">
                                 14 hari ke depan
                             </span>
                         </div>
                     </div>
 
                     {/* 4. Tawaran (Offers) */}
-                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-4 transition-colors hover:border-[#34d399]">
-                        <span className="font-mono text-[11px] tracking-[0.85px] text-[#34d399] uppercase">
+                    <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-3.5 sm:p-4 transition-colors hover:border-[#34d399]">
+                        <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.85px] text-[#34d399] uppercase">
                             TAWARAN KERJA
                         </span>
                         <div className="mt-2 flex items-baseline justify-between">
-                            <span className="font-mono text-[28px] font-semibold text-[#34d399]">
+                            <span className="font-mono text-[24px] sm:text-[28px] font-semibold text-[#34d399]">
                                 {isLoading ? '-' : metrics.offers_count}
                             </span>
-                            <span className="text-[11px] text-[#a7a7a7]">
+                            <span className="text-[10px] sm:text-[11px] text-[#a7a7a7]">
                                 offer diterima
                             </span>
                         </div>
                     </div>
 
                     {/* 5. Target Mingguan */}
-                    <div className="col-span-2 rounded-[8px] border border-[#313131] bg-[#141414] p-4 sm:col-span-1">
+                    <div className="col-span-2 md:col-span-2 lg:col-span-1 rounded-[8px] border border-[#313131] bg-[#141414] p-3.5 sm:p-4">
                         <div className="flex items-center justify-between">
-                            <span className="font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                            <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                                 TARGET MINGGUAN
                             </span>
                             <span className="font-mono text-[11px] font-semibold text-[#6798ff]">
                                 {weeklyTarget.current}/{weeklyTarget.target}
                             </span>
                         </div>
-                        <div className="mt-3">
+                        <div className="mt-2.5 sm:mt-3">
                             <div className="h-2 w-full overflow-hidden rounded-full bg-[#1e1e1e]">
                                 <div
                                     className="h-full bg-[#6798ff] transition-all duration-300"
@@ -289,7 +289,7 @@ export default function Dashboard() {
                                     }}
                                 />
                             </div>
-                            <span className="mt-1.5 block text-[11px] text-[#7c7c7c]">
+                            <span className="mt-1.5 block text-[10px] sm:text-[11px] text-[#7c7c7c]">
                                 {weeklyTarget.progress_percentage}% tercapai
                                 minggu ini
                             </span>

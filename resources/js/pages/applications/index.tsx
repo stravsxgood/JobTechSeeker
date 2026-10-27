@@ -240,14 +240,14 @@ export default function ApplicationsIndex({
 
             <div className="space-y-5">
                 {/* Header & Controls Toolbar */}
-                <div className="flex flex-col gap-4 rounded-[8px] border border-[#313131] bg-[#141414] p-4 lg:flex-row lg:items-center lg:justify-between">
-                    {/* View Switcher Toggle */}
-                    <div className="flex items-center gap-2">
+                <div className="flex flex-col gap-3.5 rounded-[8px] border border-[#313131] bg-[#141414] p-3.5 sm:p-4 lg:flex-row lg:items-center lg:justify-between">
+                    {/* View Switcher Toggle & Count */}
+                    <div className="flex items-center justify-between gap-2 sm:justify-start">
                         <div className="grid grid-cols-2 rounded-[6px] border border-[#313131] bg-[#0a0a0a] p-1">
                             <button
                                 type="button"
                                 onClick={() => setViewMode('list')}
-                                className={`flex min-h-[34px] items-center gap-1.5 rounded-[4px] px-3 text-[12px] font-medium transition-colors ${
+                                className={`flex min-h-[34px] items-center justify-center gap-1.5 rounded-[4px] px-3 text-[12px] font-medium transition-colors ${
                                     viewMode === 'list'
                                         ? 'bg-[#1e1e1e] text-[#ffffff]'
                                         : 'text-[#7c7c7c] hover:text-[#ffffff]'
@@ -268,12 +268,12 @@ export default function ApplicationsIndex({
                                     <line x1="3" y1="12" x2="3.01" y2="12" />
                                     <line x1="3" y1="18" x2="3.01" y2="18" />
                                 </svg>
-                                <span>Daftar Tabel</span>
+                                <span>Daftar</span>
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setViewMode('kanban')}
-                                className={`flex min-h-[34px] items-center gap-1.5 rounded-[4px] px-3 text-[12px] font-medium transition-colors ${
+                                className={`flex min-h-[34px] items-center justify-center gap-1.5 rounded-[4px] px-3 text-[12px] font-medium transition-colors ${
                                     viewMode === 'kanban'
                                         ? 'bg-[#1e1e1e] text-[#ffffff]'
                                         : 'text-[#7c7c7c] hover:text-[#ffffff]'
@@ -302,16 +302,16 @@ export default function ApplicationsIndex({
                                         rx="1"
                                     />
                                 </svg>
-                                <span>Kanban Board</span>
+                                <span>Kanban</span>
                             </button>
                         </div>
-                        <span className="hidden font-mono text-[12px] text-[#7c7c7c] sm:inline">
-                            {meta.total} Total Lamaran
+                        <span className="font-mono text-[11px] sm:text-[12px] text-[#7c7c7c]">
+                            {meta.total} Lamaran
                         </span>
                     </div>
 
                     {/* Search & Filters */}
-                    <div className="flex flex-wrap items-center gap-2.5">
+                    <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 sm:gap-2.5">
                         {/* Search Input */}
                         <div className="relative min-w-[200px] flex-1 sm:w-64">
                             <input
@@ -322,10 +322,10 @@ export default function ApplicationsIndex({
                                     setSearchQuery(e.target.value);
                                     setCurrentPage(1);
                                 }}
-                                className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] py-1.5 pr-3 pl-8 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
+                                className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] py-2 pr-3 pl-8 text-[13px] text-[#ffffff] placeholder-[#7c7c7c] focus:border-[#6798ff] focus:outline-none"
                             />
                             <svg
-                                className="absolute top-2.5 left-2.5 h-3.5 w-3.5 text-[#7c7c7c]"
+                                className="absolute top-3 left-2.5 h-3.5 w-3.5 text-[#7c7c7c]"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
@@ -336,51 +336,153 @@ export default function ApplicationsIndex({
                             </svg>
                         </div>
 
-                        {/* Status Filter */}
-                        <select
-                            value={selectedStatus}
-                            onChange={(e) => {
-                                setSelectedStatus(e.target.value);
-                                setCurrentPage(1);
-                            }}
-                            className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-1.5 text-[12px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
-                        >
-                            <option value="all">Semua Status</option>
-                            <option value="applied">Dilamar (Applied)</option>
-                            <option value="saved">Tersimpan (Saved)</option>
-                            <option value="screening">Screening</option>
-                            <option value="assessment">Assessment</option>
-                            <option value="interview">Interview</option>
-                            <option value="offer">Tawaran (Offer)</option>
-                            <option value="rejected">Ditolak</option>
-                            <option value="withdrawn">Ditarik</option>
-                        </select>
+                        {/* Status & Source Filters */}
+                        <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
+                            {/* Status Filter */}
+                            <select
+                                value={selectedStatus}
+                                onChange={(e) => {
+                                    setSelectedStatus(e.target.value);
+                                    setCurrentPage(1);
+                                }}
+                                className="w-full sm:w-auto rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[12px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
+                            >
+                                <option value="all">Semua Status</option>
+                                <option value="applied">Dilamar (Applied)</option>
+                                <option value="saved">Tersimpan (Saved)</option>
+                                <option value="screening">Screening</option>
+                                <option value="assessment">Assessment</option>
+                                <option value="interview">Interview</option>
+                                <option value="offer">Tawaran (Offer)</option>
+                                <option value="rejected">Ditolak</option>
+                                <option value="withdrawn">Ditarik</option>
+                            </select>
 
-                        {/* Source Filter */}
-                        <select
-                            value={selectedSource}
-                            onChange={(e) => {
-                                setSelectedSource(e.target.value);
-                                setCurrentPage(1);
-                            }}
-                            className="rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-1.5 text-[12px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
-                        >
-                            <option value="all">Semua Sumber</option>
-                            <option value="LinkedIn">LinkedIn</option>
-                            <option value="JobStreet">JobStreet</option>
-                            <option value="Glints">Glints</option>
-                            <option value="Website Perusahaan">
-                                Website Perusahaan
-                            </option>
-                            <option value="Lainnya">Lainnya</option>
-                        </select>
+                            {/* Source Filter */}
+                            <select
+                                value={selectedSource}
+                                onChange={(e) => {
+                                    setSelectedSource(e.target.value);
+                                    setCurrentPage(1);
+                                }}
+                                className="w-full sm:w-auto rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[12px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
+                            >
+                                <option value="all">Semua Sumber</option>
+                                <option value="LinkedIn">LinkedIn</option>
+                                <option value="JobStreet">JobStreet</option>
+                                <option value="Glints">Glints</option>
+                                <option value="Website Perusahaan">
+                                    Website Perusahaan
+                                </option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                {/* VIEW 1: TABLE / LIST VIEW */}
+                {/* VIEW 1: LIST VIEW */}
                 {viewMode === 'list' && (
                     <div className="overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414]">
-                        <div className="overflow-x-auto">
+                        {/* Mobile Cards (Visible below md: 768px) */}
+                        <div className="divide-y divide-[#1e1e1e] md:hidden">
+                            {isLoading ? (
+                                <div className="py-12 text-center text-[13px] text-[#7c7c7c]">
+                                    Memuat data lamaran...
+                                </div>
+                            ) : applications.length === 0 ? (
+                                <div className="p-8 text-center">
+                                    <p className="text-[14px] font-medium text-[#ffffff]">
+                                        Tidak ada lamaran ditemukan
+                                    </p>
+                                    <p className="mt-1 text-[12px] text-[#7c7c7c]">
+                                        Ubah kata kunci pencarian atau tambah catatan lamaran baru.
+                                    </p>
+                                </div>
+                            ) : (
+                                applications.map((app) => {
+                                    const isStagnant =
+                                        (Date.now() -
+                                            new Date(
+                                                app.updated_at,
+                                            ).getTime()) /
+                                            (1000 * 60 * 60 * 24) >=
+                                        14;
+
+                                    return (
+                                        <div key={app.id} className="p-4 space-y-2.5 transition-colors hover:bg-[#1e1e1e]/40">
+                                            <div className="flex items-start justify-between gap-2">
+                                                <div className="min-w-0">
+                                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                                        <h4 className="text-[14px] font-semibold text-[#ffffff] truncate">
+                                                            {app.job_title}
+                                                        </h4>
+                                                        {isStagnant && (
+                                                            <span
+                                                                title="Lamaran belum ada pembaruan status >= 14 hari"
+                                                                className="py-0.2 rounded-[4px] border border-[#f59e0b]/40 bg-[#f59e0b]/15 px-1 font-mono text-[9px] text-[#f59e0b]"
+                                                            >
+                                                                Stagnan
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <p className="text-[12px] text-[#a7a7a7] mt-0.5">
+                                                        {app.company_name || app.company?.name || 'Perusahaan'}
+                                                        {app.location && ` • ${app.location}`}
+                                                    </p>
+                                                </div>
+                                                <Badge
+                                                    variant={app.is_active ? 'accent' : 'default'}
+                                                    size="sm"
+                                                    className="shrink-0"
+                                                >
+                                                    {STATUS_LABELS[app.status] || app.status_label || app.status}
+                                                </Badge>
+                                            </div>
+
+                                            <div className="flex items-center justify-between font-mono text-[11px] text-[#7c7c7c] pt-1">
+                                                <span>Sumber: <strong className="font-normal text-[#a7a7a7]">{app.source || '-'}</strong></span>
+                                                {app.follow_up_at && (
+                                                    <span className="text-[#6798ff]">
+                                                        FU: {new Date(app.follow_up_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <div className="flex items-center gap-2 pt-1 border-t border-[#1e1e1e]">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setSelectedDetailId(app.id)}
+                                                    className="flex-1 min-h-[40px] flex items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] px-3 py-1.5 text-[12px] font-medium text-[#ffffff] transition-colors hover:border-[#6798ff]"
+                                                >
+                                                    Detail & Ubah Status
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleDelete(app.id, app.job_title)}
+                                                    aria-label="Hapus lamaran"
+                                                    className="min-h-[40px] min-w-[40px] flex items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#7c7c7c] transition-colors hover:bg-[#f87171]/10 hover:text-[#f87171]"
+                                                >
+                                                    <svg
+                                                        width="14"
+                                                        height="14"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                    >
+                                                        <polyline points="3 6 5 6 21 6" />
+                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            )}
+                        </div>
+
+                        {/* Desktop & Tablet Table (Visible md: 768px and up) */}
+                        <div className="hidden md:block overflow-x-auto">
                             <table className="w-full text-left text-[13px]">
                                 <thead className="border-b border-[#313131] bg-[#0a0a0a] font-mono text-[11px] text-[#7c7c7c] uppercase">
                                     <tr>
@@ -495,7 +597,7 @@ export default function ApplicationsIndex({
                                                         >
                                                             {STATUS_LABELS[
                                                                 app.status
-                                                            ] ||
+                                                             ] ||
                                                                 app.status_label ||
                                                                 app.status}
                                                         </Badge>
@@ -571,8 +673,7 @@ export default function ApplicationsIndex({
                         {meta.last_page > 1 && (
                             <div className="flex items-center justify-between border-t border-[#313131] bg-[#0a0a0a] px-4 py-3">
                                 <span className="font-mono text-[11px] text-[#7c7c7c]">
-                                    Halaman {meta.current_page} dari{' '}
-                                    {meta.last_page} ({meta.total} item)
+                                    Hal {meta.current_page} dari {meta.last_page} ({meta.total} item)
                                 </span>
                                 <div className="flex items-center gap-1.5">
                                     <button
@@ -609,7 +710,7 @@ export default function ApplicationsIndex({
 
                 {/* VIEW 2: KANBAN BOARD VIEW */}
                 {viewMode === 'kanban' && (
-                    <div className="flex gap-4 overflow-x-auto pb-4">
+                    <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
                         {kanbanColumns.map((col) => {
                             const columnApps = applications.filter((app) =>
                                 col.statuses.includes(app.status),
@@ -618,7 +719,7 @@ export default function ApplicationsIndex({
                             return (
                                 <div
                                     key={col.key}
-                                    className="flex max-h-[75vh] w-80 shrink-0 flex-col rounded-[8px] border border-[#313131] bg-[#141414] p-3"
+                                    className="flex max-h-[75vh] w-[86vw] max-w-[340px] sm:w-80 shrink-0 snap-center sm:snap-align-none flex-col rounded-[8px] border border-[#313131] bg-[#141414] p-3"
                                 >
                                     {/* Column Header */}
                                     <div className="mb-3 flex items-center justify-between border-b border-[#313131] pb-2.5">

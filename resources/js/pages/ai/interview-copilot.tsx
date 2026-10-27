@@ -362,7 +362,8 @@ export default function InterviewCopilotPage() {
                         <polyline points="2 17 12 22 22 17"></polyline>
                         <polyline points="2 12 12 17 22 12"></polyline>
                     </svg>
-                    <span>Buka Career Planner</span>
+                    <span className="hidden sm:inline">Buka Career Planner</span>
+                    <span className="sm:hidden">Career Planner</span>
                 </Link>
             }
         >
@@ -394,11 +395,11 @@ export default function InterviewCopilotPage() {
                             </p>
                         </div>
 
-                        <div className="flex shrink-0 items-center gap-2">
+                        <div className="flex w-full shrink-0 items-center gap-2 sm:w-auto">
                             <button
                                 type="button"
                                 onClick={handleFillSample}
-                                className="flex min-h-[44px] items-center gap-2 rounded-[8px] border border-[#313131] bg-[#1e1e1e] px-3.5 py-2 text-[12px] font-medium text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                                className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[8px] border border-[#313131] bg-[#1e1e1e] px-3.5 py-2 text-[12px] font-medium text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none sm:w-auto"
                             >
                                 <svg
                                     width="14"
@@ -694,12 +695,12 @@ export default function InterviewCopilotPage() {
                                     </p>
                                 </div>
 
-                                <div className="flex shrink-0 items-center gap-2">
+                                <div className="flex w-full shrink-0 items-center gap-2 sm:w-auto">
                                     <Button
                                         variant="secondary"
                                         size="sm"
                                         onClick={handleCopyAll}
-                                        className="min-h-[40px]"
+                                        className="min-h-[44px] w-full justify-center sm:min-h-[40px] sm:w-auto"
                                     >
                                         {copySuccess ? (
                                             <>
@@ -760,7 +761,7 @@ export default function InterviewCopilotPage() {
                                 </div>
 
                                 {/* Category Tabs */}
-                                <div className="flex flex-wrap items-center gap-1.5">
+                                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 sm:flex-wrap scrollbar-none">
                                     {[
                                         {
                                             id: 'all',
@@ -789,7 +790,7 @@ export default function InterviewCopilotPage() {
                                             onClick={() =>
                                                 setSelectedCategory(tab.id)
                                             }
-                                            className={`rounded-[4px] px-2.5 py-1 text-[12px] font-medium transition-colors ${
+                                            className={`shrink-0 rounded-[4px] px-2.5 py-1.5 sm:py-1 text-[12px] font-medium transition-colors ${
                                                 selectedCategory === tab.id
                                                     ? 'bg-[#6798ff] font-semibold text-[#0a0a0a]'
                                                     : 'bg-[#1e1e1e] text-[#a7a7a7] hover:text-[#ffffff]'

@@ -368,11 +368,11 @@ export default function SettingsPage() {
                 </div>
 
                 {/* Tabs Navigation */}
-                <div className="flex flex-wrap gap-2 border-b border-[#313131] pb-2">
+                <div className="flex items-center gap-2 border-b border-[#313131] pb-2 overflow-x-auto scrollbar-none sm:flex-wrap">
                     <button
                         type="button"
                         onClick={() => setActiveTab('profile')}
-                        className={`flex min-h-[44px] items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-medium transition-colors ${
+                        className={`flex min-h-[44px] shrink-0 items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-medium whitespace-nowrap transition-colors ${
                             activeTab === 'profile'
                                 ? 'border border-[#6798ff] bg-[#1e1e1e] text-[#6798ff]'
                                 : 'border border-transparent text-[#a7a7a7] hover:bg-[#141414] hover:text-[#ffffff]'
@@ -397,7 +397,7 @@ export default function SettingsPage() {
                     <button
                         type="button"
                         onClick={() => setActiveTab('security')}
-                        className={`flex min-h-[44px] items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-medium transition-colors ${
+                        className={`flex min-h-[44px] shrink-0 items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-medium whitespace-nowrap transition-colors ${
                             activeTab === 'security'
                                 ? 'border border-[#6798ff] bg-[#1e1e1e] text-[#6798ff]'
                                 : 'border border-transparent text-[#a7a7a7] hover:bg-[#141414] hover:text-[#ffffff]'
@@ -429,7 +429,7 @@ export default function SettingsPage() {
                     <button
                         type="button"
                         onClick={() => setActiveTab('danger')}
-                        className={`flex min-h-[44px] items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-medium transition-colors ${
+                        className={`flex min-h-[44px] shrink-0 items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-medium whitespace-nowrap transition-colors ${
                             activeTab === 'danger'
                                 ? 'border border-[#7f1d1d] bg-[#7f1d1d]/20 text-[#f87171]'
                                 : 'border border-transparent text-[#a7a7a7] hover:bg-[#7f1d1d]/10 hover:text-[#f87171]'
@@ -835,7 +835,7 @@ export default function SettingsPage() {
                                     variant="primary"
                                     isLoading={isSavingProfile}
                                     disabled={isLoading}
-                                    className="min-h-[44px] px-6"
+                                    className="min-h-[44px] w-full px-6 sm:w-auto"
                                 >
                                     Simpan Perubahan Profil
                                 </Button>
@@ -945,7 +945,7 @@ export default function SettingsPage() {
                                     type="submit"
                                     variant="primary"
                                     isLoading={isSavingSecurity}
-                                    className="min-h-[44px] px-6"
+                                    className="min-h-[44px] w-full px-6 sm:w-auto"
                                 >
                                     Perbarui Kata Sandi
                                 </Button>

@@ -177,7 +177,7 @@ export function QuickAddApplicationModal({
             />
 
             {/* Modal Dialog (Dovetail Theme) */}
-            <div className="relative z-10 w-full max-w-xl rounded-[8px] border border-[#313131] bg-[#141414] p-6 text-[#ffffff] shadow-2xl">
+            <div className="relative z-10 max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-[8px] border border-[#313131] bg-[#141414] p-4 text-[#ffffff] shadow-2xl sm:p-6">
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-[#313131] pb-4">
                     <div>
@@ -390,14 +390,14 @@ export function QuickAddApplicationModal({
                         <button
                             type="button"
                             onClick={onClose}
-                            className="rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-4 py-2 text-[13px] text-[#a7a7a7] transition-colors hover:text-[#ffffff]"
+                            className="min-h-[44px] flex-1 rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-4 py-2 text-[13px] text-[#a7a7a7] transition-colors hover:text-[#ffffff] sm:min-h-0 sm:flex-none"
                         >
                             Batal
                         </button>
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="rounded-[6px] bg-[#ffffff] px-4 py-2 text-[13px] font-medium text-[#0a0a0a] transition-colors hover:bg-[#a7a7a7] disabled:opacity-50"
+                            className="min-h-[44px] flex-1 rounded-[6px] bg-[#ffffff] px-4 py-2 text-[13px] font-medium text-[#0a0a0a] transition-colors hover:bg-[#a7a7a7] disabled:opacity-50 sm:min-h-0 sm:flex-none"
                         >
                             {isLoading ? 'Menyimpan...' : 'Simpan Lamaran'}
                         </button>

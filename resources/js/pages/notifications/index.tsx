@@ -382,7 +382,8 @@ export default function NotificationsPage() {
                             <circle cx="12" cy="12" r="3"></circle>
                             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                         </svg>
-                        <span>Pengaturan Akun Gmail</span>
+                        <span className="hidden sm:inline">Pengaturan Akun Gmail</span>
+                        <span className="sm:hidden">Gmail</span>
                     </Link>
 
                     {unreadCount > 0 && (
@@ -401,7 +402,8 @@ export default function NotificationsPage() {
                             >
                                 <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
-                            <span>Tandai Semua Dibaca</span>
+                            <span className="hidden sm:inline">Tandai Semua Dibaca</span>
+                            <span className="sm:hidden">Dibaca</span>
                         </Button>
                     )}
                 </div>
@@ -445,7 +447,7 @@ export default function NotificationsPage() {
                 )}
 
                 {/* Filter Tabs */}
-                <div className="flex flex-wrap items-center gap-2 border-b border-[#313131] pb-3">
+                <div className="flex items-center gap-2 overflow-x-auto border-b border-[#313131] pb-3 scrollbar-none sm:flex-wrap">
                     {[
                         {
                             id: 'all',
@@ -469,7 +471,7 @@ export default function NotificationsPage() {
                             key={tab.id}
                             type="button"
                             onClick={() => setActiveTab(tab.id as any)}
-                            className={`flex items-center gap-1.5 rounded-[6px] px-3.5 py-2 text-[13px] font-medium transition-colors ${
+                            className={`flex shrink-0 items-center gap-1.5 rounded-[6px] px-3.5 py-2 text-[13px] font-medium transition-colors ${
                                 activeTab === tab.id
                                     ? 'border border-[#6798ff] bg-[#1e1e1e] text-[#ffffff]'
                                     : 'border border-transparent text-[#7c7c7c] hover:bg-[#141414] hover:text-[#ffffff]'
@@ -560,7 +562,7 @@ export default function NotificationsPage() {
                                                 </div>
 
                                                 {/* Action Buttons */}
-                                                <div className="flex shrink-0 items-center gap-2 pt-2 sm:pt-0">
+                                                <div className="flex w-full flex-wrap items-center gap-2 pt-3 sm:w-auto sm:shrink-0 sm:pt-0">
                                                     <Button
                                                         variant="primary"
                                                         size="sm"
@@ -569,7 +571,7 @@ export default function NotificationsPage() {
                                                                 event,
                                                             )
                                                         }
-                                                        className="min-h-[36px]"
+                                                        className="min-h-[40px] flex-1 justify-center sm:min-h-[36px] sm:flex-none"
                                                     >
                                                         {isInterview
                                                             ? 'Konfirmasi & Masuk Kalender'
@@ -585,7 +587,7 @@ export default function NotificationsPage() {
                                                                 event.id,
                                                             )
                                                         }
-                                                        className="rounded-[6px] border border-[#313131] bg-[#141414] px-3 py-1.5 text-[12px] text-[#a7a7a7] transition-colors hover:text-[#ffffff]"
+                                                        className="min-h-[40px] rounded-[6px] border border-[#313131] bg-[#141414] px-3.5 py-1.5 text-[12px] text-[#a7a7a7] transition-colors hover:text-[#ffffff] sm:min-h-0"
                                                     >
                                                         Abaikan
                                                     </button>

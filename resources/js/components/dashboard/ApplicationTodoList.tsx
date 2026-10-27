@@ -221,8 +221,8 @@ export function ApplicationTodoList({
                 </form>
             )}
 
-            {/* Category Filter Pills */}
-            <div className="mt-4 flex flex-wrap items-center gap-1.5 border-b border-[#313131] pb-3">
+            {/* Category Filter Pills (Horizontal scroll on mobile, wrap on sm+) */}
+            <div className="mt-4 flex items-center gap-1.5 overflow-x-auto border-b border-[#313131] pb-3 sm:flex-wrap scrollbar-none">
                 {[
                     {
                         key: 'all',
@@ -254,7 +254,7 @@ export function ApplicationTodoList({
                         key={item.key}
                         type="button"
                         onClick={() => setFilter(item.key as typeof filter)}
-                        className={`inline-flex items-center gap-1.5 rounded-[6px] px-2.5 py-1 text-[12px] font-medium transition-colors ${
+                        className={`inline-flex shrink-0 items-center gap-1.5 rounded-[6px] px-2.5 py-1 text-[12px] font-medium transition-colors ${
                             filter === item.key
                                 ? 'border border-[#6798ff] bg-[#1e1e1e] text-[#ffffff]'
                                 : 'text-[#7c7c7c] hover:bg-[#1e1e1e]/60 hover:text-[#ffffff]'

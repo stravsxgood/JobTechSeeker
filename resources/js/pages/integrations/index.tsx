@@ -258,7 +258,8 @@ export default function IntegrationsPage() {
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                     </svg>
-                    <span>Buka Pusat Notifikasi</span>
+                    <span className="hidden sm:inline">Buka Pusat Notifikasi</span>
+                    <span className="sm:hidden">Notifikasi</span>
                 </Link>
             }
         >
@@ -312,7 +313,7 @@ export default function IntegrationsPage() {
 
                 {/* Connected Accounts Section */}
                 <div className="space-y-4 rounded-[8px] border border-[#313131] bg-[#141414] p-5 sm:p-6">
-                    <div className="flex items-center justify-between border-b border-[#313131] pb-3">
+                    <div className="flex flex-col gap-3 border-b border-[#313131] pb-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <h3 className="text-[16px] font-semibold tracking-[-0.2px] text-[#ffffff]">
                                 Akun Email Terhubung
@@ -326,7 +327,7 @@ export default function IntegrationsPage() {
                         <Button
                             variant="primary"
                             onClick={handleConnectGmail}
-                            className="min-h-[40px]"
+                            className="min-h-[44px] w-full justify-center sm:min-h-[40px] sm:w-auto"
                         >
                             <svg
                                 width="15"
@@ -395,7 +396,7 @@ export default function IntegrationsPage() {
                                         </div>
                                     </div>
 
-                                    <div className="flex shrink-0 items-center gap-2">
+                                    <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:shrink-0">
                                         {acc.connection_status ===
                                             'connected' && (
                                             <Button
@@ -405,7 +406,7 @@ export default function IntegrationsPage() {
                                                     handleSync(acc.id)
                                                 }
                                                 isLoading={syncingId === acc.id}
-                                                className="min-h-[36px]"
+                                                className="min-h-[40px] flex-1 justify-center sm:min-h-[36px] sm:flex-none"
                                             >
                                                 <svg
                                                     width="13"
@@ -428,7 +429,7 @@ export default function IntegrationsPage() {
                                             onClick={() =>
                                                 handleDisconnect(acc.id)
                                             }
-                                            className="rounded-[6px] border border-transparent px-3 py-1.5 text-[12px] text-[#f87171] transition-colors hover:bg-[#f87171]/10"
+                                            className="min-h-[40px] rounded-[6px] border border-transparent px-3 py-1.5 text-[12px] text-[#f87171] transition-colors hover:bg-[#f87171]/10 sm:min-h-0"
                                         >
                                             Putuskan Sambungan
                                         </button>

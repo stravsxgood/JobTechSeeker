@@ -53,6 +53,16 @@ export default function InterviewsPage() {
     const [_isLoading, setIsLoading] = useState(false);
     const [selectedStatusFilter, setSelectedStatusFilter] =
         useState<string>('all');
+    const [selectedCalendarDate, setSelectedCalendarDate] =
+        useState<Date>(new Date());
+
+    const isSameDay = (d1: Date, d2: Date) => {
+        return (
+            d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate()
+        );
+    };
 
     // Modals
     const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -591,7 +601,8 @@ export default function InterviewsPage() {
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
-                        <span>Jadwalkan Wawancara</span>
+                        <span className="hidden sm:inline">Jadwalkan Wawancara</span>
+                        <span className="sm:hidden">Jadwalkan</span>
                     </Button>
                 </div>
             }
@@ -840,137 +851,301 @@ export default function InterviewsPage() {
 
                 {/* MONTHLY CALENDAR GRID VIEW */}
                 {viewMode === 'calendar' && (
-                    <div className="overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414]">
-                        {/* Days of week header */}
-                        <div className="grid grid-cols-7 border-b border-[#313131] bg-[#1e1e1e] text-center font-mono text-[11px] font-semibold text-[#a7a7a7]">
-                            <div className="py-2.5">SEN</div>
-                            <div className="py-2.5">SEL</div>
-                            <div className="py-2.5">RAB</div>
-                            <div className="py-2.5">KAM</div>
-                            <div className="py-2.5">JUM</div>
-                            <div className="py-2.5 text-[#6798ff]">SAB</div>
-                            <div className="py-2.5 text-[#f87171]">MIN</div>
-                        </div>
+                    <div className="space-y-4">
+                        {/* Mobile Calendar Grid (Compact + Day Agenda View) */}
+                        <div className="md:hidden space-y-4">
+                            <div className="overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414]">
+                                <div className="grid grid-cols-7 border-b border-[#313131] bg-[#1e1e1e] text-center font-mono text-[10px] font-semibold text-[#a7a7a7]">
+                                    <div className="py-2">SEN</div>
+                                    <div className="py-2">SEL</div>
+                                    <div className="py-2">RAB</div>
+                                    <div className="py-2">KAM</div>
+                                    <div className="py-2">JUM</div>
+                                    <div className="py-2 text-[#6798ff]">SAB</div>
+                                    <div className="py-2 text-[#f87171]">MIN</div>
+                                </div>
 
-                        {/* Calendar Day Cells */}
-                        <div className="grid auto-rows-fr grid-cols-7 divide-x divide-y divide-[#313131]">
-                            {calendarDays.map((cell, idx) => {
-                                const dayInterviews = getInterviewsForDate(
-                                    cell.date,
-                                );
+                                <div className="grid auto-rows-fr grid-cols-7 divide-x divide-y divide-[#313131]">
+                                    {calendarDays.map((cell, idx) => {
+                                        const dayInterviews = getInterviewsForDate(cell.date);
+                                        const isSelected = isSameDay(cell.date, selectedCalendarDate);
+                                        const hasConflict = dayInterviews.some(hasConflictWithOtherInterviews);
 
-                                return (
-                                    <div
-                                        key={idx}
-                                        className={`group relative min-h-[105px] p-2 transition-colors sm:min-h-[120px] ${
-                                            cell.isCurrentMonth
-                                                ? 'bg-[#141414] hover:bg-[#1a1a1a]'
-                                                : 'bg-[#0e0e0e] text-[#555555]'
-                                        }`}
-                                    >
-                                        <div className="flex items-center justify-between">
-                                            <span
-                                                className={`flex h-6 w-6 items-center justify-center rounded-full font-mono text-[12px] font-medium ${
-                                                    cell.isToday
-                                                        ? 'bg-[#6798ff] font-semibold text-[#0a0a0a]'
+                                        return (
+                                            <button
+                                                key={idx}
+                                                type="button"
+                                                onClick={() => setSelectedCalendarDate(cell.date)}
+                                                className={`relative flex min-h-[56px] flex-col items-center justify-between p-1.5 transition-colors text-left ${
+                                                    isSelected
+                                                        ? 'bg-[#1e1e1e] ring-2 ring-inset ring-[#6798ff]'
                                                         : cell.isCurrentMonth
-                                                          ? 'text-[#ffffff]'
-                                                          : 'text-[#555555]'
+                                                          ? 'bg-[#141414] active:bg-[#1e1e1e]'
+                                                          : 'bg-[#0e0e0e] text-[#555555]'
                                                 }`}
                                             >
-                                                {cell.dayNumber}
-                                            </span>
-
-                                            {/* Quick Add icon on cell hover */}
-                                            {cell.isCurrentMonth && (
-                                                <button
-                                                    type="button"
-                                                    onClick={() =>
-                                                        handleOpenCreateForDate(
-                                                            cell.date,
-                                                        )
-                                                    }
-                                                    title="Tambah wawancara pada tanggal ini"
-                                                    className="flex h-5 w-5 items-center justify-center rounded-[4px] bg-[#1e1e1e] text-[#a7a7a7] opacity-0 transition-all group-hover:opacity-100 hover:bg-[#6798ff] hover:text-[#0a0a0a]"
+                                                <span
+                                                    className={`flex h-6 w-6 items-center justify-center rounded-full font-mono text-[12px] ${
+                                                        cell.isToday
+                                                            ? 'bg-[#6798ff] font-semibold text-[#0a0a0a]'
+                                                            : isSelected
+                                                              ? 'font-bold text-[#6798ff]'
+                                                              : cell.isCurrentMonth
+                                                                ? 'text-[#ffffff]'
+                                                                : 'text-[#555555]'
+                                                    }`}
                                                 >
-                                                    <svg
-                                                        width="12"
-                                                        height="12"
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        strokeWidth="2.5"
-                                                    >
-                                                        <line
-                                                            x1="12"
-                                                            y1="5"
-                                                            x2="12"
-                                                            y2="19"
-                                                        ></line>
-                                                        <line
-                                                            x1="5"
-                                                            y1="12"
-                                                            x2="19"
-                                                            y2="12"
-                                                        ></line>
-                                                    </svg>
-                                                </button>
-                                            )}
+                                                    {cell.dayNumber}
+                                                </span>
+
+                                                {/* Mini dots indicator */}
+                                                <div className="mt-1 flex min-h-[6px] items-center justify-center gap-1">
+                                                    {dayInterviews.slice(0, 3).map((item, dotIdx) => (
+                                                        <span
+                                                            key={dotIdx}
+                                                            className={`h-1.5 w-1.5 rounded-full ${
+                                                                hasConflict
+                                                                    ? 'bg-[#fbbf24]'
+                                                                    : item.status === 'completed'
+                                                                      ? 'bg-[#34d399]'
+                                                                      : 'bg-[#6798ff]'
+                                                            }`}
+                                                        />
+                                                    ))}
+                                                    {dayInterviews.length > 3 && (
+                                                        <span className="font-mono text-[8px] text-[#6798ff]">
+                                                            +{dayInterviews.length - 3}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* Mobile Selected Date Agenda Box */}
+                            <div className="rounded-[8px] border border-[#313131] bg-[#141414] p-4">
+                                <div className="flex items-center justify-between border-b border-[#313131] pb-3">
+                                    <div>
+                                        <span className="font-mono text-[10px] tracking-wider text-[#6798ff] uppercase">
+                                            AGENDA HARIAN
+                                        </span>
+                                        <h4 className="text-[14px] font-semibold text-[#ffffff]">
+                                            {formatDateFull(selectedCalendarDate.toISOString())}
+                                        </h4>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleOpenCreateForDate(selectedCalendarDate)}
+                                        className="flex min-h-[36px] items-center gap-1 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-2.5 text-[11px] font-medium text-[#6798ff] active:bg-[#6798ff]/20"
+                                    >
+                                        + Tambah
+                                    </button>
+                                </div>
+
+                                <div className="mt-3 space-y-2.5">
+                                    {getInterviewsForDate(selectedCalendarDate).length > 0 ? (
+                                        getInterviewsForDate(selectedCalendarDate).map((item) => {
+                                            const isConflict = hasConflictWithOtherInterviews(item);
+                                            return (
+                                                <div
+                                                    key={item.id}
+                                                    className={`rounded-[6px] border p-3 ${
+                                                        isConflict
+                                                            ? 'border-[#fbbf24] bg-[#1e1e1e]'
+                                                            : 'border-[#313131] bg-[#1e1e1e]'
+                                                    }`}
+                                                >
+                                                    <div className="flex items-center justify-between gap-2">
+                                                        <Badge
+                                                            variant={
+                                                                item.status === 'completed'
+                                                                    ? 'success'
+                                                                    : item.status === 'cancelled'
+                                                                      ? 'danger'
+                                                                      : 'accent'
+                                                            }
+                                                            size="sm"
+                                                        >
+                                                            {item.status_label}
+                                                        </Badge>
+                                                        <span className="font-mono text-[11px] text-[#6798ff]">
+                                                            {formatTimeOnly(item.start_at)} - {formatTimeOnly(item.end_at)}
+                                                        </span>
+                                                    </div>
+
+                                                    <h5 className="mt-2 text-[14px] font-semibold text-[#ffffff]">
+                                                        {item.job_title || item.interview_type}
+                                                    </h5>
+                                                    <p className="text-[12px] text-[#a7a7a7]">
+                                                        {item.company_name || 'Perusahaan'}
+                                                    </p>
+
+                                                    <div className="mt-3 flex flex-wrap items-center gap-2 pt-2 border-t border-[#313131]">
+                                                        {item.meeting_url && (
+                                                            <a
+                                                                href={item.meeting_url}
+                                                                target="_blank"
+                                                                rel="noreferrer"
+                                                                className="inline-flex min-h-[36px] items-center gap-1.5 rounded-[4px] border border-[#34d399]/40 bg-[#34d399]/10 px-2.5 text-[11px] font-medium text-[#34d399]"
+                                                            >
+                                                                Buka Meeting
+                                                            </a>
+                                                        )}
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setSelectedDetailInterview(item)}
+                                                            className="inline-flex min-h-[36px] flex-1 items-center justify-center rounded-[4px] border border-[#313131] bg-[#0a0a0a] px-2.5 text-[11px] font-medium text-[#ffffff]"
+                                                        >
+                                                            Kelola & Detail
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })
+                                    ) : (
+                                        <div className="py-6 text-center text-[12px] text-[#7c7c7c]">
+                                            Tidak ada jadwal wawancara pada tanggal ini.
                                         </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
 
-                                        {/* Interview Badges inside cell */}
-                                        <div className="mt-1.5 space-y-1">
-                                            {dayInterviews.map((item) => {
-                                                const isConflict =
-                                                    hasConflictWithOtherInterviews(
-                                                        item,
-                                                    );
+                        {/* Tablet & Desktop Calendar Grid */}
+                        <div className="hidden md:block overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414]">
+                            {/* Days of week header */}
+                            <div className="grid grid-cols-7 border-b border-[#313131] bg-[#1e1e1e] text-center font-mono text-[11px] font-semibold text-[#a7a7a7]">
+                                <div className="py-2.5">SEN</div>
+                                <div className="py-2.5">SEL</div>
+                                <div className="py-2.5">RAB</div>
+                                <div className="py-2.5">KAM</div>
+                                <div className="py-2.5">JUM</div>
+                                <div className="py-2.5 text-[#6798ff]">SAB</div>
+                                <div className="py-2.5 text-[#f87171]">MIN</div>
+                            </div>
 
-                                                return (
+                            {/* Calendar Day Cells */}
+                            <div className="grid auto-rows-fr grid-cols-7 divide-x divide-y divide-[#313131]">
+                                {calendarDays.map((cell, idx) => {
+                                    const dayInterviews = getInterviewsForDate(
+                                        cell.date,
+                                    );
+
+                                    return (
+                                        <div
+                                            key={idx}
+                                            className={`group relative min-h-[105px] p-2 transition-colors sm:min-h-[120px] ${
+                                                cell.isCurrentMonth
+                                                    ? 'bg-[#141414] hover:bg-[#1a1a1a]'
+                                                    : 'bg-[#0e0e0e] text-[#555555]'
+                                            }`}
+                                        >
+                                            <div className="flex items-center justify-between">
+                                                <span
+                                                    className={`flex h-6 w-6 items-center justify-center rounded-full font-mono text-[12px] font-medium ${
+                                                        cell.isToday
+                                                            ? 'bg-[#6798ff] font-semibold text-[#0a0a0a]'
+                                                            : cell.isCurrentMonth
+                                                              ? 'text-[#ffffff]'
+                                                              : 'text-[#555555]'
+                                                    }`}
+                                                >
+                                                    {cell.dayNumber}
+                                                </span>
+
+                                                {/* Quick Add icon on cell hover */}
+                                                {cell.isCurrentMonth && (
                                                     <button
-                                                        key={item.id}
                                                         type="button"
                                                         onClick={() =>
-                                                            setSelectedDetailInterview(
-                                                                item,
+                                                            handleOpenCreateForDate(
+                                                                cell.date,
                                                             )
                                                         }
-                                                        className={`flex w-full items-center justify-between gap-1 truncate rounded-[4px] px-1.5 py-1 text-left text-[11px] transition-all ${
-                                                            item.status ===
-                                                            'completed'
-                                                                ? 'border border-[#1e3a2f] bg-[#141414] text-[#34d399]'
-                                                                : item.status ===
-                                                                    'cancelled'
-                                                                  ? 'border border-[#3b1c1c] bg-[#141414] text-[#7c7c7c] line-through'
-                                                                  : isConflict
-                                                                    ? 'border border-[#fbbf24] bg-[#3d2f14] text-[#fbbf24]'
-                                                                    : 'border border-[#313131] bg-[#1e1e1e] text-[#ffffff] hover:border-[#6798ff]'
-                                                        }`}
+                                                        title="Tambah wawancara pada tanggal ini"
+                                                        className="flex h-5 w-5 items-center justify-center rounded-[4px] bg-[#1e1e1e] text-[#a7a7a7] opacity-0 transition-all group-hover:opacity-100 hover:bg-[#6798ff] hover:text-[#0a0a0a]"
                                                     >
-                                                        <span className="truncate">
-                                                            <strong className="font-mono">
-                                                                {formatTimeOnly(
-                                                                    item.start_at,
-                                                                )}
-                                                            </strong>{' '}
-                                                            {item.job_title ||
-                                                                item.interview_type}
-                                                        </span>
-                                                        {isConflict && (
-                                                            <span
-                                                                title="Konflik jadwal!"
-                                                                className="shrink-0 font-bold text-[#fbbf24]"
-                                                            >
-                                                                !
-                                                            </span>
-                                                        )}
+                                                        <svg
+                                                            width="12"
+                                                            height="12"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="2.5"
+                                                        >
+                                                            <line
+                                                                x1="12"
+                                                                y1="5"
+                                                                x2="12"
+                                                                y2="19"
+                                                            ></line>
+                                                            <line
+                                                                x1="5"
+                                                                y1="12"
+                                                                x2="19"
+                                                                y2="12"
+                                                            ></line>
+                                                        </svg>
                                                     </button>
-                                                );
-                                            })}
+                                                )}
+                                            </div>
+
+                                            {/* Interview Badges inside cell */}
+                                            <div className="mt-1.5 space-y-1">
+                                                {dayInterviews.map((item) => {
+                                                    const isConflict =
+                                                        hasConflictWithOtherInterviews(
+                                                            item,
+                                                        );
+
+                                                    return (
+                                                        <button
+                                                            key={item.id}
+                                                            type="button"
+                                                            onClick={() =>
+                                                                setSelectedDetailInterview(
+                                                                    item,
+                                                                )
+                                                            }
+                                                            className={`flex w-full items-center justify-between gap-1 truncate rounded-[4px] px-1.5 py-1 text-left text-[11px] transition-all ${
+                                                                item.status ===
+                                                                'completed'
+                                                                    ? 'border border-[#1e3a2f] bg-[#141414] text-[#34d399]'
+                                                                    : item.status ===
+                                                                        'cancelled'
+                                                                      ? 'border border-[#3b1c1c] bg-[#141414] text-[#7c7c7c] line-through'
+                                                                      : isConflict
+                                                                        ? 'border border-[#fbbf24] bg-[#3d2f14] text-[#fbbf24]'
+                                                                        : 'border border-[#313131] bg-[#1e1e1e] text-[#ffffff] hover:border-[#6798ff]'
+                                                            }`}
+                                                        >
+                                                            <span className="truncate">
+                                                                <strong className="font-mono">
+                                                                    {formatTimeOnly(
+                                                                        item.start_at,
+                                                                    )}
+                                                                </strong>{' '}
+                                                                {item.job_title ||
+                                                                    item.interview_type}
+                                                            </span>
+                                                            {isConflict && (
+                                                                <span
+                                                                    title="Konflik jadwal!"
+                                                                    className="shrink-0 font-bold text-[#fbbf24]"
+                                                                >
+                                                                    !
+                                                                </span>
+                                                            )}
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
                 )}
@@ -1184,13 +1359,13 @@ export default function InterviewsPage() {
                                                 </div>
 
                                                 {/* Action Buttons */}
-                                                <div className="flex shrink-0 items-center gap-2 pt-2 sm:flex-col sm:items-end sm:pt-0">
+                                                <div className="flex w-full flex-wrap items-center gap-2 pt-3 sm:w-auto sm:shrink-0 sm:flex-col sm:items-end sm:pt-0">
                                                     <Link
                                                         href={`/ai/interview-copilot?application_id=${item.job_application_id}&job_title=${encodeURIComponent(
                                                             item.job_title ||
                                                                 '',
                                                         )}&company=${encodeURIComponent(item.company_name || '')}`}
-                                                        className="flex min-h-[36px] items-center gap-1.5 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-3 text-[12px] font-medium text-[#6798ff] transition-colors hover:bg-[#6798ff]/20"
+                                                        className="flex min-h-[40px] flex-1 items-center justify-center gap-1.5 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-3 text-[12px] font-medium text-[#6798ff] transition-colors hover:bg-[#6798ff]/20 sm:flex-none sm:min-h-[36px]"
                                                     >
                                                         <svg
                                                             width="13"
@@ -1219,7 +1394,7 @@ export default function InterviewsPage() {
                                                                 item,
                                                             )
                                                         }
-                                                        className="flex min-h-[36px] items-center gap-1.5 rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 text-[12px] font-medium text-[#a7a7a7] transition-colors hover:text-[#ffffff]"
+                                                        className="flex min-h-[40px] flex-1 items-center justify-center gap-1.5 rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 text-[12px] font-medium text-[#a7a7a7] transition-colors hover:text-[#ffffff] sm:flex-none sm:min-h-[36px]"
                                                     >
                                                         Kelola & Detail
                                                     </button>

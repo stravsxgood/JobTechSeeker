@@ -60,12 +60,12 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
         <div className="flex min-h-screen flex-col bg-[#0a0a0a] font-sans text-[#ffffff] selection:bg-[#1e1e1e] selection:text-[#6798ff]">
             {/* Top Bar / Header */}
             <header className="sticky top-0 z-40 w-full border-b border-[#313131] bg-[#0a0a0a]/95 backdrop-blur-sm">
-                <div className="mx-auto flex h-20 max-w-[1280px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto flex h-16 sm:h-20 max-w-[1280px] items-center justify-between gap-2.5 sm:gap-4 px-3 sm:px-6 lg:px-8">
                     {/* Brand / Logo */}
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-3 sm:gap-6">
                         <Link
                             href="/dashboard"
-                            className="group flex items-center gap-2.5 rounded-[4px] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                            className="group flex items-center gap-2 sm:gap-2.5 rounded-[4px] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
                         >
                             <div className="flex h-7 w-7 items-center justify-center rounded-[4px] border border-[#313131] bg-[#1e1e1e] text-[#6798ff] transition-colors group-hover:border-[#6798ff]">
                                 <svg
@@ -84,11 +84,11 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                                     <polyline points="2 12 12 17 22 12" />
                                 </svg>
                             </div>
-                            <div className="flex items-baseline gap-2">
-                                <span className="text-[15px] font-semibold tracking-[-0.2px] text-[#ffffff]">
+                            <div className="flex items-baseline gap-1.5 sm:gap-2">
+                                <span className="text-[14px] sm:text-[15px] font-semibold tracking-[-0.2px] text-[#ffffff]">
                                     CareerPilot
                                 </span>
-                                <span className="font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
                                     AI
                                 </span>
                             </div>
@@ -102,7 +102,7 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                     </div>
 
                     {/* Right Header Utilities & Actions */}
-                    <div className="flex items-center gap-2.5 sm:gap-3">
+                    <div className="flex items-center gap-1.5 sm:gap-2.5">
                         {/* Notification Bell Dropdown */}
                         <NotificationDropdown />
 
@@ -114,7 +114,7 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                             action
                         ) : (
                             <Link href="/applications?create=true">
-                                <Button variant="primary" size="md">
+                                <Button variant="primary" size="md" className="min-h-[40px] px-2.5 sm:px-3.5">
                                     <svg
                                         width="14"
                                         height="14"
@@ -147,7 +147,7 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                                     ? 'Tutup navigasi'
                                     : 'Buka navigasi'
                             }
-                            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] border border-[#454545] bg-[#141414] text-[#ffffff] hover:bg-[#1e1e1e] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none lg:hidden"
+                            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] border border-[#454545] bg-[#141414] text-[#ffffff] hover:bg-[#1e1e1e] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none md:hidden"
                         >
                             <svg
                                 width="20"
@@ -177,17 +177,17 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                     </div>
                 </div>
 
-                {/* Sub-navigation bar (Desktop) */}
+                {/* Sub-navigation bar (Tablet & Desktop, with horizontal scrolling for iPad) */}
                 <nav
                     aria-label="Navigasi Utama"
-                    className="hidden border-t border-[#1e1e1e] bg-[#0a0a0a] lg:block"
+                    className="hidden border-t border-[#1e1e1e] bg-[#0a0a0a] md:block"
                 >
                     <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-                        <ul className="flex items-center space-x-1 overflow-x-auto py-1">
+                        <ul className="flex items-center space-x-1 overflow-x-auto py-1 scrollbar-none">
                             {navItems.map((item) => {
                                 const active = isActive(item.href);
                                 return (
-                                    <li key={item.href}>
+                                    <li key={item.href} className="shrink-0">
                                         <Link
                                             href={item.href}
                                             className={`relative inline-flex items-center gap-1.5 rounded-[6px] px-3 py-2 text-[13px] font-medium transition-colors focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none ${
@@ -219,54 +219,61 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
 
                 {/* Mobile Drawer Navigation (Accessible, keyboard navigable) */}
                 {mobileMenuOpen && (
-                    <div
-                        id="mobile-navigation"
-                        className="fixed inset-x-0 top-20 bottom-0 z-50 flex flex-col justify-between overflow-y-auto border-t border-[#313131] bg-[#0a0a0a]/98 p-4 lg:hidden"
-                    >
-                        <nav aria-label="Navigasi Mobile" className="space-y-1">
-                            {navItems.map((item) => {
-                                const active = isActive(item.href);
-                                return (
-                                    <Link
-                                        key={item.href}
-                                        href={item.href}
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className={`flex min-h-[44px] items-center justify-between rounded-[8px] px-4 text-[14px] font-medium transition-colors focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none ${
-                                            active
-                                                ? 'border border-[#313131] bg-[#1e1e1e] text-[#ffffff]'
-                                                : 'text-[#a7a7a7] hover:bg-[#141414] hover:text-[#ffffff]'
-                                        }`}
-                                    >
-                                        <span>{item.name}</span>
-                                        {item.badge && (
-                                            <Badge
-                                                variant={
-                                                    active
-                                                        ? 'accent'
-                                                        : 'default'
-                                                }
-                                                size="sm"
-                                            >
-                                                {item.badge}
-                                            </Badge>
-                                        )}
-                                    </Link>
-                                );
-                            })}
-                        </nav>
-                        <div className="flex items-center justify-between border-t border-[#313131] p-4 font-mono text-[12px] text-[#7c7c7c]">
-                            <span>Timezone: Asia/Jakarta</span>
-                            <span className="text-[#6798ff]">v1.0.0</span>
+                    <>
+                        <div
+                            className="fixed inset-0 top-16 sm:top-20 z-40 bg-[#000000]/80 backdrop-blur-sm md:hidden"
+                            onClick={() => setMobileMenuOpen(false)}
+                            aria-hidden="true"
+                        />
+                        <div
+                            id="mobile-navigation"
+                            className="fixed inset-x-0 top-16 sm:top-20 bottom-0 z-50 flex flex-col justify-between overflow-y-auto border-t border-[#313131] bg-[#0a0a0a]/98 p-4 md:hidden shadow-2xl"
+                        >
+                            <nav aria-label="Navigasi Mobile" className="space-y-1">
+                                {navItems.map((item) => {
+                                    const active = isActive(item.href);
+                                    return (
+                                        <Link
+                                            key={item.href}
+                                            href={item.href}
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className={`flex min-h-[44px] items-center justify-between rounded-[8px] px-4 text-[14px] font-medium transition-colors focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none ${
+                                                active
+                                                    ? 'border border-[#313131] bg-[#1e1e1e] text-[#ffffff]'
+                                                    : 'text-[#a7a7a7] hover:bg-[#141414] hover:text-[#ffffff]'
+                                            }`}
+                                        >
+                                            <span>{item.name}</span>
+                                            {item.badge && (
+                                                <Badge
+                                                    variant={
+                                                        active
+                                                            ? 'accent'
+                                                            : 'default'
+                                                    }
+                                                    size="sm"
+                                                >
+                                                    {item.badge}
+                                                </Badge>
+                                            )}
+                                        </Link>
+                                    );
+                                })}
+                            </nav>
+                            <div className="flex items-center justify-between border-t border-[#313131] p-4 font-mono text-[12px] text-[#7c7c7c]">
+                                <span>Timezone: Asia/Jakarta</span>
+                                <span className="text-[#6798ff]">v1.0.0</span>
+                            </div>
                         </div>
-                    </div>
+                    </>
                 )}
             </header>
 
             {/* Page Header (if title specified) */}
             {title && (
                 <div className="border-b border-[#1e1e1e] bg-[#0a0a0a]">
-                    <div className="mx-auto flex max-w-[1280px] flex-col gap-4 px-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-                        <h1 className="text-[24px] font-semibold tracking-[-0.5px] text-[#ffffff] sm:text-[28px]">
+                    <div className="mx-auto flex max-w-[1280px] flex-col gap-3 px-3 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 sm:py-6">
+                        <h1 className="text-[20px] sm:text-[26px] font-semibold tracking-[-0.4px] text-[#ffffff]">
                             {title}
                         </h1>
                     </div>
@@ -275,15 +282,15 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
 
             {/* Main Canvas with subtle blueprint grid motif */}
             <main className="bg-grid-pattern flex-1">
-                <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-[1280px] px-3 py-5 sm:px-6 sm:py-8 lg:px-8">
                     {children}
                 </div>
             </main>
 
             {/* Footer */}
-            <footer className="border-t border-[#313131] bg-[#0a0a0a] py-6 font-sans text-[12px] text-[#7c7c7c]">
-                <div className="mx-auto flex max-w-[1280px] flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6 lg:px-8">
-                    <div className="flex items-center gap-3">
+            <footer className="border-t border-[#313131] bg-[#0a0a0a] py-5 sm:py-6 font-sans text-[12px] text-[#7c7c7c]">
+                <div className="mx-auto flex max-w-[1280px] flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left sm:gap-4 px-3 sm:px-6 lg:px-8">
+                    <div className="flex items-center gap-2.5 sm:gap-3">
                         <span className="font-medium text-[#a7a7a7]">
                             CareerPilot AI
                         </span>

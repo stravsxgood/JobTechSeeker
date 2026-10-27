@@ -268,7 +268,7 @@ export function ApplicationDetailModal({
                 aria-hidden="true"
             />
 
-            <div className="relative z-10 max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[8px] border border-[#313131] bg-[#141414] p-6 text-[#ffffff] shadow-2xl">
+            <div className="relative z-10 max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[8px] border border-[#313131] bg-[#141414] p-4 text-[#ffffff] shadow-2xl sm:p-6">
                 {/* Header */}
                 <div className="flex items-start justify-between border-b border-[#313131] pb-4">
                     <div>
@@ -327,7 +327,7 @@ export function ApplicationDetailModal({
                         {/* Stagnant Warning Alert */}
                         {isStagnant && (
                             <div className="rounded-[6px] border border-[#f59e0b]/40 bg-[#f59e0b]/10 p-4">
-                                <div className="flex items-start justify-between gap-3">
+                                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                     <div>
                                         <h4 className="text-[13px] font-semibold text-[#f59e0b]">
                                             Lamaran Tidak Ada Kabar Selama 2+
@@ -344,7 +344,7 @@ export function ApplicationDetailModal({
                                                 year: 'numeric',
                                             })}
                                             . Jangan patah semangat, Anda dapat
-                                            meminta rekomendasi alternatif
+                                             meminta rekomendasi alternatif
                                             lowongan serupa dari AI.
                                         </p>
                                     </div>
@@ -352,7 +352,7 @@ export function ApplicationDetailModal({
                                         type="button"
                                         onClick={handleCheckStagnant}
                                         disabled={isCheckingStagnant}
-                                        className="shrink-0 rounded-[6px] border border-[#f59e0b] bg-[#f59e0b]/20 px-3 py-1.5 text-[12px] font-medium text-[#f59e0b] transition-colors hover:bg-[#f59e0b]/30 disabled:opacity-50"
+                                        className="w-full shrink-0 rounded-[6px] border border-[#f59e0b] bg-[#f59e0b]/20 px-3 py-2 text-center text-[12px] font-medium text-[#f59e0b] transition-colors hover:bg-[#f59e0b]/30 disabled:opacity-50 sm:w-auto sm:py-1.5"
                                     >
                                         {isCheckingStagnant
                                             ? 'Menganalisis AI...'
@@ -492,10 +492,10 @@ export function ApplicationDetailModal({
                                     roadmap karier untuk posisi ini.
                                 </p>
                             </div>
-                            <div className="flex shrink-0 items-center gap-2">
+                            <div className="flex w-full shrink-0 items-center gap-2 sm:w-auto">
                                 <a
                                     href={`/ai/interview-copilot?application_id=${data.id}&job_title=${encodeURIComponent(data.job_title)}&company=${encodeURIComponent(data.company_name || data.company?.name || '')}&url=${encodeURIComponent(data.source_url || '')}`}
-                                    className="flex items-center gap-1.5 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-3 py-1.5 text-[12px] font-medium text-[#6798ff] transition-colors hover:bg-[#6798ff]/20"
+                                    className="flex min-h-[40px] w-full items-center justify-center gap-1.5 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-3 py-1.5 text-[12px] font-medium text-[#6798ff] transition-colors hover:bg-[#6798ff]/20 sm:min-h-0 sm:w-auto"
                                 >
                                     <svg
                                         width="13"
@@ -577,7 +577,7 @@ export function ApplicationDetailModal({
                                     <button
                                         type="submit"
                                         disabled={isTransitioning}
-                                        className="rounded-[6px] bg-[#ffffff] px-4 py-1.5 text-[12px] font-medium text-[#0a0a0a] transition-colors hover:bg-[#a7a7a7] disabled:opacity-50"
+                                        className="min-h-[40px] w-full rounded-[6px] bg-[#ffffff] px-4 py-2 text-[12px] font-medium text-[#0a0a0a] transition-colors hover:bg-[#a7a7a7] disabled:opacity-50 sm:min-h-0 sm:w-auto sm:py-1.5"
                                     >
                                         {isTransitioning
                                             ? 'Memproses...'

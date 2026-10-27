@@ -78,7 +78,7 @@ export function AuthModal({
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.96, y: 10 }}
                         transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="relative z-10 w-full max-w-[480px] rounded-[10px] border border-[#313131] bg-[#141414] p-6 text-[#ffffff] shadow-2xl selection:bg-[#1e1e1e] selection:text-[#6798ff] sm:p-7"
+                        className="relative z-10 max-h-[90vh] w-full max-w-[480px] overflow-y-auto rounded-[10px] border border-[#313131] bg-[#141414] p-5 text-[#ffffff] shadow-2xl selection:bg-[#1e1e1e] selection:text-[#6798ff] sm:p-7"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Close button with accessible >= 44px tap target */}
