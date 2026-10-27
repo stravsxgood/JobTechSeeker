@@ -30,14 +30,26 @@ class JobApplicationController extends Controller
         /** @var User $user */
         $user = $request->user();
 
+        $request->validate([
+            'q' => ['nullable', 'string', 'max:100'],
+            'status' => ['nullable'],
+            'active_only' => ['nullable', 'boolean'],
+            'source' => ['nullable', 'string', 'max:100'],
+            'employment_type' => ['nullable', 'string', 'max:50'],
+            'sort' => ['nullable', 'string', 'in:updated_at,created_at,applied_at,job_title,follow_up_at'],
+            'direction' => ['nullable', 'string', 'in:asc,desc,ASC,DESC'],
+            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
+        ]);
+
         $query = $user->jobApplications()->with('company');
 
-        // Search query across job title and company name
-        if ($search = $request->input('q')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('job_title', 'like', "%{$search}%")
-                    ->orWhereHas('company', function ($companyQuery) use ($search) {
-                        $companyQuery->where('name', 'like', "%{$search}%");
+        // Search query across job title and company name (length constrained and wildcard escaped)
+        if ($search = $request->string('q')->trim()->toString()) {
+            $escaped = addcslashes($search, '%_\\');
+            $query->where(function ($q) use ($escaped) {
+                $q->where('job_title', 'like', "%{$escaped}%")
+                    ->orWhereHas('company', function ($companyQuery) use ($escaped) {
+                        $companyQuery->where('name', 'like', "%{$escaped}%");
                     });
             });
         }
@@ -240,8 +252,13 @@ class JobApplicationController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        $companyName = trim((string) $request->input('company_name', ''));
-        $jobTitle = trim((string) $request->input('job_title', ''));
+        $validated = $request->validate([
+            'company_name' => ['nullable', 'string', 'max:255'],
+            'job_title' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $companyName = trim((string) ($validated['company_name'] ?? ''));
+        $jobTitle = trim((string) ($validated['job_title'] ?? ''));
 
         if (empty($companyName) || empty($jobTitle)) {
             return response()->json(['has_duplicate' => false, 'existing_application' => null]);

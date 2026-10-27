@@ -15,7 +15,22 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->trustProxies(at: '*');
+        $trustedProxies = env('TRUSTED_PROXIES');
+
+        if ($trustedProxies === '*') {
+            $middleware->trustProxies(at: '*');
+        } elseif (is_string($trustedProxies) && trim($trustedProxies) !== '') {
+            $middleware->trustProxies(at: array_map('trim', explode(',', $trustedProxies)));
+        } else {
+            $middleware->trustProxies(at: [
+                '127.0.0.1',
+                '::1',
+                '10.0.0.0/8',
+                '172.16.0.0/12',
+                '192.168.0.0/16',
+            ]);
+        }
+
         $middleware->statefulApi();
         $middleware->web(append: [
             HandleInertiaRequests::class,

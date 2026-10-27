@@ -1,0 +1,324 @@
+{
+  "run_id": "jobtechseeker_bf2a",
+  "run_name": "jobtechseeker_bf2a",
+  "start_time": "2026-10-27T12:19:23.368617+00:00",
+  "end_time": null,
+  "status": "running",
+  "auth_mode": "api_key",
+  "targets_info": [
+    {
+      "type": "local_code",
+      "details": {
+        "target_path": "C:\\laragon\\www\\JobTechSeeker",
+        "workspace_subdir": "JobTechSeeker"
+      },
+      "original": "C:\\laragon\\www\\JobTechSeeker"
+    }
+  ],
+  "llm_usage": {
+    "requests": 10,
+    "input_tokens": 373975,
+    "input_tokens_details": [
+      {
+        "cache_write_tokens": 0,
+        "cached_tokens": 118339
+      }
+    ],
+    "output_tokens": 491,
+    "output_tokens_details": [
+      {
+        "reasoning_tokens": 363
+      }
+    ],
+    "total_tokens": 374466,
+    "request_usage_entries": [
+      {
+        "input_tokens": 61948,
+        "output_tokens": 144,
+        "total_tokens": 62092,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 119
+        }
+      },
+      {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      {
+        "input_tokens": 62142,
+        "output_tokens": 104,
+        "total_tokens": 62246,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 59174
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 79
+        }
+      },
+      {
+        "input_tokens": 62296,
+        "output_tokens": 93,
+        "total_tokens": 62389,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 59165
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 77
+        }
+      },
+      {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      {
+        "input_tokens": 62440,
+        "output_tokens": 36,
+        "total_tokens": 62476,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 16
+        }
+      },
+      {
+        "input_tokens": 62523,
+        "output_tokens": 52,
+        "total_tokens": 62575,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 33
+        }
+      },
+      {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      {
+        "input_tokens": 62626,
+        "output_tokens": 62,
+        "total_tokens": 62688,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 39
+        }
+      }
+    ],
+    "cost": 0.067603975,
+    "providers": {},
+    "agents": [
+      {
+        "requests": 10,
+        "input_tokens": 373975,
+        "input_tokens_details": [
+          {
+            "cache_write_tokens": 0,
+            "cached_tokens": 118339
+          }
+        ],
+        "output_tokens": 491,
+        "output_tokens_details": [
+          {
+            "reasoning_tokens": 363
+          }
+        ],
+        "total_tokens": 374466,
+        "request_usage_entries": [
+          {
+            "input_tokens": 61948,
+            "output_tokens": 144,
+            "total_tokens": 62092,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 119
+            }
+          },
+          {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          {
+            "input_tokens": 62142,
+            "output_tokens": 104,
+            "total_tokens": 62246,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 59174
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 79
+            }
+          },
+          {
+            "input_tokens": 62296,
+            "output_tokens": 93,
+            "total_tokens": 62389,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 59165
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 77
+            }
+          },
+          {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          {
+            "input_tokens": 62440,
+            "output_tokens": 36,
+            "total_tokens": 62476,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 16
+            }
+          },
+          {
+            "input_tokens": 62523,
+            "output_tokens": 52,
+            "total_tokens": 62575,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 33
+            }
+          },
+          {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          {
+            "input_tokens": 62626,
+            "output_tokens": 62,
+            "total_tokens": 62688,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 39
+            }
+          }
+        ],
+        "agent_id": "b211d49c",
+        "agent_name": "Root Agent",
+        "model": "gemini/gemini-3.1-flash-lite",
+        "cost": 0.067603975
+      }
+    ]
+  },
+  "scan_mode": "quick",
+  "instruction": "",
+  "user_instruction": null,
+  "non_interactive": true,
+  "local_sources": [
+    {
+      "source_path": "C:\\laragon\\www\\JobTechSeeker",
+      "workspace_subdir": "JobTechSeeker",
+      "protect_metadata": true,
+      "read_only": false
+    }
+  ],
+  "workspace_files": [],
+  "workspace_mount": null,
+  "diff_scope": {
+    "active": false,
+    "mode": "auto"
+  },
+  "scope_mode": "auto",
+  "diff_base": null
+}

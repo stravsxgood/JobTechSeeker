@@ -164,3 +164,37 @@ test('confirming email event validates input payload and prevents 500 error cras
     ])->assertStatus(422)
         ->assertJsonValidationErrors(['status']);
 });
+
+test('job applications index enforces search query length constraint', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    // 1. Search string exceeding 100 characters must fail validation with 422
+    $longQuery = str_repeat('a', 101);
+    $responseTooLong = $this->getJson(route('api.v1.applications.index', ['q' => $longQuery]));
+    $responseTooLong->assertStatus(422)
+        ->assertJsonValidationErrors(['q']);
+
+    // 2. Search string at max boundary (100 characters) is accepted with 200
+    $boundaryQuery = str_repeat('a', 100);
+    $responseBoundary = $this->getJson(route('api.v1.applications.index', ['q' => $boundaryQuery]));
+    $responseBoundary->assertStatus(200);
+
+    // 3. Search string with wildcard characters does not crash and escapes cleanly
+    $wildcardResponse = $this->getJson(route('api.v1.applications.index', ['q' => '%_%']));
+    $wildcardResponse->assertStatus(200);
+});
+
+test('duplicate check endpoint enforces field length constraints', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $tooLongString = str_repeat('b', 256);
+    $response = $this->getJson(route('api.v1.applications.check-duplicate', [
+        'company_name' => $tooLongString,
+        'job_title' => 'Engineer',
+    ]));
+
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['company_name']);
+});

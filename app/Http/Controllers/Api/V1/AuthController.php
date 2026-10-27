@@ -4,16 +4,21 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Auth\DeleteAccountRequest;
+use App\Http\Requests\Api\V1\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Api\V1\Auth\LoginRequest;
 use App\Http\Requests\Api\V1\Auth\RegisterRequest;
+use App\Http\Requests\Api\V1\Auth\ResetPasswordRequest;
 use App\Http\Requests\Api\V1\Auth\UpdateProfileRequest;
 use App\Http\Resources\Api\V1\UserResource;
 use App\Models\CareerPreference;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -78,6 +83,53 @@ class AuthController extends Controller
             'data' => new UserResource($user->load('careerPreference')),
             'token' => $token,
         ], 200);
+    }
+
+    /**
+     * Send password reset link to user's email.
+     */
+    public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
+    {
+        Password::broker()->sendResetLink(
+            $request->only('email')
+        );
+
+        return response()->json([
+            'message' => 'Jika alamat email terdaftar, tautan pemulihan kata sandi telah dikirimkan ke email Anda.',
+        ], 200);
+    }
+
+    /**
+     * Reset user's password using the provided token.
+     *
+     * @throws ValidationException
+     */
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
+    {
+        $status = Password::broker()->reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password): void {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                // Revoke all existing tokens for enhanced security upon password reset
+                $user->tokens()->delete();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return response()->json([
+                'message' => 'Kata sandi berhasil direset. Silakan login kembali dengan kata sandi baru Anda.',
+            ], 200);
+        }
+
+        throw ValidationException::withMessages([
+            'email' => [__($status)],
+        ]);
     }
 
     /**

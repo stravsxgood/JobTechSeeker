@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-27 12:20:09 UTC",
+  "run_id": "jobtechseeker_bf2a",
+  "run_name": "jobtechseeker_bf2a",
+  "scope": {
+    "targets": [
+      {
+        "type": "local_code",
+        "details": {
+          "target_path": "C:\\laragon\\www\\JobTechSeeker",
+          "workspace_subdir": "JobTechSeeker"
+        },
+        "original": "C:\\laragon\\www\\JobTechSeeker"
+      }
+    ],
+    "scan_mode": "quick",
+    "scope_mode": "auto",
+    "diff_scope": {
+      "active": false,
+      "mode": "auto"
+    },
+    "instruction": ""
+  },
+  "summary": {
+    "surfaces_reviewed": 0,
+    "outcomes": {},
+    "findings_filed": 0,
+    "gaps": 1
+  },
+  "machine_observed": {
+    "agents": [
+      {
+        "agent_id": "b211d49c",
+        "agent_name": "Root Agent",
+        "status": "running",
+        "skills": [],
+        "task": "\n\nLocal Codebases: - C:\\laragon\\www\\JobTechSeeker (available at: /workspace/JobTechSeeker; this is the user's real directory, mounted live and writable — .git/.agents/.codex are read-only)",
+        "is_root": true
+      }
+    ],
+    "skills_exercised": [],
+    "findings_filed": 0,
+    "source": "runtime"
+  },
+  "completeness": {
+    "complete": false,
+    "scan_status": "running",
+    "exit_reason": null,
+    "caveats": [
+      "The scan ended with status 'running' rather than completing, so coverage reflects only the work finished before it stopped.",
+      "1 agent(s) did not finish cleanly (Root Agent); any surface they held is under-covered."
+    ]
+  },
+  "entries": [],
+  "gaps": [
+    {
+      "kind": "agent_recorded_no_coverage",
+      "agent_name": "Root Agent",
+      "detail": "Root Agent ran (status: running) without recording any coverage. Whatever it examined is absent from this record."
+    }
+  ]
+}

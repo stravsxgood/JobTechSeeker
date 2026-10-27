@@ -16,6 +16,8 @@ Route::prefix('v1')->group(function () {
     Route::middleware('throttle:10,1')->group(function () {
         Route::post('/register', [AuthController::class, 'register'])->name('api.v1.register');
         Route::post('/login', [AuthController::class, 'login'])->name('api.v1.login');
+        Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('api.v1.password.email');
+        Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('api.v1.password.reset');
     });
 
     // Authenticated user profile routes
