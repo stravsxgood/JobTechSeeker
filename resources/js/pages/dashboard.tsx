@@ -116,11 +116,20 @@ export default function Dashboard() {
                 const analyticsJson = await analyticsRes.json();
                 if (analyticsJson.data?.monthly_trend) {
                     const trend = analyticsJson.data.monthly_trend.map(
-                        (item: { month: string; label: string; count?: number; applications_count?: number }) => ({
+                        (item: {
+                            month: string;
+                            label: string;
+                            count?: number;
+                            applications_count?: number;
+                        }) => ({
                             month: item.month,
                             label: item.label,
-                            count: Number(item.count ?? item.applications_count ?? 0),
-                            applications_count: Number(item.applications_count ?? item.count ?? 0),
+                            count: Number(
+                                item.count ?? item.applications_count ?? 0,
+                            ),
+                            applications_count: Number(
+                                item.applications_count ?? item.count ?? 0,
+                            ),
                         }),
                     );
                     setMonthlyTrend(trend);

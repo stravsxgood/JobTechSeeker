@@ -109,7 +109,7 @@ export function UserDropdown({ onOpen }: UserDropdownProps = {}) {
                 aria-expanded={isOpen}
                 aria-haspopup="true"
                 aria-label={`Menu pengguna ${user.name}`}
-                className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center gap-1.5 sm:gap-2.5 rounded-[8px] border border-transparent p-1 sm:p-1.5 transition-colors hover:border-[#313131] hover:bg-[#141414] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center gap-1.5 rounded-[8px] border border-transparent p-1 transition-colors hover:border-[#313131] hover:bg-[#141414] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none sm:gap-2.5 sm:p-1.5"
             >
                 {/* User Initials Avatar */}
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] font-mono text-[12px] font-semibold text-[#6798ff] sm:h-8.5 sm:w-8.5">
@@ -124,7 +124,7 @@ export function UserDropdown({ onOpen }: UserDropdownProps = {}) {
                     </p>
                 </div>
                 <svg
-                    className={`hidden sm:block h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#7c7c7c] transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                    className={`hidden h-3.5 w-3.5 text-[#7c7c7c] transition-transform sm:block sm:h-4 sm:w-4 ${isOpen ? 'rotate-180' : ''}`}
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -140,7 +140,7 @@ export function UserDropdown({ onOpen }: UserDropdownProps = {}) {
             {/* Profile Dropdown Panel (Dovetail Theme) */}
             {isOpen && (
                 <div
-                    className="fixed inset-x-3 top-[calc(5rem+4px)] z-50 mx-auto max-w-[380px] overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414] text-[#ffffff] shadow-2xl focus:outline-none sm:absolute sm:top-full sm:right-0 sm:inset-auto sm:mt-2.5 sm:w-80 sm:max-w-none sm:mx-0"
+                    className="fixed inset-x-3 top-[calc(5rem+4px)] z-50 mx-auto max-w-[380px] overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414] text-[#ffffff] shadow-2xl focus:outline-none sm:absolute sm:inset-auto sm:top-full sm:right-0 sm:mx-0 sm:mt-2.5 sm:w-80 sm:max-w-none"
                     role="menu"
                     aria-orientation="vertical"
                 >

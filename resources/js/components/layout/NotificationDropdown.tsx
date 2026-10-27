@@ -15,7 +15,9 @@ export interface NotificationDropdownProps {
     onOpen?: () => void;
 }
 
-export function NotificationDropdown({ onOpen }: NotificationDropdownProps = {}) {
+export function NotificationDropdown({
+    onOpen,
+}: NotificationDropdownProps = {}) {
     const [isOpen, setIsOpen] = useState(false);
     const [unreadCount, setUnreadCount] = useState<number>(0);
     const [notifications, setNotifications] = useState<NotificationItem[]>([]);
@@ -260,7 +262,7 @@ export function NotificationDropdown({ onOpen }: NotificationDropdownProps = {})
             {/* Notification Dropdown Panel (Dovetail Theme) */}
             {isOpen && (
                 <div
-                    className="fixed inset-x-3 top-[calc(5rem+4px)] z-50 mx-auto max-w-[420px] overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414] text-[#ffffff] shadow-2xl focus:outline-none sm:absolute sm:top-full sm:right-0 sm:inset-auto sm:mt-2.5 sm:w-96 sm:max-w-none sm:mx-0"
+                    className="fixed inset-x-3 top-[calc(5rem+4px)] z-50 mx-auto max-w-[420px] overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414] text-[#ffffff] shadow-2xl focus:outline-none sm:absolute sm:inset-auto sm:top-full sm:right-0 sm:mx-0 sm:mt-2.5 sm:w-96 sm:max-w-none"
                     role="menu"
                     aria-orientation="vertical"
                 >

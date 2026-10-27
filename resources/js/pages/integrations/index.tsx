@@ -246,7 +246,7 @@ export default function IntegrationsPage() {
                 <Link
                     href="/notifications"
                     aria-label="Buka Pusat Notifikasi"
-                    className="flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded-[8px] border border-[#313131] bg-[#141414] px-2.5 sm:px-3.5 py-2 text-[13px] font-medium text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                    className="flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded-[8px] border border-[#313131] bg-[#141414] px-2.5 py-2 text-[13px] font-medium text-[#a7a7a7] transition-colors hover:border-[#6798ff] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none sm:px-3.5"
                 >
                     <svg
                         width="15"
