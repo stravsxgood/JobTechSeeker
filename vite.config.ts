@@ -52,6 +52,7 @@ export default defineConfig({
             'resources/js/components/ui/*',
             'resources/js/routes/**',
             'resources/js/wayfinder/**',
+            'strix_runs/**',
         ],
         options: {
             denyWarnings: false,
@@ -70,6 +71,7 @@ export default defineConfig({
             'composer.json',
             'resources/js/components/ui/*',
             'resources/views/mail/*',
+            'strix_runs/**',
         ],
         sortTailwindcss: {
             functions: ['clsx', 'cn', 'cva'],
