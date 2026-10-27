@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\V1\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -34,7 +35,12 @@ class UpdateProfileRequest extends FormRequest
             'salary_currency' => ['sometimes', 'nullable', 'string', 'size:3'],
             'weekly_application_target' => ['sometimes', 'nullable', 'integer', 'min:0', 'max:100'],
             'current_password' => ['sometimes', 'required_with:password', 'current_password'],
-            'password' => ['sometimes', 'string', 'min:8', 'confirmed'],
+            'password' => [
+                'sometimes',
+                'string',
+                'confirmed',
+                Password::min(8)->mixedCase()->symbols(),
+            ],
         ];
     }
 }

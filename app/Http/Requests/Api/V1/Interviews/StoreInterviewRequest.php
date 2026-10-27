@@ -23,7 +23,7 @@ class StoreInterviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job_application_id' => ['required', 'string', 'uuid', 'exists:job_applications,id'],
+            'job_application_id' => ['required', 'string', 'uuid'],
             'interview_type' => ['required', 'string', 'max:40'],
             'start_at' => ['required', 'date'],
             'end_at' => ['required', 'date', 'after:start_at'],

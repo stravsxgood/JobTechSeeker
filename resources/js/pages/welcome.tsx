@@ -381,15 +381,15 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
             </Head>
             <div className="min-h-screen bg-[#0a0a0a] font-sans text-[#ffffff] selection:bg-[#1e1e1e] selection:text-[#6798ff]">
                 {/* ===== TOP NAVIGATION BAR (DOVETAIL DESIGN) ===== */}
-                <header className="sticky top-0 z-50 w-full border-b border-[#313131] bg-[#0a0a0a]/95 backdrop-blur-md">
-                    <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between gap-3 px-3 sm:px-6 lg:h-20 lg:px-8">
+                <header className="sticky top-0 z-50 w-full border-b border-[#313131] bg-[#0a0a0a]/95 backdrop-blur-sm">
+                    <div className="mx-auto flex h-20 min-h-[5rem] max-w-[1280px] items-center justify-between gap-3 px-3.5 sm:gap-4 sm:px-6 lg:px-8">
                         {/* Logo & Brand */}
                         <div className="flex shrink-0 items-center gap-4 lg:gap-8">
                             <Link
                                 href="/"
-                                className="group flex shrink-0 items-center gap-2.5 rounded-[6px] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none sm:gap-3"
+                                className="group flex shrink-0 items-center gap-2 rounded-[6px] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none sm:gap-2.5"
                             >
-                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#6798ff] transition-colors group-hover:border-[#6798ff] sm:h-9 sm:w-9 lg:h-10 lg:w-10">
+                                <div className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#6798ff] transition-colors group-hover:border-[#6798ff] md:flex">
                                     <svg
                                         width="18"
                                         height="18"
@@ -406,8 +406,8 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                         <polyline points="2 12 12 17 22 12" />
                                     </svg>
                                 </div>
-                                <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-                                    <span className="text-[17px] font-semibold tracking-[-0.3px] text-[#ffffff] sm:text-[18px]">
+                                <div className="flex items-baseline gap-1.5 sm:gap-2">
+                                    <span className="text-[16px] font-semibold tracking-[-0.3px] whitespace-nowrap text-[#ffffff] sm:text-[17px]">
                                         CareerPilot
                                     </span>
                                     <span className="rounded-[4px] border border-[#313131] bg-[#141414] px-1.5 py-0.5 font-mono text-[10px] font-medium tracking-[1px] text-[#6798ff] uppercase sm:text-[11px]">
@@ -434,23 +434,17 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                         </div>
 
                         {/* Right Utility Actions */}
-                        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-                            <button
-                                type="button"
+                        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
+                            <Button
+                                variant="ghost"
+                                size="md"
                                 onClick={() => handleOpenAuth('login')}
-                                className="hidden h-9 items-center justify-center rounded-[6px] px-3 text-[13px] font-medium text-[#a7a7a7] transition-colors hover:bg-[#1e1e1e] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none md:inline-flex lg:h-10 lg:px-3.5 lg:text-[14px]"
+                                className="hidden min-h-[44px] md:inline-flex"
                             >
                                 Masuk
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleOpenAuth('register')}
-                                className="inline-flex h-9 shrink-0 items-center justify-center rounded-[6px] bg-[#ffffff] px-3 text-[12px] font-medium text-[#0a0a0a] transition-all hover:bg-[#ffffff]/90 focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] focus-visible:outline-none active:scale-[0.98] sm:px-4 sm:text-[13px] lg:h-10 lg:text-[14px]"
-                            >
-                                Daftar Gratis
-                            </button>
+                            </Button>
 
-                            {/* Mobile Hamburger Toggle (Matches exact h-9 on mobile) */}
+                            {/* Mobile Hamburger Toggle (Tap target >= 44px, matching Dashboard AppLayout) */}
                             <button
                                 type="button"
                                 onClick={() =>
@@ -463,11 +457,11 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                         ? 'Tutup navigasi'
                                         : 'Buka navigasi'
                                 }
-                                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[6px] border border-[#313131] bg-[#141414] text-[#ffffff] transition-colors hover:border-[#454545] hover:bg-[#1e1e1e] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none sm:h-10 sm:w-10 lg:hidden"
+                                className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-[8px] border border-[#454545] bg-[#141414] text-[#ffffff] hover:bg-[#1e1e1e] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none lg:hidden"
                             >
                                 <svg
-                                    width="18"
-                                    height="18"
+                                    width="20"
+                                    height="20"
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
@@ -522,7 +516,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                     {mobileMenuOpen && (
                         <>
                             <div
-                                className="fixed inset-0 top-16 z-40 bg-[#000000]/80 backdrop-blur-sm lg:hidden"
+                                className="fixed inset-0 top-20 z-40 bg-[#000000]/80 backdrop-blur-sm lg:hidden"
                                 onClick={() => setMobileMenuOpen(false)}
                                 aria-hidden="true"
                             />

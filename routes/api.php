@@ -37,7 +37,6 @@ Route::prefix('v1')->group(function () {
         Route::patch('/applications/{application}', [JobApplicationController::class, 'update'])->name('api.v1.applications.update');
         Route::delete('/applications/{application}', [JobApplicationController::class, 'destroy'])->name('api.v1.applications.destroy');
         Route::post('/applications/{application}/status', [JobApplicationController::class, 'changeStatus'])->name('api.v1.applications.status');
-        Route::post('/applications/{application}/check-stagnant', [JobApplicationController::class, 'checkStagnant'])->name('api.v1.applications.check-stagnant');
 
         // Interviews CRUD & Calendar
         Route::get('/interviews', [InterviewController::class, 'index'])->name('api.v1.interviews.index');
@@ -58,17 +57,20 @@ Route::prefix('v1')->group(function () {
         Route::get('/email/oauth/google/url', [EmailAccountController::class, 'getAuthUrl'])->name('api.v1.email.oauth.google.url');
         Route::post('/email/oauth/google/callback', [EmailAccountController::class, 'handleCallback'])->name('api.v1.email.oauth.google.callback');
         Route::post('/email/accounts/{id}/disconnect', [EmailAccountController::class, 'disconnect'])->name('api.v1.email.accounts.disconnect');
-        Route::post('/email/accounts/{id}/sync', [EmailAccountController::class, 'sync'])->name('api.v1.email.accounts.sync');
 
         // Email Events & Review Workflow
         Route::get('/email/events', [EmailEventController::class, 'index'])->name('api.v1.email.events.index');
         Route::post('/email/events/simulate', [EmailEventController::class, 'simulate'])->name('api.v1.email.events.simulate');
         Route::post('/email/events/{id}/confirm', [EmailEventController::class, 'confirm'])->name('api.v1.email.events.confirm');
         Route::post('/email/events/{id}/dismiss', [EmailEventController::class, 'dismiss'])->name('api.v1.email.events.dismiss');
-        Route::post('/email/events/{id}/triage', [EmailEventController::class, 'triage'])->name('api.v1.email.events.triage');
 
-        // AI endpoints
-        Route::post('/ai/career-plan', [AiController::class, 'careerPlan'])->name('api.v1.ai.career-plan');
-        Route::post('/ai/interview-preparation', [AiController::class, 'interviewPreparation'])->name('api.v1.ai.interview-preparation');
+        // Rate-limited resource-intensive operations (AI generation and external email sync)
+        Route::middleware('throttle:20,1')->group(function () {
+            Route::post('/applications/{application}/check-stagnant', [JobApplicationController::class, 'checkStagnant'])->name('api.v1.applications.check-stagnant');
+            Route::post('/email/accounts/{id}/sync', [EmailAccountController::class, 'sync'])->name('api.v1.email.accounts.sync');
+            Route::post('/email/events/{id}/triage', [EmailEventController::class, 'triage'])->name('api.v1.email.events.triage');
+            Route::post('/ai/career-plan', [AiController::class, 'careerPlan'])->name('api.v1.ai.career-plan');
+            Route::post('/ai/interview-preparation', [AiController::class, 'interviewPreparation'])->name('api.v1.ai.interview-preparation');
+        });
     });
 });

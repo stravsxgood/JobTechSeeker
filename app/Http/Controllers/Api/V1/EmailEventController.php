@@ -7,6 +7,7 @@ use App\Enums\ApplicationStatus;
 use App\Enums\EmailClassification;
 use App\Enums\EmailProcessingStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\Email\ConfirmEmailEventRequest;
 use App\Http\Resources\Api\V1\EmailEventResource;
 use App\Models\AiGenerationLog;
 use App\Models\EmailEvent;
@@ -61,7 +62,7 @@ class EmailEventController extends Controller
      * Confirm an email event and optionally apply business actions (e.g. create interview or update status).
      */
     public function confirm(
-        Request $request,
+        ConfirmEmailEventRequest $request,
         string $id,
         ApplicationStatusTransitionService $transitionService,
         ReminderService $reminderService
