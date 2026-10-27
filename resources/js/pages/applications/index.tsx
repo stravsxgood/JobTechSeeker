@@ -305,13 +305,13 @@ export default function ApplicationsIndex({
                                 <span>Kanban</span>
                             </button>
                         </div>
-                        <span className="font-mono text-[11px] sm:text-[12px] text-[#7c7c7c]">
+                        <span className="font-mono text-[11px] text-[#7c7c7c] sm:text-[12px]">
                             {meta.total} Lamaran
                         </span>
                     </div>
 
                     {/* Search & Filters */}
-                    <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 sm:gap-2.5">
+                    <div className="flex flex-col flex-wrap items-stretch gap-2 sm:flex-row sm:items-center sm:gap-2.5">
                         {/* Search Input */}
                         <div className="relative min-w-[200px] flex-1 sm:w-64">
                             <input
@@ -345,10 +345,12 @@ export default function ApplicationsIndex({
                                     setSelectedStatus(e.target.value);
                                     setCurrentPage(1);
                                 }}
-                                className="w-full sm:w-auto rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[12px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
+                                className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[12px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none sm:w-auto"
                             >
                                 <option value="all">Semua Status</option>
-                                <option value="applied">Dilamar (Applied)</option>
+                                <option value="applied">
+                                    Dilamar (Applied)
+                                </option>
                                 <option value="saved">Tersimpan (Saved)</option>
                                 <option value="screening">Screening</option>
                                 <option value="assessment">Assessment</option>
@@ -365,7 +367,7 @@ export default function ApplicationsIndex({
                                     setSelectedSource(e.target.value);
                                     setCurrentPage(1);
                                 }}
-                                className="w-full sm:w-auto rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[12px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none"
+                                className="w-full rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 py-2 text-[12px] text-[#ffffff] focus:border-[#6798ff] focus:outline-none sm:w-auto"
                             >
                                 <option value="all">Semua Sumber</option>
                                 <option value="LinkedIn">LinkedIn</option>
@@ -395,7 +397,8 @@ export default function ApplicationsIndex({
                                         Tidak ada lamaran ditemukan
                                     </p>
                                     <p className="mt-1 text-[12px] text-[#7c7c7c]">
-                                        Ubah kata kunci pencarian atau tambah catatan lamaran baru.
+                                        Ubah kata kunci pencarian atau tambah
+                                        catatan lamaran baru.
                                     </p>
                                 </div>
                             ) : (
@@ -409,11 +412,14 @@ export default function ApplicationsIndex({
                                         14;
 
                                     return (
-                                        <div key={app.id} className="p-4 space-y-2.5 transition-colors hover:bg-[#1e1e1e]/40">
+                                        <div
+                                            key={app.id}
+                                            className="space-y-2.5 p-4 transition-colors hover:bg-[#1e1e1e]/40"
+                                        >
                                             <div className="flex items-start justify-between gap-2">
                                                 <div className="min-w-0">
-                                                    <div className="flex items-center gap-1.5 flex-wrap">
-                                                        <h4 className="text-[14px] font-semibold text-[#ffffff] truncate">
+                                                    <div className="flex flex-wrap items-center gap-1.5">
+                                                        <h4 className="truncate text-[14px] font-semibold text-[#ffffff]">
                                                             {app.job_title}
                                                         </h4>
                                                         {isStagnant && (
@@ -425,42 +431,76 @@ export default function ApplicationsIndex({
                                                             </span>
                                                         )}
                                                     </div>
-                                                    <p className="text-[12px] text-[#a7a7a7] mt-0.5">
-                                                        {app.company_name || app.company?.name || 'Perusahaan'}
-                                                        {app.location && ` • ${app.location}`}
+                                                    <p className="mt-0.5 text-[12px] text-[#a7a7a7]">
+                                                        {app.company_name ||
+                                                            app.company?.name ||
+                                                            'Perusahaan'}
+                                                        {app.location &&
+                                                            ` • ${app.location}`}
                                                     </p>
                                                 </div>
                                                 <Badge
-                                                    variant={app.is_active ? 'accent' : 'default'}
+                                                    variant={
+                                                        app.is_active
+                                                            ? 'accent'
+                                                            : 'default'
+                                                    }
                                                     size="sm"
                                                     className="shrink-0"
                                                 >
-                                                    {STATUS_LABELS[app.status] || app.status_label || app.status}
+                                                    {STATUS_LABELS[
+                                                        app.status
+                                                    ] ||
+                                                        app.status_label ||
+                                                        app.status}
                                                 </Badge>
                                             </div>
 
-                                            <div className="flex items-center justify-between font-mono text-[11px] text-[#7c7c7c] pt-1">
-                                                <span>Sumber: <strong className="font-normal text-[#a7a7a7]">{app.source || '-'}</strong></span>
+                                            <div className="flex items-center justify-between pt-1 font-mono text-[11px] text-[#7c7c7c]">
+                                                <span>
+                                                    Sumber:{' '}
+                                                    <strong className="font-normal text-[#a7a7a7]">
+                                                        {app.source || '-'}
+                                                    </strong>
+                                                </span>
                                                 {app.follow_up_at && (
                                                     <span className="text-[#6798ff]">
-                                                        FU: {new Date(app.follow_up_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                                                        FU:{' '}
+                                                        {new Date(
+                                                            app.follow_up_at,
+                                                        ).toLocaleDateString(
+                                                            'id-ID',
+                                                            {
+                                                                day: 'numeric',
+                                                                month: 'short',
+                                                            },
+                                                        )}
                                                     </span>
                                                 )}
                                             </div>
 
-                                            <div className="flex items-center gap-2 pt-1 border-t border-[#1e1e1e]">
+                                            <div className="flex items-center gap-2 border-t border-[#1e1e1e] pt-1">
                                                 <button
                                                     type="button"
-                                                    onClick={() => setSelectedDetailId(app.id)}
-                                                    className="flex-1 min-h-[40px] flex items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] px-3 py-1.5 text-[12px] font-medium text-[#ffffff] transition-colors hover:border-[#6798ff]"
+                                                    onClick={() =>
+                                                        setSelectedDetailId(
+                                                            app.id,
+                                                        )
+                                                    }
+                                                    className="flex min-h-[40px] flex-1 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] px-3 py-1.5 text-[12px] font-medium text-[#ffffff] transition-colors hover:border-[#6798ff]"
                                                 >
                                                     Detail & Ubah Status
                                                 </button>
                                                 <button
                                                     type="button"
-                                                    onClick={() => handleDelete(app.id, app.job_title)}
+                                                    onClick={() =>
+                                                        handleDelete(
+                                                            app.id,
+                                                            app.job_title,
+                                                        )
+                                                    }
                                                     aria-label="Hapus lamaran"
-                                                    className="min-h-[40px] min-w-[40px] flex items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#7c7c7c] transition-colors hover:bg-[#f87171]/10 hover:text-[#f87171]"
+                                                    className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#7c7c7c] transition-colors hover:bg-[#f87171]/10 hover:text-[#f87171]"
                                                 >
                                                     <svg
                                                         width="14"
@@ -482,7 +522,7 @@ export default function ApplicationsIndex({
                         </div>
 
                         {/* Desktop & Tablet Table (Visible md: 768px and up) */}
-                        <div className="hidden md:block overflow-x-auto">
+                        <div className="hidden overflow-x-auto md:block">
                             <table className="w-full text-left text-[13px]">
                                 <thead className="border-b border-[#313131] bg-[#0a0a0a] font-mono text-[11px] text-[#7c7c7c] uppercase">
                                     <tr>
@@ -597,7 +637,7 @@ export default function ApplicationsIndex({
                                                         >
                                                             {STATUS_LABELS[
                                                                 app.status
-                                                             ] ||
+                                                            ] ||
                                                                 app.status_label ||
                                                                 app.status}
                                                         </Badge>
@@ -673,7 +713,8 @@ export default function ApplicationsIndex({
                         {meta.last_page > 1 && (
                             <div className="flex items-center justify-between border-t border-[#313131] bg-[#0a0a0a] px-4 py-3">
                                 <span className="font-mono text-[11px] text-[#7c7c7c]">
-                                    Hal {meta.current_page} dari {meta.last_page} ({meta.total} item)
+                                    Hal {meta.current_page} dari{' '}
+                                    {meta.last_page} ({meta.total} item)
                                 </span>
                                 <div className="flex items-center gap-1.5">
                                     <button
@@ -710,7 +751,7 @@ export default function ApplicationsIndex({
 
                 {/* VIEW 2: KANBAN BOARD VIEW */}
                 {viewMode === 'kanban' && (
-                    <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
+                    <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-4 sm:gap-4">
                         {kanbanColumns.map((col) => {
                             const columnApps = applications.filter((app) =>
                                 col.statuses.includes(app.status),
@@ -719,7 +760,7 @@ export default function ApplicationsIndex({
                             return (
                                 <div
                                     key={col.key}
-                                    className="flex max-h-[75vh] w-[86vw] max-w-[340px] sm:w-80 shrink-0 snap-center sm:snap-align-none flex-col rounded-[8px] border border-[#313131] bg-[#141414] p-3"
+                                    className="flex max-h-[75vh] w-[86vw] max-w-[340px] shrink-0 snap-center flex-col rounded-[8px] border border-[#313131] bg-[#141414] p-3 sm:w-80 sm:snap-align-none"
                                 >
                                     {/* Column Header */}
                                     <div className="mb-3 flex items-center justify-between border-b border-[#313131] pb-2.5">

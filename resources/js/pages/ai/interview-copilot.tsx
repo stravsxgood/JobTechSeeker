@@ -362,7 +362,9 @@ export default function InterviewCopilotPage() {
                         <polyline points="2 17 12 22 22 17"></polyline>
                         <polyline points="2 12 12 17 22 12"></polyline>
                     </svg>
-                    <span className="hidden sm:inline">Buka Career Planner</span>
+                    <span className="hidden sm:inline">
+                        Buka Career Planner
+                    </span>
                     <span className="sm:hidden">Career Planner</span>
                 </Link>
             }
@@ -761,7 +763,7 @@ export default function InterviewCopilotPage() {
                                 </div>
 
                                 {/* Category Tabs */}
-                                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 sm:flex-wrap scrollbar-none">
+                                <div className="flex scrollbar-none items-center gap-1.5 overflow-x-auto pb-1 sm:flex-wrap sm:pb-0">
                                     {[
                                         {
                                             id: 'all',
@@ -790,7 +792,7 @@ export default function InterviewCopilotPage() {
                                             onClick={() =>
                                                 setSelectedCategory(tab.id)
                                             }
-                                            className={`shrink-0 rounded-[4px] px-2.5 py-1.5 sm:py-1 text-[12px] font-medium transition-colors ${
+                                            className={`shrink-0 rounded-[4px] px-2.5 py-1.5 text-[12px] font-medium transition-colors sm:py-1 ${
                                                 selectedCategory === tab.id
                                                     ? 'bg-[#6798ff] font-semibold text-[#0a0a0a]'
                                                     : 'bg-[#1e1e1e] text-[#a7a7a7] hover:text-[#ffffff]'

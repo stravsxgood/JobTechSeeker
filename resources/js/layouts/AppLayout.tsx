@@ -60,12 +60,12 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
         <div className="flex min-h-screen flex-col bg-[#0a0a0a] font-sans text-[#ffffff] selection:bg-[#1e1e1e] selection:text-[#6798ff]">
             {/* Top Bar / Header */}
             <header className="sticky top-0 z-40 w-full border-b border-[#313131] bg-[#0a0a0a]/95 backdrop-blur-sm">
-                <div className="mx-auto flex h-16 sm:h-20 max-w-[1280px] items-center justify-between gap-2.5 sm:gap-4 px-3 sm:px-6 lg:px-8">
+                <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-2.5 px-3 sm:h-20 sm:gap-4 sm:px-6 lg:px-8">
                     {/* Brand / Logo */}
                     <div className="flex items-center gap-3 sm:gap-6">
                         <Link
                             href="/dashboard"
-                            className="group flex items-center gap-2 sm:gap-2.5 rounded-[4px] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                            className="group flex items-center gap-2 rounded-[4px] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none sm:gap-2.5"
                         >
                             <div className="flex h-7 w-7 items-center justify-center rounded-[4px] border border-[#313131] bg-[#1e1e1e] text-[#6798ff] transition-colors group-hover:border-[#6798ff]">
                                 <svg
@@ -85,10 +85,10 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                                 </svg>
                             </div>
                             <div className="flex items-baseline gap-1.5 sm:gap-2">
-                                <span className="text-[14px] sm:text-[15px] font-semibold tracking-[-0.2px] text-[#ffffff]">
+                                <span className="text-[14px] font-semibold tracking-[-0.2px] text-[#ffffff] sm:text-[15px]">
                                     CareerPilot
                                 </span>
-                                <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                <span className="font-mono text-[10px] tracking-[0.85px] text-[#a7a7a7] uppercase sm:text-[11px]">
                                     AI
                                 </span>
                             </div>
@@ -114,7 +114,11 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                             action
                         ) : (
                             <Link href="/applications?create=true">
-                                <Button variant="primary" size="md" className="min-h-[40px] px-2.5 sm:px-3.5">
+                                <Button
+                                    variant="primary"
+                                    size="md"
+                                    className="min-h-[40px] px-2.5 sm:px-3.5"
+                                >
                                     <svg
                                         width="14"
                                         height="14"
@@ -183,7 +187,7 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                     className="hidden border-t border-[#1e1e1e] bg-[#0a0a0a] md:block"
                 >
                     <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-                        <ul className="flex items-center space-x-1 overflow-x-auto py-1 scrollbar-none">
+                        <ul className="flex scrollbar-none items-center space-x-1 overflow-x-auto py-1">
                             {navItems.map((item) => {
                                 const active = isActive(item.href);
                                 return (
@@ -221,22 +225,27 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
                 {mobileMenuOpen && (
                     <>
                         <div
-                            className="fixed inset-0 top-16 sm:top-20 z-40 bg-[#000000]/80 backdrop-blur-sm md:hidden"
+                            className="fixed inset-0 top-16 z-40 bg-[#000000]/80 backdrop-blur-sm sm:top-20 md:hidden"
                             onClick={() => setMobileMenuOpen(false)}
                             aria-hidden="true"
                         />
                         <div
                             id="mobile-navigation"
-                            className="fixed inset-x-0 top-16 sm:top-20 bottom-0 z-50 flex flex-col justify-between overflow-y-auto border-t border-[#313131] bg-[#0a0a0a]/98 p-4 md:hidden shadow-2xl"
+                            className="fixed inset-x-0 top-16 bottom-0 z-50 flex flex-col justify-between overflow-y-auto border-t border-[#313131] bg-[#0a0a0a]/98 p-4 shadow-2xl sm:top-20 md:hidden"
                         >
-                            <nav aria-label="Navigasi Mobile" className="space-y-1">
+                            <nav
+                                aria-label="Navigasi Mobile"
+                                className="space-y-1"
+                            >
                                 {navItems.map((item) => {
                                     const active = isActive(item.href);
                                     return (
                                         <Link
                                             key={item.href}
                                             href={item.href}
-                                            onClick={() => setMobileMenuOpen(false)}
+                                            onClick={() =>
+                                                setMobileMenuOpen(false)
+                                            }
                                             className={`flex min-h-[44px] items-center justify-between rounded-[8px] px-4 text-[14px] font-medium transition-colors focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none ${
                                                 active
                                                     ? 'border border-[#313131] bg-[#1e1e1e] text-[#ffffff]'
@@ -272,8 +281,8 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
             {/* Page Header (if title specified) */}
             {title && (
                 <div className="border-b border-[#1e1e1e] bg-[#0a0a0a]">
-                    <div className="mx-auto flex max-w-[1280px] flex-col gap-3 px-3 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 sm:py-6">
-                        <h1 className="text-[20px] sm:text-[26px] font-semibold tracking-[-0.4px] text-[#ffffff]">
+                    <div className="mx-auto flex max-w-[1280px] flex-col gap-3 px-3 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-6 lg:px-8">
+                        <h1 className="text-[20px] font-semibold tracking-[-0.4px] text-[#ffffff] sm:text-[26px]">
                             {title}
                         </h1>
                     </div>
@@ -288,8 +297,8 @@ export function AppLayout({ children, title, action }: AppLayoutProps) {
             </main>
 
             {/* Footer */}
-            <footer className="border-t border-[#313131] bg-[#0a0a0a] py-5 sm:py-6 font-sans text-[12px] text-[#7c7c7c]">
-                <div className="mx-auto flex max-w-[1280px] flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left sm:gap-4 px-3 sm:px-6 lg:px-8">
+            <footer className="border-t border-[#313131] bg-[#0a0a0a] py-5 font-sans text-[12px] text-[#7c7c7c] sm:py-6">
+                <div className="mx-auto flex max-w-[1280px] flex-col items-center justify-between gap-3 px-3 text-center sm:flex-row sm:gap-4 sm:px-6 sm:text-left lg:px-8">
                     <div className="flex items-center gap-2.5 sm:gap-3">
                         <span className="font-medium text-[#a7a7a7]">
                             CareerPilot AI

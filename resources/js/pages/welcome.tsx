@@ -382,14 +382,14 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
             <div className="min-h-screen bg-[#0a0a0a] font-sans text-[#ffffff] selection:bg-[#1e1e1e] selection:text-[#6798ff]">
                 {/* ===== TOP NAVIGATION BAR (DOVETAIL DESIGN) ===== */}
                 <header className="sticky top-0 z-50 w-full border-b border-[#313131] bg-[#0a0a0a]/95 backdrop-blur-md">
-                    <div className="mx-auto flex h-16 sm:h-20 max-w-[1240px] items-center justify-between gap-2.5 sm:gap-4 px-3 sm:px-6 lg:px-8">
+                    <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between gap-2.5 px-3 sm:h-20 sm:gap-4 sm:px-6 lg:px-8">
                         {/* Logo & Brand */}
                         <div className="flex items-center gap-4 sm:gap-6 lg:gap-10">
                             <Link
                                 href="/"
-                                className="group flex items-center gap-2.5 sm:gap-3 rounded-[6px] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
+                                className="group flex items-center gap-2.5 rounded-[6px] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none sm:gap-3"
                             >
-                                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#6798ff] transition-colors group-hover:border-[#6798ff]">
+                                <div className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-[#313131] bg-[#1e1e1e] text-[#6798ff] transition-colors group-hover:border-[#6798ff] sm:h-10 sm:w-10">
                                     <svg
                                         width="18"
                                         height="18"
@@ -407,10 +407,10 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                     </svg>
                                 </div>
                                 <div className="flex items-center gap-1.5 sm:gap-2">
-                                    <span className="text-[16px] sm:text-[18px] font-semibold tracking-[-0.3px] text-[#ffffff]">
+                                    <span className="text-[16px] font-semibold tracking-[-0.3px] text-[#ffffff] sm:text-[18px]">
                                         CareerPilot
                                     </span>
-                                    <span className="rounded-[4px] border border-[#313131] bg-[#141414] px-1.5 py-0.5 font-mono text-[10px] sm:text-[11px] font-medium tracking-[1px] text-[#6798ff] uppercase">
+                                    <span className="rounded-[4px] border border-[#313131] bg-[#141414] px-1.5 py-0.5 font-mono text-[10px] font-medium tracking-[1px] text-[#6798ff] uppercase sm:text-[11px]">
                                         AI
                                     </span>
                                 </div>
@@ -438,7 +438,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                             <Button
                                 variant="ghost"
                                 size="md"
-                                className="hidden sm:inline-flex min-h-[40px]"
+                                className="hidden min-h-[40px] sm:inline-flex"
                                 onClick={() => handleOpenAuth('login')}
                             >
                                 Masuk
@@ -446,7 +446,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                             <Button
                                 variant="primary"
                                 size="md"
-                                className="min-h-[40px] px-3 sm:px-4 text-[13px] sm:text-[14px]"
+                                className="min-h-[40px] px-3 text-[13px] sm:px-4 sm:text-[14px]"
                                 onClick={() => handleOpenAuth('register')}
                             >
                                 Daftar Gratis
@@ -524,13 +524,13 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                     {mobileMenuOpen && (
                         <>
                             <div
-                                className="fixed inset-0 top-16 sm:top-20 z-40 bg-[#000000]/80 backdrop-blur-sm md:hidden"
+                                className="fixed inset-0 top-16 z-40 bg-[#000000]/80 backdrop-blur-sm sm:top-20 md:hidden"
                                 onClick={() => setMobileMenuOpen(false)}
                                 aria-hidden="true"
                             />
                             <div
                                 id="landing-mobile-menu"
-                                className="relative z-50 border-t border-[#313131] bg-[#0a0a0a]/98 px-4 py-4 md:hidden shadow-2xl"
+                                className="relative z-50 border-t border-[#313131] bg-[#0a0a0a]/98 px-4 py-4 shadow-2xl md:hidden"
                             >
                                 <nav
                                     aria-label="Navigasi Mobile Landing"
@@ -540,7 +540,9 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                         <a
                                             key={link.name}
                                             href={link.href}
-                                            onClick={() => setMobileMenuOpen(false)}
+                                            onClick={() =>
+                                                setMobileMenuOpen(false)
+                                            }
                                             className="flex min-h-[44px] items-center rounded-[8px] px-3.5 text-[15px] font-medium text-[#a7a7a7] transition-colors hover:bg-[#141414] hover:text-[#ffffff] focus-visible:ring-2 focus-visible:ring-[#6798ff] focus-visible:outline-none"
                                         >
                                             {link.name}
@@ -551,7 +553,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                     <Button
                                         variant="ghost"
                                         size="md"
-                                        className="w-full justify-center min-h-[44px]"
+                                        className="min-h-[44px] w-full justify-center"
                                         onClick={() => {
                                             setMobileMenuOpen(false);
                                             handleOpenAuth('login');
@@ -562,7 +564,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                     <Button
                                         variant="primary"
                                         size="md"
-                                        className="w-full justify-center min-h-[44px]"
+                                        className="min-h-[44px] w-full justify-center"
                                         onClick={() => {
                                             setMobileMenuOpen(false);
                                             handleOpenAuth('register');
@@ -593,20 +595,20 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                         <div className="relative mx-auto max-w-[1200px] px-3 pt-12 pb-14 sm:px-6 sm:pt-20 sm:pb-20 lg:px-8">
                             {/* Hero Header & Value Proposition */}
                             <div className="mx-auto max-w-3xl text-center">
-                                <p className="mb-3 sm:mb-4 font-mono text-[11px] sm:text-[12px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                                <p className="mb-3 font-mono text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase sm:mb-4 sm:text-[12px]">
                                     PERSONAL JOB-SEARCH MANAGEMENT
                                 </p>
                                 <h1 className="text-[30px] leading-[1.2] font-semibold tracking-[-0.6px] text-[#ffffff] sm:text-[50px] sm:leading-[1.12] sm:tracking-[-1.8px] lg:text-[60px] lg:tracking-[-2.2px]">
                                     Kendalikan pencarian kerja Anda dari satu
                                     tempat
                                 </h1>
-                                <p className="mt-4 sm:mt-5 text-[14px] leading-[1.6] tracking-[-0.17px] text-[#a7a7a7] sm:text-[18px] sm:leading-[1.5] sm:tracking-[-0.3px]">
+                                <p className="mt-4 text-[14px] leading-[1.6] tracking-[-0.17px] text-[#a7a7a7] sm:mt-5 sm:text-[18px] sm:leading-[1.5] sm:tracking-[-0.3px]">
                                     Catat lamaran, jadwalkan interview, terima
                                     triase email rekrutmen, dan persiapkan diri
                                     dengan AI. Semua data milik Anda, semua
                                     keputusan di tangan Anda.
                                 </p>
-                                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full max-w-xs sm:max-w-none mx-auto">
+                                <div className="mx-auto mt-6 flex w-full max-w-xs flex-col items-stretch justify-center gap-3 sm:mt-8 sm:max-w-none sm:flex-row sm:items-center">
                                     <Button
                                         variant="primary"
                                         size="lg"
@@ -617,8 +619,15 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                     >
                                         Mulai Kelola Karier
                                     </Button>
-                                    <a href="#fitur" className="w-full sm:w-auto">
-                                        <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+                                    <a
+                                        href="#fitur"
+                                        className="w-full sm:w-auto"
+                                    >
+                                        <Button
+                                            variant="secondary"
+                                            size="lg"
+                                            className="w-full sm:w-auto"
+                                        >
                                             Lihat Fitur Lengkap
                                         </Button>
                                     </a>
@@ -1276,7 +1285,7 @@ export default function Welcome({ initialAuthModal }: WelcomeProps = {}) {
                                     Daftar gratis, tidak perlu kartu kredit.
                                     Semua fitur inti dapat langsung digunakan.
                                 </p>
-                                <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full max-w-xs sm:max-w-none mx-auto">
+                                <div className="mx-auto mt-8 flex w-full max-w-xs flex-col items-stretch justify-center gap-3 sm:max-w-none sm:flex-row sm:items-center">
                                     <Button
                                         variant="primary"
                                         size="lg"

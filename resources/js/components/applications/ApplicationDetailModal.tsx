@@ -344,7 +344,7 @@ export function ApplicationDetailModal({
                                                 year: 'numeric',
                                             })}
                                             . Jangan patah semangat, Anda dapat
-                                             meminta rekomendasi alternatif
+                                            meminta rekomendasi alternatif
                                             lowongan serupa dari AI.
                                         </p>
                                     </div>

@@ -118,7 +118,9 @@ export default function AnalyticsPage() {
                             <path d="M1 20v-6h6"></path>
                             <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
                         </svg>
-                        <span className="hidden sm:inline">Segarkan Analitik</span>
+                        <span className="hidden sm:inline">
+                            Segarkan Analitik
+                        </span>
                         <span className="sm:hidden">Segarkan</span>
                     </Button>
                 </div>
@@ -155,7 +157,7 @@ export default function AnalyticsPage() {
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
                     {/* Response Rate */}
                     <div className="space-y-1 rounded-[8px] border border-[#313131] bg-[#141414] p-3.5 sm:p-5">
-                        <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.85px] text-[#a7a7a7] uppercase">
+                        <span className="font-mono text-[10px] tracking-[0.85px] text-[#a7a7a7] uppercase sm:text-[11px]">
                             RASIO RESPONS
                         </span>
                         <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
@@ -164,11 +166,11 @@ export default function AnalyticsPage() {
                                     ? `${summary.response_rate_percentage}%`
                                     : '...'}
                             </span>
-                            <span className="text-[11px] sm:text-[12px] font-medium text-[#34d399]">
+                            <span className="text-[11px] font-medium text-[#34d399] sm:text-[12px]">
                                 Lolos Berkas
                             </span>
                         </div>
-                        <p className="pt-1 text-[10px] sm:text-[11px] leading-snug text-[#7c7c7c]">
+                        <p className="pt-1 text-[10px] leading-snug text-[#7c7c7c] sm:text-[11px]">
                             Lamaran yang mendapat tanggapan lanjut dari
                             perusahaan.
                         </p>
@@ -176,7 +178,7 @@ export default function AnalyticsPage() {
 
                     {/* Interview Conversion Rate */}
                     <div className="space-y-1 rounded-[8px] border border-[#313131] bg-[#141414] p-3.5 sm:p-5">
-                        <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.85px] text-[#6798ff] uppercase">
+                        <span className="font-mono text-[10px] tracking-[0.85px] text-[#6798ff] uppercase sm:text-[11px]">
                             KONVERSI WAWANCARA
                         </span>
                         <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
@@ -185,11 +187,11 @@ export default function AnalyticsPage() {
                                     ? `${summary.interview_conversion_rate_percentage}%`
                                     : '...'}
                             </span>
-                            <span className="text-[11px] sm:text-[12px] text-[#a7a7a7]">
+                            <span className="text-[11px] text-[#a7a7a7] sm:text-[12px]">
                                 dari total dilamar
                             </span>
                         </div>
-                        <p className="pt-1 text-[10px] sm:text-[11px] leading-snug text-[#7c7c7c]">
+                        <p className="pt-1 text-[10px] leading-snug text-[#7c7c7c] sm:text-[11px]">
                             Persentase lamaran yang berhasil mencapai sesi
                             interview.
                         </p>
@@ -197,7 +199,7 @@ export default function AnalyticsPage() {
 
                     {/* Offer Rate */}
                     <div className="space-y-1 rounded-[8px] border border-[#313131] bg-[#141414] p-3.5 sm:p-5">
-                        <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.85px] text-[#34d399] uppercase">
+                        <span className="font-mono text-[10px] tracking-[0.85px] text-[#34d399] uppercase sm:text-[11px]">
                             RASIO TAWARAN (OFFER)
                         </span>
                         <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
@@ -206,18 +208,18 @@ export default function AnalyticsPage() {
                                     ? `${summary.offer_rate_percentage}%`
                                     : '...'}
                             </span>
-                            <span className="text-[11px] sm:text-[12px] font-medium text-[#ffffff]">
+                            <span className="text-[11px] font-medium text-[#ffffff] sm:text-[12px]">
                                 ({summary?.total_offers || 0} Tawaran)
                             </span>
                         </div>
-                        <p className="pt-1 text-[10px] sm:text-[11px] leading-snug text-[#7c7c7c]">
+                        <p className="pt-1 text-[10px] leading-snug text-[#7c7c7c] sm:text-[11px]">
                             Penawaran kerja resmi (job offer) yang diterima.
                         </p>
                     </div>
 
                     {/* Average Days in Pipeline */}
                     <div className="space-y-1 rounded-[8px] border border-[#313131] bg-[#141414] p-3.5 sm:p-5">
-                        <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.85px] text-[#fbbf24] uppercase">
+                        <span className="font-mono text-[10px] tracking-[0.85px] text-[#fbbf24] uppercase sm:text-[11px]">
                             RATA-RATA HARI PIPELINE
                         </span>
                         <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
@@ -226,11 +228,11 @@ export default function AnalyticsPage() {
                                     ? summary.average_days_in_pipeline
                                     : '...'}
                             </span>
-                            <span className="text-[11px] sm:text-[12px] text-[#7c7c7c]">
+                            <span className="text-[11px] text-[#7c7c7c] sm:text-[12px]">
                                 Hari / Lamaran
                             </span>
                         </div>
-                        <p className="pt-1 text-[10px] sm:text-[11px] leading-snug text-[#7c7c7c]">
+                        <p className="pt-1 text-[10px] leading-snug text-[#7c7c7c] sm:text-[11px]">
                             Rata-rata durasi lamaran aktif sejak awal
                             didaftarkan.
                         </p>
@@ -466,7 +468,7 @@ export default function AnalyticsPage() {
 
                         {data?.monthly_trend &&
                         data.monthly_trend.length > 0 ? (
-                            <div className="flex h-48 items-end justify-between gap-1.5 sm:gap-3 pt-6 pb-2">
+                            <div className="flex h-48 items-end justify-between gap-1.5 pt-6 pb-2 sm:gap-3">
                                 {data.monthly_trend.map((item, idx) => {
                                     const heightPct = Math.max(
                                         Math.round(
@@ -482,7 +484,7 @@ export default function AnalyticsPage() {
                                             key={idx}
                                             className="group flex h-full flex-1 flex-col items-center justify-end gap-1.5 sm:gap-2"
                                         >
-                                            <span className="font-mono text-[10px] sm:text-[11px] font-semibold text-[#6798ff] transition-transform group-hover:scale-110">
+                                            <span className="font-mono text-[10px] font-semibold text-[#6798ff] transition-transform group-hover:scale-110 sm:text-[11px]">
                                                 {item.applications_count}
                                             </span>
                                             <div
@@ -491,7 +493,7 @@ export default function AnalyticsPage() {
                                                     height: `${heightPct}%`,
                                                 }}
                                             ></div>
-                                            <span className="w-full truncate text-center font-mono text-[9px] sm:text-[11px] text-[#7c7c7c]">
+                                            <span className="w-full truncate text-center font-mono text-[9px] text-[#7c7c7c] sm:text-[11px]">
                                                 {item.label.split(' ')[0]}
                                             </span>
                                         </div>

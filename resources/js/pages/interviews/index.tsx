@@ -53,8 +53,9 @@ export default function InterviewsPage() {
     const [_isLoading, setIsLoading] = useState(false);
     const [selectedStatusFilter, setSelectedStatusFilter] =
         useState<string>('all');
-    const [selectedCalendarDate, setSelectedCalendarDate] =
-        useState<Date>(new Date());
+    const [selectedCalendarDate, setSelectedCalendarDate] = useState<Date>(
+        new Date(),
+    );
 
     const isSameDay = (d1: Date, d2: Date) => {
         return (
@@ -601,7 +602,9 @@ export default function InterviewsPage() {
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
-                        <span className="hidden sm:inline">Jadwalkan Wawancara</span>
+                        <span className="hidden sm:inline">
+                            Jadwalkan Wawancara
+                        </span>
                         <span className="sm:hidden">Jadwalkan</span>
                     </Button>
                 </div>
@@ -853,7 +856,7 @@ export default function InterviewsPage() {
                 {viewMode === 'calendar' && (
                     <div className="space-y-4">
                         {/* Mobile Calendar Grid (Compact + Day Agenda View) */}
-                        <div className="md:hidden space-y-4">
+                        <div className="space-y-4 md:hidden">
                             <div className="overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414]">
                                 <div className="grid grid-cols-7 border-b border-[#313131] bg-[#1e1e1e] text-center font-mono text-[10px] font-semibold text-[#a7a7a7]">
                                     <div className="py-2">SEN</div>
@@ -861,24 +864,38 @@ export default function InterviewsPage() {
                                     <div className="py-2">RAB</div>
                                     <div className="py-2">KAM</div>
                                     <div className="py-2">JUM</div>
-                                    <div className="py-2 text-[#6798ff]">SAB</div>
-                                    <div className="py-2 text-[#f87171]">MIN</div>
+                                    <div className="py-2 text-[#6798ff]">
+                                        SAB
+                                    </div>
+                                    <div className="py-2 text-[#f87171]">
+                                        MIN
+                                    </div>
                                 </div>
 
                                 <div className="grid auto-rows-fr grid-cols-7 divide-x divide-y divide-[#313131]">
                                     {calendarDays.map((cell, idx) => {
-                                        const dayInterviews = getInterviewsForDate(cell.date);
-                                        const isSelected = isSameDay(cell.date, selectedCalendarDate);
-                                        const hasConflict = dayInterviews.some(hasConflictWithOtherInterviews);
+                                        const dayInterviews =
+                                            getInterviewsForDate(cell.date);
+                                        const isSelected = isSameDay(
+                                            cell.date,
+                                            selectedCalendarDate,
+                                        );
+                                        const hasConflict = dayInterviews.some(
+                                            hasConflictWithOtherInterviews,
+                                        );
 
                                         return (
                                             <button
                                                 key={idx}
                                                 type="button"
-                                                onClick={() => setSelectedCalendarDate(cell.date)}
-                                                className={`relative flex min-h-[56px] flex-col items-center justify-between p-1.5 transition-colors text-left ${
+                                                onClick={() =>
+                                                    setSelectedCalendarDate(
+                                                        cell.date,
+                                                    )
+                                                }
+                                                className={`relative flex min-h-[56px] flex-col items-center justify-between p-1.5 text-left transition-colors ${
                                                     isSelected
-                                                        ? 'bg-[#1e1e1e] ring-2 ring-inset ring-[#6798ff]'
+                                                        ? 'bg-[#1e1e1e] ring-2 ring-[#6798ff] ring-inset'
                                                         : cell.isCurrentMonth
                                                           ? 'bg-[#141414] active:bg-[#1e1e1e]'
                                                           : 'bg-[#0e0e0e] text-[#555555]'
@@ -900,21 +917,27 @@ export default function InterviewsPage() {
 
                                                 {/* Mini dots indicator */}
                                                 <div className="mt-1 flex min-h-[6px] items-center justify-center gap-1">
-                                                    {dayInterviews.slice(0, 3).map((item, dotIdx) => (
-                                                        <span
-                                                            key={dotIdx}
-                                                            className={`h-1.5 w-1.5 rounded-full ${
-                                                                hasConflict
-                                                                    ? 'bg-[#fbbf24]'
-                                                                    : item.status === 'completed'
-                                                                      ? 'bg-[#34d399]'
-                                                                      : 'bg-[#6798ff]'
-                                                            }`}
-                                                        />
-                                                    ))}
-                                                    {dayInterviews.length > 3 && (
+                                                    {dayInterviews
+                                                        .slice(0, 3)
+                                                        .map((item, dotIdx) => (
+                                                            <span
+                                                                key={dotIdx}
+                                                                className={`h-1.5 w-1.5 rounded-full ${
+                                                                    hasConflict
+                                                                        ? 'bg-[#fbbf24]'
+                                                                        : item.status ===
+                                                                            'completed'
+                                                                          ? 'bg-[#34d399]'
+                                                                          : 'bg-[#6798ff]'
+                                                                }`}
+                                                            />
+                                                        ))}
+                                                    {dayInterviews.length >
+                                                        3 && (
                                                         <span className="font-mono text-[8px] text-[#6798ff]">
-                                                            +{dayInterviews.length - 3}
+                                                            +
+                                                            {dayInterviews.length -
+                                                                3}
                                                         </span>
                                                     )}
                                                 </div>
@@ -932,12 +955,18 @@ export default function InterviewsPage() {
                                             AGENDA HARIAN
                                         </span>
                                         <h4 className="text-[14px] font-semibold text-[#ffffff]">
-                                            {formatDateFull(selectedCalendarDate.toISOString())}
+                                            {formatDateFull(
+                                                selectedCalendarDate.toISOString(),
+                                            )}
                                         </h4>
                                     </div>
                                     <button
                                         type="button"
-                                        onClick={() => handleOpenCreateForDate(selectedCalendarDate)}
+                                        onClick={() =>
+                                            handleOpenCreateForDate(
+                                                selectedCalendarDate,
+                                            )
+                                        }
                                         className="flex min-h-[36px] items-center gap-1 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-2.5 text-[11px] font-medium text-[#6798ff] active:bg-[#6798ff]/20"
                                     >
                                         + Tambah
@@ -945,9 +974,15 @@ export default function InterviewsPage() {
                                 </div>
 
                                 <div className="mt-3 space-y-2.5">
-                                    {getInterviewsForDate(selectedCalendarDate).length > 0 ? (
-                                        getInterviewsForDate(selectedCalendarDate).map((item) => {
-                                            const isConflict = hasConflictWithOtherInterviews(item);
+                                    {getInterviewsForDate(selectedCalendarDate)
+                                        .length > 0 ? (
+                                        getInterviewsForDate(
+                                            selectedCalendarDate,
+                                        ).map((item) => {
+                                            const isConflict =
+                                                hasConflictWithOtherInterviews(
+                                                    item,
+                                                );
                                             return (
                                                 <div
                                                     key={item.id}
@@ -960,9 +995,11 @@ export default function InterviewsPage() {
                                                     <div className="flex items-center justify-between gap-2">
                                                         <Badge
                                                             variant={
-                                                                item.status === 'completed'
+                                                                item.status ===
+                                                                'completed'
                                                                     ? 'success'
-                                                                    : item.status === 'cancelled'
+                                                                    : item.status ===
+                                                                        'cancelled'
                                                                       ? 'danger'
                                                                       : 'accent'
                                                             }
@@ -971,21 +1008,31 @@ export default function InterviewsPage() {
                                                             {item.status_label}
                                                         </Badge>
                                                         <span className="font-mono text-[11px] text-[#6798ff]">
-                                                            {formatTimeOnly(item.start_at)} - {formatTimeOnly(item.end_at)}
+                                                            {formatTimeOnly(
+                                                                item.start_at,
+                                                            )}{' '}
+                                                            -{' '}
+                                                            {formatTimeOnly(
+                                                                item.end_at,
+                                                            )}
                                                         </span>
                                                     </div>
 
                                                     <h5 className="mt-2 text-[14px] font-semibold text-[#ffffff]">
-                                                        {item.job_title || item.interview_type}
+                                                        {item.job_title ||
+                                                            item.interview_type}
                                                     </h5>
                                                     <p className="text-[12px] text-[#a7a7a7]">
-                                                        {item.company_name || 'Perusahaan'}
+                                                        {item.company_name ||
+                                                            'Perusahaan'}
                                                     </p>
 
-                                                    <div className="mt-3 flex flex-wrap items-center gap-2 pt-2 border-t border-[#313131]">
+                                                    <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-[#313131] pt-2">
                                                         {item.meeting_url && (
                                                             <a
-                                                                href={item.meeting_url}
+                                                                href={
+                                                                    item.meeting_url
+                                                                }
                                                                 target="_blank"
                                                                 rel="noreferrer"
                                                                 className="inline-flex min-h-[36px] items-center gap-1.5 rounded-[4px] border border-[#34d399]/40 bg-[#34d399]/10 px-2.5 text-[11px] font-medium text-[#34d399]"
@@ -995,7 +1042,11 @@ export default function InterviewsPage() {
                                                         )}
                                                         <button
                                                             type="button"
-                                                            onClick={() => setSelectedDetailInterview(item)}
+                                                            onClick={() =>
+                                                                setSelectedDetailInterview(
+                                                                    item,
+                                                                )
+                                                            }
                                                             className="inline-flex min-h-[36px] flex-1 items-center justify-center rounded-[4px] border border-[#313131] bg-[#0a0a0a] px-2.5 text-[11px] font-medium text-[#ffffff]"
                                                         >
                                                             Kelola & Detail
@@ -1006,7 +1057,8 @@ export default function InterviewsPage() {
                                         })
                                     ) : (
                                         <div className="py-6 text-center text-[12px] text-[#7c7c7c]">
-                                            Tidak ada jadwal wawancara pada tanggal ini.
+                                            Tidak ada jadwal wawancara pada
+                                            tanggal ini.
                                         </div>
                                     )}
                                 </div>
@@ -1014,7 +1066,7 @@ export default function InterviewsPage() {
                         </div>
 
                         {/* Tablet & Desktop Calendar Grid */}
-                        <div className="hidden md:block overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414]">
+                        <div className="hidden overflow-hidden rounded-[8px] border border-[#313131] bg-[#141414] md:block">
                             {/* Days of week header */}
                             <div className="grid grid-cols-7 border-b border-[#313131] bg-[#1e1e1e] text-center font-mono text-[11px] font-semibold text-[#a7a7a7]">
                                 <div className="py-2.5">SEN</div>
@@ -1365,7 +1417,7 @@ export default function InterviewsPage() {
                                                             item.job_title ||
                                                                 '',
                                                         )}&company=${encodeURIComponent(item.company_name || '')}`}
-                                                        className="flex min-h-[40px] flex-1 items-center justify-center gap-1.5 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-3 text-[12px] font-medium text-[#6798ff] transition-colors hover:bg-[#6798ff]/20 sm:flex-none sm:min-h-[36px]"
+                                                        className="flex min-h-[40px] flex-1 items-center justify-center gap-1.5 rounded-[6px] border border-[#6798ff] bg-[#6798ff]/10 px-3 text-[12px] font-medium text-[#6798ff] transition-colors hover:bg-[#6798ff]/20 sm:min-h-[36px] sm:flex-none"
                                                     >
                                                         <svg
                                                             width="13"
@@ -1394,7 +1446,7 @@ export default function InterviewsPage() {
                                                                 item,
                                                             )
                                                         }
-                                                        className="flex min-h-[40px] flex-1 items-center justify-center gap-1.5 rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 text-[12px] font-medium text-[#a7a7a7] transition-colors hover:text-[#ffffff] sm:flex-none sm:min-h-[36px]"
+                                                        className="flex min-h-[40px] flex-1 items-center justify-center gap-1.5 rounded-[6px] border border-[#313131] bg-[#0a0a0a] px-3 text-[12px] font-medium text-[#a7a7a7] transition-colors hover:text-[#ffffff] sm:min-h-[36px] sm:flex-none"
                                                     >
                                                         Kelola & Detail
                                                     </button>

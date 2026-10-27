@@ -222,7 +222,7 @@ export function ApplicationTodoList({
             )}
 
             {/* Category Filter Pills (Horizontal scroll on mobile, wrap on sm+) */}
-            <div className="mt-4 flex items-center gap-1.5 overflow-x-auto border-b border-[#313131] pb-3 sm:flex-wrap scrollbar-none">
+            <div className="mt-4 flex scrollbar-none items-center gap-1.5 overflow-x-auto border-b border-[#313131] pb-3 sm:flex-wrap">
                 {[
                     {
                         key: 'all',

@@ -368,7 +368,7 @@ export default function SettingsPage() {
                 </div>
 
                 {/* Tabs Navigation */}
-                <div className="flex items-center gap-2 border-b border-[#313131] pb-2 overflow-x-auto scrollbar-none sm:flex-wrap">
+                <div className="flex scrollbar-none items-center gap-2 overflow-x-auto border-b border-[#313131] pb-2 sm:flex-wrap">
                     <button
                         type="button"
                         onClick={() => setActiveTab('profile')}

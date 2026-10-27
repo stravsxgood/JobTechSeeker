@@ -247,8 +247,12 @@ export default function CareerPlannerPage() {
                                                 : 'border border-[#313131] bg-[#0a0a0a] text-[#7c7c7c] hover:text-[#ffffff]'
                                         }`}
                                     >
-                                        <span className="hidden sm:inline">3 Bulan (Intensif)</span>
-                                        <span className="sm:hidden">3 Bulan</span>
+                                        <span className="hidden sm:inline">
+                                            3 Bulan (Intensif)
+                                        </span>
+                                        <span className="sm:hidden">
+                                            3 Bulan
+                                        </span>
                                     </button>
                                     <button
                                         type="button"
@@ -259,8 +263,12 @@ export default function CareerPlannerPage() {
                                                 : 'border border-[#313131] bg-[#0a0a0a] text-[#7c7c7c] hover:text-[#ffffff]'
                                         }`}
                                     >
-                                        <span className="hidden sm:inline">5 Bulan (Mendalam)</span>
-                                        <span className="sm:hidden">5 Bulan</span>
+                                        <span className="hidden sm:inline">
+                                            5 Bulan (Mendalam)
+                                        </span>
+                                        <span className="sm:hidden">
+                                            5 Bulan
+                                        </span>
                                     </button>
                                 </div>
                             </div>
@@ -408,7 +416,7 @@ export default function CareerPlannerPage() {
                                     <button
                                         type="button"
                                         onClick={handleCopyRoadmap}
-                                        className="flex min-h-[40px] w-full items-center justify-center gap-1.5 rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-3.5 text-[12px] font-medium text-[#ffffff] transition-colors hover:border-[#6798ff] sm:w-auto sm:min-h-[38px]"
+                                        className="flex min-h-[40px] w-full items-center justify-center gap-1.5 rounded-[6px] border border-[#454545] bg-[#1e1e1e] px-3.5 text-[12px] font-medium text-[#ffffff] transition-colors hover:border-[#6798ff] sm:min-h-[38px] sm:w-auto"
                                     >
                                         <svg
                                             width="14"
@@ -511,7 +519,7 @@ export default function CareerPlannerPage() {
                             </div>
 
                             {/* Month Selector Tabs */}
-                            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+                            <div className="flex scrollbar-none items-center gap-2 overflow-x-auto pb-2">
                                 {result.milestones.map((m) => (
                                     <button
                                         key={m.month}
